@@ -12,6 +12,7 @@
 html { scroll-behavior:smooth; }
 
 :root {
+  /* Dreamy ethereal palette */
   --lavender: #b8a9d4;
   --lavender-light: #d4c9e8;
   --lavender-pale: #f0ecf8;
@@ -23,15 +24,21 @@ html { scroll-behavior:smooth; }
   --silver-pale: #f8f7fa;
   --mist: rgba(255,255,255,0.72);
   --mist-border: rgba(255,255,255,0.85);
+  
+  /* Text */
   --text: #2a2535;
   --text-mid: #5a5068;
   --text-light: #9890a8;
   --text-ghost: #c0b8cc;
+  
+  /* Accents */
   --gold: #b8955a;
   --gold-light: #d4b480;
   --gold-pale: #f5edd8;
   --blush: #e8c4d0;
   --blush-pale: #fdf0f4;
+  
+  /* Functional */
   --white: #ffffff;
   --border: rgba(184,169,212,0.25);
   --border-strong: rgba(184,169,212,0.45);
@@ -49,6 +56,7 @@ body {
   overflow-x: hidden;
 }
 
+/* Ambient background */
 body::before {
   content: '';
   position: fixed;
@@ -91,6 +99,7 @@ body::after {
 /* ============ TYPOGRAPHY ============ */
 .serif { font-family: 'Cormorant Garamond', serif; }
 .serif-italic { font-family: 'Cormorant Garamond', serif; font-style: italic; }
+
 h1, .h1 { font-family: 'Cormorant Garamond', serif; font-weight: 400; }
 h2, .h2 { font-family: 'Cormorant Garamond', serif; font-weight: 400; }
 
@@ -341,6 +350,7 @@ h2, .h2 { font-family: 'Cormorant Garamond', serif; font-weight: 400; }
 .p-name { font-size: 0.87rem; color: var(--text); line-height: 1.4; }
 .p-tip { font-size: 0.72rem; color: var(--text-light); margin-top: 2px; line-height: 1.4; }
 
+/* WARN / TIP BOXES */
 .warn-box {
   background: rgba(232,196,208,0.2);
   border-left: 2px solid var(--blush);
@@ -359,8 +369,10 @@ h2, .h2 { font-family: 'Cormorant Garamond', serif; font-weight: 400; }
 
 .divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(184,169,212,0.3), transparent); margin: 14px 0; }
 
+/* NAV ROW */
 .nav-row { display: flex; gap: 10px; padding: 16px 18px 20px; max-width: 480px; margin: 0 auto; width: 100%; }
 
+/* BACK BTN */
 .top-bar { padding: 10px 18px 0; max-width: 480px; margin: 0 auto; width: 100%; }
 .back-btn {
   background: none; border: none; color: var(--text-ghost);
@@ -370,9 +382,11 @@ h2, .h2 { font-family: 'Cormorant Garamond', serif; font-weight: 400; }
 }
 .back-btn:hover { color: var(--lavender-deep); }
 
+/* ANIMATIONS */
 @keyframes fadeUp { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
 .fade-in { animation: fadeUp 0.4s cubic-bezier(0.34, 1.2, 0.64, 1) forwards; }
 
+/* FORM ELEMENTS */
 .form-label { display: block; font-size: 0.62rem; letter-spacing: 1.8px; text-transform: uppercase; color: var(--text-light); font-weight: 500; margin-bottom: 6px; }
 
 .form-input {
@@ -394,6 +408,7 @@ h2, .h2 { font-family: 'Cormorant Garamond', serif; font-weight: 400; }
 }
 .form-select:focus { border-color: var(--lavender); outline: none; }
 
+/* TOAST */
 .toast {
   position: fixed; bottom: 88px; left: 50%;
   transform: translateX(-50%) translateY(20px);
@@ -406,6 +421,7 @@ h2, .h2 { font-family: 'Cormorant Garamond', serif; font-weight: 400; }
 }
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
+/* STOCK BUTTONS */
 .stock-btn {
   padding: 7px 14px; border-radius: 10px; border: 1px solid var(--border-strong);
   background: rgba(255,255,255,0.7); font-family: 'DM Sans', sans-serif;
@@ -416,6 +432,7 @@ h2, .h2 { font-family: 'Cormorant Garamond', serif; font-weight: 400; }
   color: white; border-color: transparent;
 }
 
+/* INVENTORY CARDS */
 .inv-card {
   background: rgba(255,255,255,0.65); backdrop-filter: blur(12px);
   border: 1px solid var(--mist-border); border-radius: 16px;
@@ -447,6 +464,7 @@ h2, .h2 { font-family: 'Cormorant Garamond', serif; font-weight: 400; }
   border-radius: 8px; margin-left: 6px; letter-spacing: 0.5px;
 }
 
+/* EDIT MODAL */
 .modal-overlay {
   display: none; position: fixed; inset: 0; z-index: 500;
   background: rgba(42,37,53,0.5); backdrop-filter: blur(8px);
@@ -462,6 +480,7 @@ h2, .h2 { font-family: 'Cormorant Garamond', serif; font-weight: 400; }
 .modal-handle { width: 36px; height: 3px; background: var(--border-strong); border-radius: 2px; margin: 0 auto 20px; }
 .modal-title { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-style: italic; color: var(--text); margin-bottom: 16px; }
 
+/* WELLNESS */
 .mood-emoji-btn {
   font-size: 1.8rem; background: none; border: 2px solid transparent;
   border-radius: 50%; width: 50px; height: 50px; cursor: pointer;
@@ -496,12 +515,14 @@ h2, .h2 { font-family: 'Cormorant Garamond', serif; font-weight: 400; }
 .je-date { font-size: 0.63rem; color: var(--text-ghost); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 3px; }
 .je-preview { font-size: 0.82rem; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
+/* MOTIVATION SCREEN THEMES */
 .mot-hype { background: linear-gradient(160deg, #f8f0ff, #f0eaff, #ffe8f5); }
 .mot-believe { background: linear-gradient(160deg, #eef0ff, #e8ecff, #f0f8ff); }
 .mot-kayley { background: linear-gradient(160deg, #fff0f8, #ffe8f4, #f8f0ff); }
 .mot-bible { background: linear-gradient(160deg, #f0fff4, #e8f8ee, #f4fff0); }
 .mot-wellness { background: linear-gradient(160deg, #f0f8ff, #e8f4f8, #f0f4ff); }
 
+/* DAY GRID */
 .day-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; margin-bottom: 20px; }
 .day-chip {
   aspect-ratio: 1; border-radius: 10px; display: flex; flex-direction: column;
@@ -517,6 +538,7 @@ h2, .h2 { font-family: 'Cormorant Garamond', serif; font-weight: 400; }
 }
 .day-chip.retinol-day.today { background: linear-gradient(135deg, #5a9048, #7ab068); }
 
+/* RETINOL BANNER */
 .retinol-banner {
   margin: 0 18px 4px; padding: 11px 16px; border-radius: 14px;
   font-size: 0.78rem; text-align: center; letter-spacing: 0.3px;
@@ -524,11 +546,13 @@ h2, .h2 { font-family: 'Cormorant Garamond', serif; font-weight: 400; }
 .r-banner-on { background: rgba(168,197,160,0.2); border: 1px solid rgba(168,197,160,0.4); color: #2d5a1e; }
 .r-banner-off { background: rgba(212,180,128,0.12); border: 1px solid rgba(212,180,128,0.3); color: #7a5a28; }
 
+/* LOADING */
 @keyframes pulse { 0%,100%{opacity:0.3;} 50%{opacity:1;} }
 .loading-dot { width:7px; height:7px; border-radius:50%; background: var(--lavender); animation: pulse 1.2s ease-in-out infinite; }
 .loading-dot:nth-child(2){animation-delay:0.2s;}
 .loading-dot:nth-child(3){animation-delay:0.4s;}
 
+/* MASK GRID */
 .mask-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
 .mask-card {
   background: rgba(255,255,255,0.65); backdrop-filter: blur(12px);
@@ -539,199 +563,85 @@ h2, .h2 { font-family: 'Cormorant Garamond', serif; font-weight: 400; }
 .mask-card .m-name { font-size: 0.78rem; font-weight: 500; color: var(--text); margin-bottom: 3px; }
 .mask-card .m-tip { font-size: 0.68rem; color: var(--text-light); line-height: 1.4; }
 
+/* COMPLETE SCREEN */
 .complete-wrap { text-align: center; padding: 60px 28px; display: flex; flex-direction: column; align-items: center; }
 .complete-icon { font-size: 3.5rem; margin-bottom: 20px; }
 .complete-title { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; font-weight: 300; font-style: italic; margin-bottom: 10px; }
 .complete-sub { font-size: 0.85rem; color: var(--text-light); line-height: 1.7; margin-bottom: 36px; max-width: 280px; }
 
-/* ============ LANDING — HERO IMAGE ============ */
-#screen-landing { background: #1a1528; }
-
+/* LANDING */
+#screen-landing { background: var(--silver-pale); }
 .landing-hero {
-  position: relative;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  overflow: hidden;
+  position: relative; min-height: 100vh; display: flex;
+  flex-direction: column; justify-content: flex-end; overflow: hidden;
 }
-
-/* Hero image background */
 .landing-bg {
-  position: absolute;
-  inset: 0;
-  background-image: url('hero.png');
-  background-size: cover;
-  background-position: center top;
-  background-repeat: no-repeat;
+  position: absolute; inset: 0;
+  background: linear-gradient(160deg, #e8e0f0 0%, #f0eaf8 30%, #e4e0ec 60%, #ddd8e8 100%);
 }
-
-/* Subtle dark gradient overlay — bottom heavy so text reads clearly */
-.landing-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(10, 6, 20, 0.15) 0%,
-    rgba(10, 6, 20, 0.1) 40%,
-    rgba(10, 6, 20, 0.55) 70%,
-    rgba(10, 6, 20, 0.82) 100%
-  );
+.landing-orbs {
+  position: absolute; inset: 0; overflow: hidden;
 }
+.orb {
+  position: absolute; border-radius: 50%;
+  filter: blur(60px); opacity: 0.5;
+}
+.orb-1 { width: 350px; height: 350px; background: radial-gradient(ellipse, rgba(184,169,212,0.6), transparent); top: -80px; right: -60px; }
+.orb-2 { width: 280px; height: 280px; background: radial-gradient(ellipse, rgba(232,196,208,0.5), transparent); top: 30%; left: -40px; }
+.orb-3 { width: 320px; height: 320px; background: radial-gradient(ellipse, rgba(200,196,208,0.4), transparent); bottom: 20%; right: -40px; }
+.orb-4 { width: 200px; height: 200px; background: radial-gradient(ellipse, rgba(212,180,128,0.3), transparent); bottom: -40px; left: 20%; }
 
-/* Content sits above overlay */
 .landing-content {
-  position: relative;
-  z-index: 2;
-  padding: 0 28px 52px;
-  text-align: center;
+  position: relative; z-index: 2; padding: 0 28px 52px; text-align: center;
 }
-
 .landing-eyebrow {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.62rem;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  color: rgba(212, 196, 240, 0.85);
-  margin-bottom: 12px;
+  font-family: 'DM Sans', sans-serif; font-size: 0.62rem; letter-spacing: 4px;
+  text-transform: uppercase; color: rgba(139,122,184,0.7); margin-bottom: 12px;
 }
-
 .landing-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 4.2rem;
-  font-weight: 300;
-  line-height: 1;
-  /* Pearl/champagne gold gradient on dark bg */
-  background: linear-gradient(135deg, #f5eedd 0%, #e8d5b0 40%, #f0e8f8 80%, #d4c9e8 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  letter-spacing: 3px;
-  margin-bottom: 4px;
-  filter: drop-shadow(0 0 30px rgba(200, 180, 255, 0.4));
+  font-family: 'Cormorant Garamond', serif; font-size: 4rem; font-weight: 300;
+  line-height: 1; color: var(--text); letter-spacing: 2px; margin-bottom: 4px;
 }
-
 .landing-subtitle {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.3rem;
-  font-style: italic;
-  font-weight: 300;
-  color: rgba(212, 196, 240, 0.9);
-  letter-spacing: 5px;
-  margin-bottom: 8px;
-  text-shadow: 0 0 20px rgba(160, 130, 220, 0.6);
+  font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-style: italic;
+  font-weight: 300; color: var(--lavender-deep); letter-spacing: 4px; margin-bottom: 8px;
 }
-
 .landing-rule {
-  width: 50px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(212, 196, 240, 0.7), transparent);
+  width: 50px; height: 1px; background: linear-gradient(90deg, transparent, var(--lavender), transparent);
   margin: 16px auto 24px;
 }
-
 .landing-date {
-  font-size: 0.65rem;
-  color: rgba(200, 185, 225, 0.75);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  margin-bottom: 36px;
+  font-size: 0.65rem; color: var(--text-light); letter-spacing: 2px;
+  text-transform: uppercase; margin-bottom: 36px;
 }
-
-.landing-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  max-width: 320px;
-  margin: 0 auto;
-}
-
+.landing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; max-width: 320px; margin: 0 auto; }
 .landing-btn {
-  /* Glassmorphic over dark image */
-  background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  border-radius: 18px;
-  padding: 18px 12px;
-  color: white;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.65rem;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.45); backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.7);
+  border-radius: 18px; padding: 18px 12px; color: var(--text);
+  font-family: 'DM Sans', sans-serif; font-size: 0.65rem; letter-spacing: 1.5px;
+  text-transform: uppercase; cursor: pointer; transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  box-shadow: 0 4px 16px rgba(139,122,184,0.1);
 }
-
 .landing-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
-  transform: translateY(-3px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255,255,255,0.2);
-  border-color: rgba(212, 196, 240, 0.45);
+  background: rgba(255,255,255,0.65); transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(139,122,184,0.18);
 }
-
-.landing-btn:active { transform: scale(0.97); }
-
 .landing-btn .lb-icon { font-size: 1.5rem; margin-bottom: 8px; display: block; }
+.landing-btn .lb-label { display: block; font-weight: 500; color: var(--lavender-deep); }
 
-.landing-btn .lb-label {
-  display: block;
-  font-weight: 500;
-  color: rgba(220, 210, 240, 0.95);
-}
-
-/* Products page header */
+/* PRODUCTS PAGE */
 .pm-header {
   background: linear-gradient(160deg, var(--lavender-pale), rgba(248,247,250,0.9));
   padding: 52px 22px 24px; text-align: center; border-bottom: 1px solid var(--border);
-}
-
-/* ACCORDION */
-.acc-block {
-  background: rgba(255,255,255,0.65);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--mist-border);
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 2px 12px rgba(139,122,184,0.06);
-}
-
-.acc-header {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 16px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-family: 'DM Sans', sans-serif;
-  transition: background 0.2s;
-  text-align: left;
-}
-
-.acc-header:hover { background: rgba(184,169,212,0.08); }
-.acc-header:active { background: rgba(184,169,212,0.14); }
-
-.acc-arrow {
-  color: var(--lavender-deep);
-  font-size: 1.1rem;
-  flex-shrink: 0;
-  display: inline-block;
-}
-
-.acc-body .inv-card {
-  margin: 0 8px 6px;
-  border-radius: 12px;
 }
 </style>
 </head>
 <body>
 
 <!-- LOADING -->
-<div id="loading" style="display:flex;align-items:center;justify-content:center;min-height:100vh;flex-direction:column;gap:16px;position:relative;z-index:999;background:#1a1528;">
-  <div style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-style:italic;color:rgba(212,196,240,0.9);">loading your world</div>
+<div id="loading" style="display:flex;align-items:center;justify-content:center;min-height:100vh;flex-direction:column;gap:16px;position:relative;z-index:999;background:var(--silver-pale);">
+  <div style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-style:italic;color:var(--lavender-deep);">loading your world</div>
   <div style="display:flex;gap:7px;">
     <div class="loading-dot"></div>
     <div class="loading-dot"></div>
@@ -746,7 +656,12 @@ h2, .h2 { font-family: 'Cormorant Garamond', serif; font-weight: 400; }
 <div class="screen has-nav" id="screen-landing">
   <div class="landing-hero">
     <div class="landing-bg"></div>
-    <div class="landing-overlay"></div>
+    <div class="landing-orbs">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+      <div class="orb orb-4"></div>
+    </div>
     <div class="landing-content fade-in">
       <div class="landing-eyebrow">Welcome back</div>
       <div class="landing-title">Kayley's</div>
@@ -975,6 +890,8 @@ h2, .h2 { font-family: 'Cormorant Garamond', serif; font-weight: 400; }
     <p>mood · sleep · journal</p>
   </div>
   <div class="content fade-in" style="padding-top:14px;">
+
+    <!-- MOOD -->
     <div class="glass" style="padding:18px;margin-bottom:12px;">
       <div style="font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-style:italic;margin-bottom:12px;color:var(--text);">Today's Mood 🌈</div>
       <div style="display:flex;justify-content:space-between;margin-bottom:10px;">
@@ -986,6 +903,8 @@ h2, .h2 { font-family: 'Cormorant Garamond', serif; font-weight: 400; }
       </div>
       <div style="font-size:0.73rem;color:var(--text-light);text-align:center;" id="mood-label">Tap to log your mood</div>
     </div>
+
+    <!-- SLEEP -->
     <div class="glass" style="padding:18px;margin-bottom:12px;">
       <div style="font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-style:italic;margin-bottom:12px;color:var(--text);">Sleep Tracker 🌙</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
@@ -1003,11 +922,15 @@ h2, .h2 { font-family: 'Cormorant Garamond', serif; font-weight: 400; }
         <button class="stock-btn" data-q="poor" onclick="setSleepQ(this)">😩 Poor</button>
       </div>
     </div>
+
+    <!-- WEEK CHART -->
     <div class="glass" style="padding:18px;margin-bottom:12px;">
       <div style="font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-style:italic;margin-bottom:12px;color:var(--text);">This Week 📊</div>
       <div id="week-chart" style="display:flex;align-items:flex-end;gap:6px;height:60px;justify-content:space-between;"></div>
       <div style="display:flex;justify-content:space-between;margin-top:6px;" id="week-labels"></div>
     </div>
+
+    <!-- JOURNAL -->
     <div class="glass" style="padding:18px;margin-bottom:80px;">
       <div style="font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-style:italic;margin-bottom:4px;color:var(--text);">Journal 📓</div>
       <div style="font-size:0.7rem;color:var(--text-ghost);margin-bottom:14px;">PIN protected · private to you</div>
@@ -1083,10 +1006,12 @@ h2, .h2 { font-family: 'Cormorant Garamond', serif; font-weight: 400; }
 </nav>
 
 <script>
+// ============ SUPABASE ============
 const _SB_URL = 'https://dvszoijgydqzkxnmlxmy.supabase.co';
 const _SB_KEY = 'sb_publishable_TdkDtE_ZxkXb8194CD6A_Q_oUliAHBR';
 const sb = window.supabase.createClient(_SB_URL, _SB_KEY);
 
+// ============ PRODUCT DATA ============
 const KAYLEY_PRODUCTS = [
   {id:1,name:"Supreme Skin CBD Cleansing Serum",category:"Cleanser",store:"",price:"",stock:"full",notes:"1-2x/week MAX — menthol can irritate!"},
   {id:2,name:"NIP+FAB Salicylic Fix Gel Cleanser",category:"Cleanser",store:"",price:"",stock:"full",notes:"2-3x/week second cleanse on oily days"},
@@ -1178,8 +1103,10 @@ const KAYLEY_PRODUCTS = [
   {id:88,name:"L'Occitane Amande Sublime Hand Cream",category:"Body",store:"Lookfantastic",price:"",stock:"full",notes:"Hands only"},
   {id:89,name:"Acne Patches – Bulk Pack",category:"Other",store:"",price:"",stock:"full",notes:"Apply AFTER cleansing & toning on dry skin, BEFORE serums"},
   {id:90,name:"Manucurist Active Shine Nail Care",category:"Other",store:"",price:"",stock:"full",notes:"Buff & clean dry nails first. No oils/cream before applying! Lasts 7 days."},
+  {id:91,name:"Caffeine Eye Serum with HA 360° Massage Ball (20ml)",category:"Eye Care",store:"Amazon",price:"£9.99",stock:"full",notes:"Roll gently outward from inner corner"},
 ];
 
+// ============ MOTIVATIONS ============
 const MOTIVATIONS = [
   {msg:"Let's f***ing GO, Kayley! Today is YOURS. Take it.",type:"hype"},
   {msg:"Wakey wakey buttercup ☀️ The world isn't ready for you today.",type:"hype"},
@@ -1231,10 +1158,22 @@ const MOTIVATIONS = [
   {msg:"Your future self is cheering you on right now.",type:"wellness"},
 ];
 
-let currentTime='am', currentMood='normal', currentStep=0, steps=[];
-let navHistory=['screen-landing'], allProducts=[], editingId=null, currentStock='full';
-let wellnessData={}, journalEntries={}, pinAttempt='', savedPin=null, sleepQuality='';
+// ============ STATE ============
+let currentTime = 'am';
+let currentMood = 'normal';
+let currentStep = 0;
+let steps = [];
+let navHistory = ['screen-landing'];
+let allProducts = [];
+let editingId = null;
+let currentStock = 'full';
+let wellnessData = {};
+let journalEntries = {};
+let pinAttempt = '';
+let savedPin = null;
+let sleepQuality = '';
 
+// ============ SUPABASE FUNCTIONS ============
 async function loadProducts() {
   try {
     const { data, error } = await sb.from('kayley_products').select('*').order('product_id');
@@ -1246,6 +1185,7 @@ async function loadProducts() {
       await seedProducts();
     }
   } catch(e) {
+    console.error('Load products error:', e);
     allProducts = KAYLEY_PRODUCTS.map(p => ({...p}));
   }
   renderProducts();
@@ -1254,8 +1194,9 @@ async function loadProducts() {
 async function seedProducts() {
   try {
     const rows = KAYLEY_PRODUCTS.map(p => ({ product_id:p.id, name:p.name, category:p.category, store:p.store||'', price:p.price||'', stock:'full', notes:p.notes||'', custom:false }));
-    await sb.from('kayley_products').insert(rows);
-  } catch(e) {}
+    const { error } = await sb.from('kayley_products').insert(rows);
+    if (error) console.error('Seed error:', error);
+  } catch(e) { console.error('Seed failed:', e); }
 }
 
 async function saveProductToDB(p) {
@@ -1266,11 +1207,11 @@ async function saveProductToDB(p) {
       const { data, error } = await sb.from('kayley_products').insert([{ product_id:p.id, name:p.name, category:p.category, store:p.store||'', price:p.price||'', stock:p.stock||'full', notes:p.notes||'', custom:true }]).select();
       if (!error && data) p.dbId = data[0].id;
     }
-  } catch(e) {}
+  } catch(e) { console.error('Save product failed:', e); }
 }
 
 async function deleteProductFromDB(dbId) {
-  try { await sb.from('kayley_products').delete().eq('id', dbId); } catch(e) {}
+  try { await sb.from('kayley_products').delete().eq('id', dbId); } catch(e) { console.error('Delete failed:', e); }
 }
 
 async function loadWellness() {
@@ -1281,7 +1222,7 @@ async function loadWellness() {
     if (jd) jd.forEach(r => { journalEntries[r.entry_date] = { text:r.text, date:r.entry_date }; });
     const { data: pd } = await sb.from('kayley_settings').select('value').eq('key','pin').single();
     if (pd) savedPin = pd.value;
-  } catch(e) {}
+  } catch(e) { console.error('Load wellness error:', e); }
   restoreWellness();
   buildPinPad();
   renderWeekChart();
@@ -1294,9 +1235,10 @@ async function saveWellness() {
   const d = wellnessData[today] || {};
   try {
     await sb.from('kayley_wellness').upsert({ entry_date:today, mood:d.mood||null, bed_time:d.bed||null, wake_time:d.wake||null, sleep_quality:d.sleepQ||null, updated_at:new Date().toISOString() }, { onConflict:'entry_date' });
-  } catch(e) {}
+  } catch(e) { console.error('Save wellness failed:', e); }
 }
 
+// ============ NAVIGATION ============
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   const el = document.getElementById(id);
@@ -1313,6 +1255,7 @@ function goTo(screenId, data) {
 }
 
 function goBack() { navHistory.pop(); showScreen(navHistory[navHistory.length-1]||'screen-landing'); }
+
 function goHome() { navHistory=['screen-landing']; switchNav('landing'); }
 
 function switchNav(tab) {
@@ -1328,6 +1271,7 @@ function switchNav(tab) {
   }
 }
 
+// ============ DAY / RETINOL ============
 const DAYS = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
 const RETINOL_DAYS = [1,3,5];
 function isRetinolNight() { return RETINOL_DAYS.includes(new Date().getDay()); }
@@ -1362,6 +1306,7 @@ function setupLanding() {
   if (el) el.textContent = new Date().toLocaleDateString('en-GB',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
 }
 
+// ============ ROUTINE BUILDERS ============
 function startRoutine(mood) {
   currentMood=mood; currentStep=0;
   steps = currentTime==='am' ? buildAM(mood) : (isRetinolNight()?buildRetinol(mood):buildPM(mood));
@@ -1370,6 +1315,7 @@ function startRoutine(mood) {
   showScreen('screen-step');
 }
 
+// HTML helpers
 const I = (name, tip='') => `<div class="p-item"><div class="p-dot"></div><div><div class="p-name">${name}</div>${tip?`<div class="p-tip">${tip}</div>`:''}</div></div>`;
 const S = (label, items) => `<div class="section-label">${label}</div>${items.map(i=>I(i.name,i.tip||'')).join('')}`;
 const W = msg => `<div class="warn-box">${msg}</div>`;
@@ -1385,6 +1331,8 @@ const BRUSH_GUIDE = D()+`<div class="section-label">🖌️ Which Brush Head to 
 
 function buildAM(mood) {
   const s = [];
+
+  // CLEANSE
   s.push({ emoji:'🧼', name:'Cleanse', content:() => {
     let html = '';
     if (mood==='oily'||mood==='breakout') {
@@ -1404,6 +1352,7 @@ function buildAM(mood) {
     return html + BRUSH_GUIDE + T('💦 Kanzen Hypochlorous Spray — spritz on skin after cleansing before toner! Great for reactive skin & spots.') + steamer;
   }});
 
+  // TONE
   s.push({ emoji:'🌀', name:'Tone', content:() => {
     if (mood==='sensitive') return I('Simple Soothing Toner — hands only','That\'s it today, no acids!');
     let html = I('Simple Soothing Toner — hands only','Daily base toner, always safe');
@@ -1414,6 +1363,7 @@ function buildAM(mood) {
     return html;
   }});
 
+  // SPOT TREATMENT (after cleanse & tone, before serums)
   s.push({ emoji:'🩹', name:'Spot Treatment', content:() =>
     I('🩹 Hydrocolloid Acne Patch','AFTER cleansing & toning on dry skin — before serums. This is the right time!')+
     I('🌿 Tea Tree Essential Oil','Dab on red/forming spots with cotton bud. Let fully dry before serums!')+
@@ -1422,11 +1372,13 @@ function buildAM(mood) {
     W('🛑 Never layer Salicylic Toner + Salicylic Serum on the same day')
   });
 
+  // LIP SCRUB - standalone
   s.push({ emoji:'💋', name:'Lip Scrub', content:() =>
     I('Cherry Sweet Sugar OR Strawberry Sweet Sugar Lip Scrub','STANDALONE step — apply to lips, leave 30 secs, wipe off. Do before or after routine, never during — wiping near face disturbs your products!')+
     T('💡 Best done before you start or after everything is fully dry!')
   });
 
+  // SERUMS
   s.push({ emoji:'💧', name:'Serums', content:() => {
     let step2 = '', warnings = '';
     if (mood==='sensitive') { step2=I('That\'s it for serums today!','HA is enough — keep it simple'); }
@@ -1436,12 +1388,14 @@ function buildAM(mood) {
     return S('Step 1 — Always first on damp skin',[{name:'AOC Ingredient Lab Hyaluronic Serum',tip:'2–3 drops on damp skin'}])+step2+warnings;
   }});
 
+  // SUNKISSED MISTS
   s.push({ emoji:'💦', name:'Face Mists', content:() =>
     I('🟠 Sunkissed Vit C Energising Face Mist','Morning only ☀️ — spritz after serums before moisturiser')+
     I('🩷 Sunkissed HA + Vit E Face Mist','Morning AND evening 🌙 — spritz over moisturiser to lock in hydration')+
     T('💡 Vit C mist = mornings only. HA mist = any time of day!')
   });
 
+  // EYE CARE
   s.push({ emoji:'👁️', name:'Eye Care', content:() =>
     I('Caffeine Eye Serum 360° Massage Ball','Roll gently outward from inner corner — best for morning depuff & dark circles!')+
     I('Anovia Rejuvenating Caffeine Eye Cream','Pat gently around eye area')+
@@ -1449,30 +1403,35 @@ function buildAM(mood) {
     D()+I('🧊 Medi Grade Cooling Gel Mask','STANDALONE — use before or after your full routine. Pop in fridge first!')
   });
 
+  // MOISTURISER
   s.push({ emoji:'🧴', name:'Moisturiser', content:() => {
     if (mood==='sensitive') return I('E45 Daily Care Hydrating Lotion','🏆 Barrier repair queen')+I('OR Aloe Vera Gel','If very red or irritated');
     if (mood==='oily'||mood==='breakout') return I('Neutrogena Clear & Defend','🏆 Best for breakout days — 0.5% Salicylic Acid')+I('OR Nuage Ceramide','If skin feels stripped');
     return I('Nuage Ceramide Daily Moisturiser','🏆 Your everyday ride or die')+I('OR E45 Lotion','If skin feels dry or stripped');
   }});
 
+  // MIST OVER MOISTURISER
   s.push({ emoji:'🌸', name:'Lock It In', content:() =>
     I('🩷 Sunkissed HA + Vit E Face Mist','Spritz over moisturiser FIRST to lock in hydration')+
     I('Rosehip Oil (TO or DermaVitamins)','Then seal OVER the mist — last step for max glow! ✨')+
     T('Order matters: Moisturiser → HA Mist → Rosehip Oil!')
   });
 
+  // NECK MASSAGER
   s.push({ emoji:'💆‍♀️', name:'Neck Massager', content:() =>
     I('Cool (Green) Mode only in mornings','After moisturiser & mist — 2–4 mins')+
     I('Gentle upward strokes only','Always upward — never downward!')+
     T('💡 Optional but your neck will thank you! Always AFTER moisturiser for best glide.')
   });
 
+  // SPF
   s.push({ emoji:'☀️', name:'SPF', content:() =>
     I('Bondi Sands Face SPF 50+','🏆 Main girl — 2 fingers worth, EVERY day! Even cloudy. Even WFH!')+
     I('OR Rodial Bee Venom SPF 30','Backup option')+
     T('⏳ Let sit 2–3 mins before makeup or Grippy Primer!')
   });
 
+  // MAKEUP BASE
   s.push({ emoji:'✨', name:'Makeup Base', content:() => {
     if (mood==='sensitive') return I('Skip Grippy & Niacinamide today','Just SPF → straight to makeup')+T('C — Sensitive: Aloe/HA → Nuage/E45 → SPF → Makeup');
     if (mood==='oily') return I('Maybelline Grippy Niacinamide Primer','After SPF absorbs — keeps makeup locked all day')+T('B — Matte: HA → Niacinamide → Neutrogena → SPF → Grippy → Makeup');
@@ -1484,6 +1443,8 @@ function buildAM(mood) {
 
 function buildPM(mood) {
   const s = [];
+
+  // DOUBLE CLEANSE
   s.push({ emoji:'🧼', name:'Double Cleanse', content:() =>
     S('Step 1 — Remove Makeup',[
       {name:'Garnier Micellar (Pink) on cotton pad',tip:'Soak pad, hold 10–15 secs — no foam bottle!'},
@@ -1498,6 +1459,7 @@ function buildPM(mood) {
     BRUSH_GUIDE
   });
 
+  // SPATULA
   if (mood!=='sensitive') {
     s.push({ emoji:'🧽', name:'Spatula Tool', content:() =>
       I('Ultrasonic Spatula (Ion+ mode)','1–2×/week on damp skin — scraping motion to lift congestion')+
@@ -1505,12 +1467,14 @@ function buildPM(mood) {
     });
   }
 
+  // TONE
   s.push({ emoji:'🌀', name:'Tone', content:() => {
     if (mood==='sensitive') return I('Simple Soothing Toner only','No acids tonight!');
     if (mood==='dull') return I('TO Glycolic Acid 7%','1×/week max — amazing for glow & texture!')+I('Simple Soothing Toner','All other nights')+W('🛑 Glycolic = 1×/week max. Never with salicylic. No retinol on glycolic nights!');
     return I('Simple Soothing Toner','Daily base')+I('Super Facialist Salicylic Toner','2–4×/week if oily/congested')+W('🛑 Skip toner on retinol nights');
   }});
 
+  // SPOT TREATMENT - after cleanse and tone
   s.push({ emoji:'🩹', name:'Spot Treatment', content:() =>
     I('🩹 Hydrocolloid Acne Patch','AFTER cleansing & toning on dry skin — before serums. Stays on overnight!')+
     I('🌿 Tea Tree Essential Oil','Dab on forming spots, let fully dry before anything else')+
@@ -1519,6 +1483,7 @@ function buildPM(mood) {
     W('🛑 Spot use only. Never full face. Never with other acids.')
   });
 
+  // SERUMS
   s.push({ emoji:'💧', name:'Serums', content:() => {
     let step2='', warnings='';
     if (mood==='sensitive') { step2=I('That\'s it for serums tonight','HA is enough — let skin rest'); }
@@ -1527,6 +1492,7 @@ function buildPM(mood) {
     return S('Step 1 — Always',[{name:'AOC Ingredient Lab Hyaluronic Serum',tip:'2–3 drops on damp skin'}])+step2+warnings;
   }});
 
+  // LED MASK
   s.push({ emoji:'💡', name:'LED Mask', content:() =>
     S('Choose Your Mode — 10–20 mins',[
       {name:'🔴 Red Light',tip:'Glow, anti-ageing, general skin health — use most nights'},
@@ -1536,12 +1502,14 @@ function buildPM(mood) {
     T('💡 LED goes AFTER serums and BEFORE moisturiser!')
   });
 
+  // MOISTURISER
   s.push({ emoji:'🧴', name:'Moisturiser', content:() => {
     if (mood==='sensitive') return I('E45 Daily Care Hydrating Lotion','🏆 Barrier repair')+I('OR Aloe Vera Gel','If very hot or reactive');
     if (mood==='dull') return I('Nuage Ceramide Daily Moisturiser','Base')+I('+ Rosehip Oil over top','Layer for extra overnight glow ✨');
     return I('Nuage Ceramide Daily Moisturiser','🏆 Everyday go-to night moisturiser')+I('OR E45 Lotion','If skin feels stripped or dry');
   }});
 
+  // LOCK IT IN
   s.push({ emoji:'🌸', name:'Lock It In', content:() =>
     I('🩷 Sunkissed HA + Vit E Face Mist','Spritz over moisturiser FIRST to lock in hydration 🌙')+
     I('Rosehip Oil (TO or DermaVitamins)','Then seal OVER the mist — last step! ✨')+
@@ -1549,12 +1517,14 @@ function buildPM(mood) {
     T('Order: Moisturiser → HA Mist → Rosehip Oil')
   });
 
+  // NECK MASSAGER
   s.push({ emoji:'💆‍♀️', name:'Neck Massager', content:() =>
     I('Red mode → Heat mode → Green (cool) mode','AFTER moisturiser & mist — always!')+
     I('Gentle upward strokes — 2–4 mins','Never downward')+
     T('💡 Always AFTER moisturiser for best glide!')
   });
 
+  // EYE + LIPS + EXTRAS
   s.push({ emoji:'✨', name:'Eye, Lips & Extras', content:() =>
     I('Caffeine Eye Serum 360° Massage Ball','Roll gently outward from inner corner!')+
     I('Anovia Caffeine Eye Cream OR Body Shop Vitamin E','Pat gently around eye area')+
@@ -1571,6 +1541,7 @@ function buildPM(mood) {
 
 function buildRetinol(mood) {
   const s = [];
+
   s.push({ emoji:'🌿', name:'Retinol Night!', content:() => `
     <div class="tip-box" style="margin-bottom:14px;">🌿 Tonight is a <strong>Retinol Night</strong> — Mon/Wed/Fri. Don't skip this, Kayley! 💪</div>
     <div class="section-label">❌ Skip ALL of these tonight</div>
@@ -1586,6 +1557,7 @@ function buildRetinol(mood) {
     W('🛑 Skip toner entirely on retinol nights — HA serum is your buffer instead!')
   });
 
+  // SPOT TREATMENT first after cleanse
   s.push({ emoji:'🩹', name:'Spot Treatment', content:() =>
     I('🩹 Hydrocolloid Acne Patch','Apply on dry skin AFTER cleansing — before serums!')+
     I('🌿 Tea Tree on forming spots','Dab on spots, let FULLY dry — then apply retinol AROUND the area, not on top!')+
@@ -1632,14 +1604,17 @@ function buildRetinol(mood) {
   return s;
 }
 
+// ============ STEP RENDER ============
 function renderStep() {
   const step = steps[currentStep];
   const total = steps.length;
   document.getElementById('step-sub').textContent =
     (currentTime==='am'?'Morning':(isRetinolNight()&&currentTime==='pm'?'🌿 Retinol Night':'Evening'))+
     ' · '+currentMood.charAt(0).toUpperCase()+currentMood.slice(1);
+
   document.getElementById('step-progress').innerHTML =
     steps.map((_,i)=>`<div class="dot${i<currentStep?' done':i===currentStep?' current':''}"></div>`).join('');
+
   document.getElementById('step-card-wrap').innerHTML = `
     <div class="step-card">
       <div class="step-header">
@@ -1648,6 +1623,7 @@ function renderStep() {
       </div>
       <div class="step-body">${step.content()}</div>
     </div>`;
+
   document.getElementById('prev-btn').style.display = currentStep===0?'none':'block';
   document.getElementById('next-btn').textContent = currentStep===total-1?'Complete ✓':'Next →';
   window.scrollTo(0,0);
@@ -1660,6 +1636,7 @@ function nextStep() {
 
 function prevStep() { if (currentStep>0) { currentStep--; renderStep(); } }
 
+// ============ PRODUCTS ============
 function toggleAddForm() {
   const wrap = document.getElementById('add-form-wrap');
   const btn = document.getElementById('add-toggle-btn');
@@ -1701,14 +1678,6 @@ function stockLabel(stock) {
   return {full:'Full 💚',good:'Good 💛',low:'Low 🟠',empty:'Empty ❌'}[stock]||'Full';
 }
 
-const CAT_ICONS = {Cleanser:'🧼',Toner:'🌀',Serum:'💧','Eye Care':'👁️','Lip Care':'💋',Moisturiser:'🧴',SPF:'☀️','Face Mask':'🎭',Tool:'🧰',Body:'🌿',Other:'✨'};
-const openCats = new Set();
-
-function toggleCat(cat) {
-  if (openCats.has(cat)) { openCats.delete(cat); } else { openCats.add(cat); }
-  renderProducts(document.getElementById('search-input').value.toLowerCase(), document.getElementById('cat-filter').value);
-}
-
 function renderProducts(search='', catFilter='') {
   const container = document.getElementById('products-list');
   let filtered = allProducts;
@@ -1719,47 +1688,26 @@ function renderProducts(search='', catFilter='') {
   const groups = {};
   filtered.forEach(p => { if (!groups[p.category]) groups[p.category]=[]; groups[p.category].push(p); });
   const sortedCats = catOrder.filter(c=>groups[c]).concat(Object.keys(groups).filter(c=>!catOrder.includes(c)));
-  // If searching, auto-open all cats
-  if (search || catFilter) sortedCats.forEach(c => openCats.add(c));
-  document.getElementById('product-count').textContent = filtered.length;
-  container.innerHTML = sortedCats.map(cat => {
-    const isOpen = openCats.has(cat);
-    const icon = CAT_ICONS[cat] || '✨';
-    const items = groups[cat];
-    const lowCount = items.filter(p=>p.stock==='low'||p.stock==='empty').length;
-    return `
-      <div class="acc-block" style="margin-bottom:8px;">
-        <button class="acc-header" onclick="toggleCat('${cat}')">
-          <div style="display:flex;align-items:center;gap:10px;">
-            <span style="font-size:1.1rem;">${icon}</span>
-            <span style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:400;color:var(--text);">${cat}</span>
-            <span style="font-size:0.62rem;color:var(--text-ghost);letter-spacing:1px;">${items.length} item${items.length!==1?'s':''}</span>
-            ${lowCount ? `<span style="font-size:0.6rem;background:rgba(224,122,64,0.15);border:1px solid rgba(224,122,64,0.3);color:#b05020;padding:2px 8px;border-radius:8px;">⚠️ ${lowCount} low</span>` : ''}
-          </div>
-          <span class="acc-arrow" style="transform:rotate(${isOpen?'90deg':'0deg'});transition:transform 0.3s;">›</span>
-        </button>
-        <div class="acc-body" style="max-height:${isOpen?'9999px':'0'};overflow:hidden;transition:max-height 0.4s cubic-bezier(0.4,0,0.2,1);">
-          <div style="padding:6px 0 4px;">
-            ${items.map(p=>`
-              <div class="inv-card" onclick="openEdit(${p.id})">
-                ${stockDot(p.stock)}
-                <div style="flex:1;min-width:0;">
-                  <div class="inv-name">${p.name}${p.custom?'<span class="custom-badge">New</span>':''}</div>
-                  <div class="inv-meta">
-                    ${p.store?`<span>📍 ${p.store}</span>`:'<span style="opacity:0.5">No store</span>'}
-                    ${p.price?`<span>💷 ${p.price}</span>`:''}
-                    <span>${stockLabel(p.stock)}</span>
-                    ${p.notes?`<span>📝 ${p.notes.substring(0,30)}${p.notes.length>30?'...':''}</span>`:''}
-                  </div>
-                </div>
-                <div class="inv-arrow">›</div>
-              </div>
-            `).join('')}
+  const total = filtered.length;
+  document.getElementById('product-count').textContent = total;
+  container.innerHTML = sortedCats.map(cat => `
+    <div class="cat-header">${cat} (${groups[cat].length})</div>
+    ${groups[cat].map(p=>`
+      <div class="inv-card" onclick="openEdit(${p.id})">
+        ${stockDot(p.stock)}
+        <div style="flex:1;min-width:0;">
+          <div class="inv-name">${p.name}${p.custom?'<span class="custom-badge">New</span>':''}</div>
+          <div class="inv-meta">
+            ${p.store?`<span>📍 ${p.store}</span>`:'<span style="opacity:0.5">No store</span>'}
+            ${p.price?`<span>💷 ${p.price}</span>`:''}
+            <span>${stockLabel(p.stock)}</span>
+            ${p.notes?`<span>📝 ${p.notes.substring(0,30)}${p.notes.length>30?'...':''}</span>`:''}
           </div>
         </div>
+        <div class="inv-arrow">›</div>
       </div>
-    `;
-  }).join('');
+    `).join('')}
+  `).join('');
 }
 
 function openEdit(id) {
@@ -1801,6 +1749,15 @@ async function saveEdit() {
   showToast('Saved! 💕');
 }
 
+async function deleteProductDB(id) {
+  const p = allProducts.find(x=>x.id===id);
+  if (p && p.dbId) await deleteProductFromDB(p.dbId);
+  allProducts = allProducts.filter(x=>x.id!==id);
+  renderProducts();
+  showToast('Removed!');
+}
+
+// ============ MOTIVATION ============
 function renderMotivation() {
   const now = new Date();
   const dayOfYear = Math.floor((now - new Date(now.getFullYear(),0,0))/86400000);
@@ -1822,6 +1779,7 @@ function renderMotivation() {
   }
 }
 
+// ============ WELLNESS ============
 function todayKey() { const n=new Date(); return `${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}-${String(n.getDate()).padStart(2,'0')}`; }
 function moodLabel(v) { return ['','😢 Not great','😔 Low','😐 Okay','🙂 Pretty good','😄 Amazing!'][v]||''; }
 
@@ -1887,6 +1845,7 @@ function renderWeekChart() {
   if (labels) labels.innerHTML=days.map(d=>`<div class="week-day-lbl">${d.dayName}</div>`).join('');
 }
 
+// ============ PIN / JOURNAL ============
 function buildPinPad() {
   const pad=document.getElementById('pin-pad');
   if (!pad) return;
@@ -1972,12 +1931,14 @@ function viewEntry(date) {
   showToast('Viewing past entry');
 }
 
+// ============ TOAST ============
 function showToast(msg) {
   const t=document.getElementById('toast');
   t.textContent=msg; t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),2500);
 }
 
+// ============ INIT ============
 async function init() {
   buildDayGrid();
   setupBanners();
