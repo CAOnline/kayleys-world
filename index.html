@@ -186,6 +186,59 @@ textarea.form-input{resize:none;line-height:1.7;}
 .tag-dss{background:rgba(90,144,72,0.15);border:1px solid rgba(90,144,72,0.3);color:#7ab068;}
 .note-title{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--pearl);margin-bottom:6px;}
 .note-body{font-size:0.82rem;color:var(--text-light);line-height:1.7;}
+
+/* PHOTO BOARD */
+.photo-cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:16px;}
+.cal-day-hdr{font-size:0.5rem;text-align:center;color:var(--text-ghost);letter-spacing:0.5px;text-transform:uppercase;padding:4px 0;}
+.cal-cell{aspect-ratio:1;border-radius:8px;overflow:hidden;position:relative;cursor:pointer;background:var(--bg-card2);border:1px solid var(--border);}
+.cal-cell.has-photo{border-color:transparent;}
+.cal-cell.today{box-shadow:0 0 0 2px var(--lavender);}
+.cal-cell.other-month{opacity:0.3;}
+.cal-cell img{width:100%;height:100%;object-fit:cover;}
+.cal-cell .day-num{position:absolute;bottom:2px;right:4px;font-size:0.45rem;color:var(--text-ghost);font-weight:500;}
+.cal-cell.has-photo .day-num{color:rgba(255,255,255,0.7);}
+.cal-cell .week-dot{position:absolute;top:3px;left:3px;width:5px;height:5px;border-radius:50%;background:var(--gold);display:none;}
+.cal-cell.week-pick .week-dot{display:block;}
+.prompt-card{background:var(--bg-card);border:1px solid var(--border-strong);border-radius:14px;padding:14px 16px;margin-bottom:8px;}
+.prompt-day{font-size:0.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--lavender);font-weight:500;margin-bottom:6px;}
+.prompt-item{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--border);}
+.prompt-item:last-child{border-bottom:none;}
+.prompt-emoji{font-size:1rem;flex-shrink:0;}
+.prompt-text{font-size:0.82rem;color:var(--text-mid);}
+.prompt-tag{font-size:0.58rem;padding:2px 7px;border-radius:6px;margin-left:auto;flex-shrink:0;}
+.tag-bw{background:rgba(200,196,208,0.15);border:1px solid rgba(200,196,208,0.3);color:var(--silver-light);}
+.tag-nature{background:rgba(90,144,72,0.15);border:1px solid rgba(90,144,72,0.3);color:#7ab068;}
+.tag-portrait{background:rgba(232,196,208,0.15);border:1px solid rgba(232,196,208,0.3);color:#d4a0b0;}
+.tag-abstract{background:rgba(201,168,108,0.15);border:1px solid rgba(201,168,108,0.3);color:var(--gold);}
+.tag-everyday{background:rgba(155,139,196,0.15);border:1px solid rgba(155,139,196,0.3);color:var(--lavender);}
+.photo-upload-btn{width:100%;background:var(--bg-card);border:2px dashed var(--border-strong);border-radius:16px;padding:28px 20px;text-align:center;cursor:pointer;transition:all 0.2s;color:var(--text-light);font-family:'DM Sans',sans-serif;font-size:0.82rem;}
+.photo-upload-btn:hover{border-color:var(--lavender);color:var(--lavender);}
+.photo-full-overlay{display:none;position:fixed;inset:0;z-index:600;background:rgba(0,0,0,0.9);align-items:center;justify-content:center;flex-direction:column;}
+.photo-full-overlay.show{display:flex;}
+.photo-full-overlay img{max-width:94vw;max-height:80vh;object-fit:contain;border-radius:12px;}
+
+/* WISHLIST */
+.wish-item{background:var(--bg-card);border:1px solid var(--border-strong);border-radius:14px;padding:14px 16px;margin-bottom:8px;display:flex;align-items:center;gap:12px;}
+.wish-check{width:20px;height:20px;border-radius:6px;border:2px solid var(--border-strong);background:none;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all 0.2s;font-size:0.8rem;}
+.wish-check.done{background:linear-gradient(135deg,var(--lavender-deep),var(--lavender));border-color:transparent;}
+.wish-name{font-size:0.87rem;color:var(--text-mid);flex:1;}
+.wish-name.done{text-decoration:line-through;color:var(--text-ghost);}
+.wish-store{font-size:0.68rem;color:var(--text-ghost);}
+.wish-del{background:none;border:none;color:var(--text-ghost);cursor:pointer;font-size:1rem;padding:4px;transition:color 0.2s;}
+.wish-del:hover{color:#e08090;}
+
+/* SACRED SEARCH */
+.search-result{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:6px;cursor:pointer;transition:all 0.2s;}
+.search-result:hover{border-color:var(--gold);background:rgba(201,168,108,0.05);}
+.sr-source{font-size:0.58rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
+.sr-text{font-size:0.83rem;color:var(--text-mid);line-height:1.5;}
+.sr-match{color:var(--gold-light);font-weight:500;}
+.bookmark-item{background:var(--bg-card);border:1px solid var(--border-strong);border-radius:12px;padding:12px 14px;margin-bottom:6px;cursor:pointer;transition:all 0.2s;}
+.bookmark-item:hover{border-color:var(--lavender);}
+.bm-source{font-size:0.6rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--lavender);margin-bottom:3px;}
+.bm-text{font-size:0.83rem;color:var(--text-mid);line-height:1.5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.photo-full-overlay{display:none;position:fixed;inset:0;z-index:600;background:rgba(0,0,0,0.92);align-items:center;justify-content:center;flex-direction:column;}
+.photo-full-overlay.show{display:flex;}
 </style>
 
 <!-- LANDING -->
@@ -203,10 +256,11 @@ textarea.form-input{resize:none;line-height:1.7;}
       <div class="landing-rule"></div><div class="landing-date" id="landing-date"></div>
       <div class="landing-grid">
         <button class="landing-btn" onclick="switchNav('skincare')"><span class="lb-icon">🧴</span><span class="lb-label">Skincare</span></button>
-        <button class="landing-btn" onclick="switchNav('products')"><span class="lb-icon">✨</span><span class="lb-label">Products</span></button>
+        <button class="landing-btn" onclick="switchNav('photos')"><span class="lb-icon">📷</span><span class="lb-label">Memories</span></button>
         <button class="landing-btn" onclick="switchNav('motivation')"><span class="lb-icon">💫</span><span class="lb-label">Motivation</span></button>
         <button class="landing-btn" onclick="switchNav('wellness')"><span class="lb-icon">🌸</span><span class="lb-label">Wellness</span></button>
-        <button class="landing-btn" onclick="switchNav('religion')" style="grid-column:1/-1;"><span class="lb-icon">✝️</span><span class="lb-label">Sacred Studies</span></button>
+        <button class="landing-btn" onclick="switchNav('religion')"><span class="lb-icon">✝️</span><span class="lb-label">Sacred Studies</span></button>
+        <button class="landing-btn" onclick="switchNav('more')"><span class="lb-icon">⋯</span><span class="lb-label">More</span></button>
       </div>
     </div>
   </div>
@@ -421,6 +475,7 @@ textarea.form-input{resize:none;line-height:1.7;}
     <button class="rs-section-btn" onclick="openReader('enoch')"><span class="rs-icon">📜</span><div><span class="rs-title">Book of Enoch</span><span class="rs-sub">The Watchers · Nephilim · Son of Man · Selected chapters</span></div></button>
     <button class="rs-section-btn" onclick="openReader('bible')"><span class="rs-icon">✝️</span><div><span class="rs-title">King James Bible</span><span class="rs-sub">Genesis · Psalms · Proverbs · Matthew · John · Revelation</span></div></button>
     <button class="rs-section-btn" onclick="showScreen('screen-study-notes')"><span class="rs-icon">📖</span><div><span class="rs-title">Study Notes</span><span class="rs-sub">Curated insights · themes · connections</span></div></button>
+    <button class="rs-section-btn" onclick="showScreen('screen-sacred-search')"><span class="rs-icon">🔍</span><div><span class="rs-title">Search & Bookmarks</span><span class="rs-sub">Search scripture · save favourite passages</span></div></button>
     <button class="rs-section-btn" onclick="showScreen('screen-sacred-journal')"><span class="rs-icon">🌙</span><div><span class="rs-title">Kayley's Reflections</span><span class="rs-sub">Your private spiritual journal</span></div></button>
   </div>
 </div>
@@ -520,14 +575,98 @@ textarea.form-input{resize:none;line-height:1.7;}
     <button onclick="closeModal()" style="width:100%;margin-top:10px;padding:12px;border-radius:12px;border:1px solid var(--border-strong);background:transparent;font-family:'DM Sans',sans-serif;font-size:0.73rem;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);cursor:pointer;">Cancel</button>
   </div>
 </div>
+<!-- PHOTO MEMORY BOARD -->
+<div class="screen has-nav" id="screen-photos">
+  <div class="page-header" style="background:linear-gradient(180deg,rgba(201,168,108,0.08),transparent);">
+    <h1 style="background:linear-gradient(135deg,var(--gold-light),var(--pearl));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Memory Board</h1>
+    <p>one photo a week · your story in pictures</p>
+  </div>
+  <div class="content fade-in" style="padding-top:12px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+      <button onclick="changeMonth(-1)" style="background:var(--bg-card);border:1px solid var(--border-strong);border-radius:10px;padding:8px 14px;color:var(--text-mid);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.75rem;">←</button>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-style:italic;color:var(--pearl);" id="cal-month-label"></div>
+      <button onclick="changeMonth(1)" style="background:var(--bg-card);border:1px solid var(--border-strong);border-radius:10px;padding:8px 14px;color:var(--text-mid);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.75rem;">→</button>
+    </div>
+    <div class="photo-cal-grid" id="cal-day-headers"></div>
+    <div class="photo-cal-grid" id="cal-grid"></div>
+    <div id="week-pick-info" class="glass" style="padding:16px;margin-bottom:16px;display:none;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;color:var(--gold-light);margin-bottom:8px;" id="week-pick-label">Week of ...</div>
+      <div id="week-pick-photo-wrap" style="margin-bottom:12px;text-align:center;"></div>
+      <input type="file" id="photo-upload-input" accept="image/*" style="display:none;" onchange="handlePhotoUpload(event)">
+      <button class="photo-upload-btn" onclick="document.getElementById('photo-upload-input').click()">📷 Upload this week's photo</button>
+    </div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;color:var(--pearl);margin-bottom:10px;">Today's Photo Prompts 📸</div>
+    <div id="daily-prompts"></div>
+    <button onclick="toggleAllPrompts()" style="background:none;border:none;color:var(--lavender);font-size:0.72rem;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:4px;margin-bottom:16px;" id="prompts-toggle-btn">View full week's prompts ↓</button>
+    <div id="all-prompts-wrap" style="display:none;"></div>
+  </div>
+</div>
+<div class="photo-full-overlay" id="photo-full-overlay" onclick="closeFullPhoto()">
+  <img id="photo-full-img" src="" alt="" style="max-width:94vw;max-height:80vh;object-fit:contain;border-radius:12px;">
+  <div style="margin-top:16px;font-size:0.72rem;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.5);">tap to close</div>
+</div>
+<!-- WISHLIST -->
+<div class="screen has-nav" id="screen-wishlist">
+  <div class="page-header" style="background:linear-gradient(180deg,rgba(155,139,196,0.08),transparent);">
+    <h1>Wishlist</h1><p>products to buy · skin goals · treats</p>
+  </div>
+  <div class="content fade-in">
+    <div class="glass" style="padding:16px;margin-bottom:12px;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;color:var(--pearl);margin-bottom:12px;">Add to Wishlist ✨</div>
+      <div style="margin-bottom:10px;"><label class="form-label">Product Name</label><input type="text" id="wish-name-input" class="form-input" placeholder="e.g. CeraVe Foaming Cleanser"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
+        <div><label class="form-label">Store</label><input type="text" id="wish-store-input" class="form-input" placeholder="Boots, Amazon..."></div>
+        <div><label class="form-label">Est. Price</label><input type="text" id="wish-price-input" class="form-input" placeholder="£0.00"></div>
+      </div>
+      <div style="margin-bottom:12px;"><label class="form-label">Notes</label><input type="text" id="wish-notes-input" class="form-input" placeholder="Why you want it, links, etc..."></div>
+      <button class="btn-primary" onclick="addWishItem()">Add to Wishlist 💕</button>
+    </div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;color:var(--pearl);margin-bottom:10px;" id="wish-count-label">Your Wishlist</div>
+    <div id="wishlist-items"></div>
+  </div>
+</div>
+<!-- SACRED SEARCH & BOOKMARKS -->
+<div class="screen has-nav" id="screen-sacred-search">
+  <div class="page-header" style="background:linear-gradient(180deg,rgba(201,168,108,0.08),transparent);">
+    <h1>Search & Bookmarks</h1><p>find passages · saved verses</p>
+  </div>
+  <div class="top-bar"><button class="back-btn" onclick="goBack()">← back</button></div>
+  <div class="content fade-in">
+    <div class="glass" style="padding:16px;margin-bottom:16px;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;color:var(--gold-light);margin-bottom:10px;">Search Scripture 🔍</div>
+      <div style="display:flex;gap:8px;">
+        <input type="text" id="sacred-search-input" class="form-input" placeholder="Search Enoch, Bible..." oninput="runSacredSearch()" style="flex:1;">
+        <select id="sacred-search-source" class="form-select" style="width:100px;flex-shrink:0;" onchange="runSacredSearch()">
+          <option value="all">All</option><option value="enoch">Enoch</option><option value="bible">Bible</option>
+        </select>
+      </div>
+      <div id="search-results" style="margin-top:12px;max-height:300px;overflow-y:auto;"></div>
+    </div>
+    <div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;color:var(--pearl);margin-bottom:10px;">Saved Bookmarks 🔖</div>
+      <div id="bookmarks-list"></div>
+    </div>
+  </div>
+</div>
+<!-- MORE SCREEN -->
+<div class="screen has-nav" id="screen-more">
+  <div class="page-header"><h1>More</h1><p>all your sections</p></div>
+  <div class="content fade-in">
+    <div class="choices">
+      <button class="choice-btn" onclick="switchNav('products')"><span class="c-emoji">✨</span><span class="c-title">My Products</span><span class="c-sub">Full inventory — tap to edit</span></button>
+      <button class="choice-btn" onclick="switchNav('motivation')"><span class="c-emoji">💫</span><span class="c-title">Motivation</span><span class="c-sub">Daily message — fresh every day</span></button>
+      <button class="choice-btn" onclick="goToWishlist()"><span class="c-emoji">🛒</span><span class="c-title">Wishlist</span><span class="c-sub">Products to buy · skin goals · treats</span></button>
+    </div>
+  </div>
+</div>
 <!-- NAV -->
 <nav class="bottom-nav">
   <button class="nav-item active" id="nav-landing" onclick="switchNav('landing')"><span class="n-icon">🌸</span><span class="n-label">Home</span></button>
   <button class="nav-item" id="nav-skincare" onclick="switchNav('skincare')"><span class="n-icon">🧴</span><span class="n-label">Skincare</span></button>
-  <button class="nav-item" id="nav-products" onclick="switchNav('products')"><span class="n-icon">✨</span><span class="n-label">Products</span></button>
-  <button class="nav-item" id="nav-motivation" onclick="switchNav('motivation')"><span class="n-icon">💫</span><span class="n-label">Motivate</span></button>
+  <button class="nav-item" id="nav-photos" onclick="switchNav('photos')"><span class="n-icon">📷</span><span class="n-label">Memories</span></button>
   <button class="nav-item" id="nav-wellness" onclick="switchNav('wellness')"><span class="n-icon">🌙</span><span class="n-label">Wellness</span></button>
   <button class="nav-item" id="nav-religion" onclick="switchNav('religion')"><span class="n-icon">✝️</span><span class="n-label">Sacred</span></button>
+  <button class="nav-item" id="nav-more" onclick="switchNav('more')"><span class="n-icon">⋯</span><span class="n-label">More</span></button>
 </nav>
 <script>
 const _SB_URL='https://dvszoijgydqzkxnmlxmy.supabase.co';
@@ -765,6 +904,8 @@ function showScreen(id){
   const el=document.getElementById(id);el.classList.add('active');
   const fi=el.querySelector('.fade-in');if(fi){fi.style.animation='none';requestAnimationFrame(()=>fi.style.animation='');}
   window.scrollTo(0,0);
+  if(id==='screen-sacred-search') initSacredSearch();
+  if(id==='screen-wishlist') renderWishlist();
 }
 function goTo(sid,data){
   navHistory.push(sid);
@@ -776,8 +917,326 @@ function goHome(){navHistory=['screen-landing'];switchNav('landing');}
 function switchNav(tab){
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   const el=document.getElementById('nav-'+tab);if(el)el.classList.add('active');
-  const map={landing:'screen-landing',skincare:'screen-skincare',products:'screen-products',motivation:'screen-motivation',wellness:'screen-wellness',religion:'screen-religion'};
-  if(map[tab]){navHistory=[map[tab]];showScreen(map[tab]);if(tab==='motivation')renderMotivation();if(tab==='wellness')loadWellness();if(tab==='religion'){initSacredJournal();}}
+  const map={landing:'screen-landing',skincare:'screen-skincare',products:'screen-products',motivation:'screen-motivation',wellness:'screen-wellness',religion:'screen-religion',photos:'screen-photos',wishlist:'screen-wishlist',more:'screen-more'};
+  if(map[tab]){navHistory=[map[tab]];showScreen(map[tab]);
+    if(tab==='motivation')renderMotivation();
+    if(tab==='wellness')loadWellness();
+    if(tab==='religion'){initSacredJournal();}
+    if(tab==='photos'){initPhotoBoard();}
+    if(tab==='wishlist'){renderWishlist();}
+  }
+}
+
+function goToWishlist(){switchNav('wishlist');}
+
+// ===== PHOTO BOARD =====
+const PHOTO_PROMPTS = [
+  [{emoji:'☀️',text:'Golden hour — catch the light just before sunset',tag:'everyday',tagClass:'tag-everyday'},{emoji:'🤳',text:'A selfie showing how you feel today',tag:'portrait',tagClass:'tag-portrait'},{emoji:'🌿',text:'Something green — plant, grass, leaves',tag:'nature',tagClass:'tag-nature'}],
+  [{emoji:'⬛',text:'Shoot something in black & white — find the shadows',tag:'B&W',tagClass:'tag-bw'},{emoji:'🍵',text:'Your morning drink — coffee, tea, whatever starts your day',tag:'everyday',tagClass:'tag-everyday'},{emoji:'🔍',text:'Get close — a macro shot of something tiny',tag:'abstract',tagClass:'tag-abstract'}],
+  [{emoji:'🌅',text:'The sky right now — blue, clouds, anything',tag:'nature',tagClass:'tag-nature'},{emoji:'👣',text:'Your feet somewhere interesting',tag:'everyday',tagClass:'tag-everyday'},{emoji:'💜',text:'Something purple or your favourite colour',tag:'abstract',tagClass:'tag-abstract'}],
+  [{emoji:'🤳',text:'No filter selfie — natural light, natural you',tag:'portrait',tagClass:'tag-portrait'},{emoji:'🏙️',text:'A building or architecture that catches your eye',tag:'everyday',tagClass:'tag-everyday'},{emoji:'⬛',text:'Black & white only — high contrast, deep shadows',tag:'B&W',tagClass:'tag-bw'}],
+  [{emoji:'🌸',text:'Something beautiful you walk past every day',tag:'nature',tagClass:'tag-nature'},{emoji:'📚',text:'Your current book, show, or obsession',tag:'everyday',tagClass:'tag-everyday'},{emoji:'🔆',text:'Light through a window — the shadows it makes',tag:'abstract',tagClass:'tag-abstract'}],
+  [{emoji:'🌃',text:'Night photography — streetlights, neon, stars',tag:'nature',tagClass:'tag-nature'},{emoji:'🤳',text:'Candid — catch yourself or someone you love unposed',tag:'portrait',tagClass:'tag-portrait'},{emoji:'🍽️',text:'Food or drink that made you happy today',tag:'everyday',tagClass:'tag-everyday'}],
+  [{emoji:'🌊',text:'Water — rain, puddle, river, tap, anything',tag:'nature',tagClass:'tag-nature'},{emoji:'⬛',text:'B&W portrait — find the lines in a face or hands',tag:'B&W',tagClass:'tag-bw'},{emoji:'🎨',text:'Colour everywhere — the most colourful thing you see',tag:'abstract',tagClass:'tag-abstract'}],
+];
+
+let calYear = new Date().getFullYear();
+let calMonth = new Date().getMonth();
+let photoData = {}; // weekKey -> base64 image
+let selectedWeekKey = null;
+let allPromptsOpen = false;
+
+function weekKey(date){
+  const d = new Date(date);
+  d.setHours(0,0,0,0);
+  d.setDate(d.getDate() - d.getDay()); // start of week (Sun)
+  return `${d.getFullYear()}-W${String(Math.ceil((d - new Date(d.getFullYear(),0,1))/604800000)+1).padStart(2,'0')}`;
+}
+
+function weekStartLabel(wk){
+  // parse back from weekKey
+  const parts = wk.split('-W');
+  const y = parseInt(parts[0]);
+  const w = parseInt(parts[1]);
+  const d = new Date(y, 0, 1 + (w-1)*7);
+  d.setDate(d.getDate() - d.getDay());
+  return d.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+}
+
+async function loadPhotoData(){
+  try{
+    const {data} = await sb.from('kayley_settings').select('key,value').like('key','photo_%');
+    if(data) data.forEach(r=>{ photoData[r.key.replace('photo_','')] = r.value; });
+  }catch(e){}
+}
+
+async function savePhoto(wk, base64){
+  photoData[wk] = base64;
+  try{ await sb.from('kayley_settings').upsert({key:'photo_'+wk, value:base64},{onConflict:'key'}); }catch(e){}
+}
+
+function initPhotoBoard(){
+  loadPhotoData().then(()=>{ renderCalendar(); renderDailyPrompts(); });
+}
+
+function renderCalendar(){
+  const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  document.getElementById('cal-month-label').textContent = `${monthNames[calMonth]} ${calYear}`;
+  const headers = document.getElementById('cal-day-headers');
+  const grid = document.getElementById('cal-grid');
+  headers.innerHTML = ['S','M','T','W','T','F','S'].map(d=>`<div class="cal-day-hdr">${d}</div>`).join('');
+  const firstDay = new Date(calYear, calMonth, 1).getDay();
+  const daysInMonth = new Date(calYear, calMonth+1, 0).getDate();
+  const today = new Date(); today.setHours(0,0,0,0);
+  let cells = '';
+  // Leading empty cells
+  for(let i=0;i<firstDay;i++) cells += `<div class="cal-cell other-month"></div>`;
+  for(let d=1;d<=daysInMonth;d++){
+    const date = new Date(calYear, calMonth, d);
+    const wk = weekKey(date);
+    const isToday = date.getTime()===today.getTime();
+    const hasPhoto = !!photoData[wk];
+    const isWeekPick = date.getDay()===0; // Sunday = start of week
+    let cls = 'cal-cell';
+    if(hasPhoto) cls += ' has-photo';
+    if(isToday) cls += ' today';
+    if(isWeekPick) cls += ' week-pick';
+    const img = hasPhoto ? `<img src="${photoData[wk]}" onclick="openFullPhoto('${wk}');event.stopPropagation();" alt="">` : '';
+    cells += `<div class="${cls}" onclick="selectWeek('${wk}','${d}')">
+      ${img}
+      <div class="week-dot"></div>
+      <div class="day-num">${d}</div>
+    </div>`;
+  }
+  grid.innerHTML = cells;
+}
+
+function changeMonth(dir){
+  calMonth += dir;
+  if(calMonth > 11){ calMonth=0; calYear++; }
+  if(calMonth < 0){ calMonth=11; calYear--; }
+  renderCalendar();
+}
+
+function selectWeek(wk, day){
+  selectedWeekKey = wk;
+  const info = document.getElementById('week-pick-info');
+  info.style.display = 'block';
+  document.getElementById('week-pick-label').textContent = `Week of ${weekStartLabel(wk)}`;
+  const wrap = document.getElementById('week-pick-photo-wrap');
+  if(photoData[wk]){
+    wrap.innerHTML = `<img src="${photoData[wk]}" style="max-width:100%;border-radius:12px;max-height:200px;object-fit:cover;" onclick="openFullPhoto('${wk}')">
+    <div style="margin-top:8px;font-size:0.72rem;color:var(--text-ghost);text-align:center;">Tap photo to view full size · Upload new to replace</div>`;
+    document.querySelector('.photo-upload-btn').textContent = '📷 Replace this week\'s photo';
+  } else {
+    wrap.innerHTML = '';
+    document.querySelector('.photo-upload-btn').textContent = '📷 Upload this week\'s photo';
+  }
+  info.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function handlePhotoUpload(event){
+  const file = event.target.files[0];
+  if(!file || !selectedWeekKey) return;
+  const reader = new FileReader();
+  reader.onload = async (e) => {
+    const base64 = e.target.result;
+    await savePhoto(selectedWeekKey, base64);
+    renderCalendar();
+    selectWeek(selectedWeekKey);
+    showToast('Photo saved! 📷💕');
+  };
+  reader.readAsDataURL(file);
+  event.target.value = '';
+}
+
+function openFullPhoto(wk){
+  const overlay = document.getElementById('photo-full-overlay');
+  document.getElementById('photo-full-img').src = photoData[wk] || '';
+  overlay.classList.add('show');
+}
+function closeFullPhoto(){ document.getElementById('photo-full-overlay').classList.remove('show'); }
+
+function renderDailyPrompts(){
+  const dayIdx = new Date().getDay();
+  const prompts = PHOTO_PROMPTS[dayIdx] || PHOTO_PROMPTS[0];
+  const container = document.getElementById('daily-prompts');
+  container.innerHTML = `<div class="prompt-card">${prompts.map(p=>`
+    <div class="prompt-item">
+      <span class="prompt-emoji">${p.emoji}</span>
+      <span class="prompt-text">${p.text}</span>
+      <span class="prompt-tag ${p.tagClass}">${p.tag}</span>
+    </div>`).join('')}</div>`;
+}
+
+function toggleAllPrompts(){
+  allPromptsOpen = !allPromptsOpen;
+  const wrap = document.getElementById('all-prompts-wrap');
+  const btn = document.getElementById('prompts-toggle-btn');
+  wrap.style.display = allPromptsOpen ? 'block' : 'none';
+  btn.textContent = allPromptsOpen ? 'Hide prompts ↑' : 'View full week\'s prompts ↓';
+  if(allPromptsOpen && !wrap.innerHTML){
+    const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    wrap.innerHTML = PHOTO_PROMPTS.map((prompts,i)=>`
+      <div class="prompt-card" style="margin-bottom:8px;">
+        <div class="prompt-day">${days[i]}</div>
+        ${prompts.map(p=>`<div class="prompt-item"><span class="prompt-emoji">${p.emoji}</span><span class="prompt-text">${p.text}</span><span class="prompt-tag ${p.tagClass}">${p.tag}</span></div>`).join('')}
+      </div>`).join('');
+  }
+}
+
+// ===== WISHLIST =====
+let wishItems = [];
+
+async function loadWishlist(){
+  try{
+    const {data} = await sb.from('kayley_settings').select('value').eq('key','wishlist').single();
+    if(data && data.value) wishItems = JSON.parse(data.value);
+  }catch(e){ wishItems = []; }
+}
+
+async function saveWishlist(){
+  try{ await sb.from('kayley_settings').upsert({key:'wishlist', value:JSON.stringify(wishItems)},{onConflict:'key'}); }catch(e){}
+}
+
+async function addWishItem(){
+  const name = document.getElementById('wish-name-input').value.trim();
+  if(!name){ showToast('Add a product name!'); return; }
+  const item = {
+    id: Date.now(),
+    name,
+    store: document.getElementById('wish-store-input').value.trim(),
+    price: document.getElementById('wish-price-input').value.trim(),
+    notes: document.getElementById('wish-notes-input').value.trim(),
+    done: false,
+    added: new Date().toISOString()
+  };
+  wishItems.unshift(item);
+  await saveWishlist();
+  ['wish-name-input','wish-store-input','wish-price-input','wish-notes-input'].forEach(id=>document.getElementById(id).value='');
+  renderWishlist();
+  showToast('Added to wishlist! 💕');
+}
+
+async function toggleWishDone(id){
+  const item = wishItems.find(x=>x.id===id);
+  if(item){ item.done = !item.done; await saveWishlist(); renderWishlist(); }
+}
+
+async function deleteWishItem(id){
+  wishItems = wishItems.filter(x=>x.id!==id);
+  await saveWishlist();
+  renderWishlist();
+  showToast('Removed!');
+}
+
+function renderWishlist(){
+  loadWishlist().then(()=>{
+    const container = document.getElementById('wishlist-items');
+    const lbl = document.getElementById('wish-count-label');
+    if(!wishItems.length){ container.innerHTML='<div style="text-align:center;padding:40px 20px;color:var(--text-ghost);font-style:italic;">Nothing on your wishlist yet 🛒</div>'; lbl.textContent='Your Wishlist'; return; }
+    const pending = wishItems.filter(x=>!x.done).length;
+    lbl.textContent = `Your Wishlist (${pending} to buy)`;
+    container.innerHTML = wishItems.map(item=>`
+      <div class="wish-item">
+        <button class="wish-check ${item.done?'done':''}" onclick="toggleWishDone(${item.id})">${item.done?'✓':''}</button>
+        <div style="flex:1;min-width:0;">
+          <div class="wish-name ${item.done?'done':''}">${item.name}</div>
+          <div class="wish-store">${[item.store&&'📍 '+item.store, item.price&&'💷 '+item.price, item.notes&&'📝 '+item.notes].filter(Boolean).join(' · ')}</div>
+        </div>
+        <button class="wish-del" onclick="deleteWishItem(${item.id})">✕</button>
+      </div>`).join('');
+  });
+}
+
+// ===== SACRED SEARCH & BOOKMARKS =====
+let bookmarks = [];
+
+async function loadBookmarks(){
+  try{
+    const {data} = await sb.from('kayley_settings').select('value').eq('key','bookmarks').single();
+    if(data && data.value) bookmarks = JSON.parse(data.value);
+  }catch(e){ bookmarks = []; }
+}
+
+async function saveBookmarks(){
+  try{ await sb.from('kayley_settings').upsert({key:'bookmarks', value:JSON.stringify(bookmarks)},{onConflict:'key'}); }catch(e){}
+}
+
+async function addBookmark(source, text){
+  if(bookmarks.find(b=>b.text===text)){ showToast('Already bookmarked!'); return; }
+  bookmarks.unshift({id:Date.now(), source, text});
+  await saveBookmarks();
+  renderBookmarks();
+  showToast('Bookmarked! 🔖');
+}
+
+async function removeBookmark(id){
+  bookmarks = bookmarks.filter(b=>b.id!==id);
+  await saveBookmarks();
+  renderBookmarks();
+  showToast('Bookmark removed');
+}
+
+function renderBookmarks(){
+  const container = document.getElementById('bookmarks-list');
+  if(!container) return;
+  if(!bookmarks.length){ container.innerHTML='<div style="font-size:0.77rem;color:var(--text-ghost);padding:8px 0;font-style:italic;">No bookmarks yet — search for passages and tap 🔖 to save them</div>'; return; }
+  container.innerHTML = bookmarks.map(b=>`
+    <div class="bookmark-item">
+      <div style="display:flex;align-items:start;justify-content:space-between;gap:8px;">
+        <div style="flex:1;min-width:0;">
+          <div class="bm-source">${b.source}</div>
+          <div class="bm-text">${b.text}</div>
+        </div>
+        <button onclick="removeBookmark(${b.id})" style="background:none;border:none;color:var(--text-ghost);cursor:pointer;font-size:0.9rem;flex-shrink:0;padding:2px;">✕</button>
+      </div>
+    </div>`).join('');
+}
+
+function runSacredSearch(){
+  const q = document.getElementById('sacred-search-input').value.trim().toLowerCase();
+  const source = document.getElementById('sacred-search-source').value;
+  const container = document.getElementById('search-results');
+  if(q.length < 2){ container.innerHTML=''; return; }
+  const results = [];
+  if(source==='all'||source==='enoch'){
+    ENOCH_CHAPTERS.forEach(ch=>{
+      ch.verses.forEach(v=>{
+        if(v.toLowerCase().includes(q)){
+          const highlighted = v.replace(new RegExp(`(${q})`, 'gi'), '<span class="sr-match">$1</span>');
+          results.push({source:`Enoch Ch.${ch.num} — ${ch.title}`, text:v, highlighted, chType:'enoch', chIdx:ENOCH_CHAPTERS.indexOf(ch)});
+        }
+      });
+    });
+  }
+  if(source==='all'||source==='bible'){
+    Object.keys(BIBLE_BOOKS).forEach(book=>{
+      BIBLE_BOOKS[book].forEach(ch=>{
+        ch.verses.forEach(v=>{
+          if(v.toLowerCase().includes(q)){
+            const highlighted = v.replace(new RegExp(`(${q})`, 'gi'), '<span class="sr-match">$1</span>');
+            results.push({source:`${book} ${ch.num} — ${ch.title}`, text:v, highlighted, chType:'bible', book, chIdx:BIBLE_BOOKS[book].indexOf(ch)});
+          }
+        });
+      });
+    });
+  }
+  if(!results.length){ container.innerHTML='<div style="font-size:0.77rem;color:var(--text-ghost);padding:8px 0;text-align:center;">No results found</div>'; return; }
+  container.innerHTML = results.slice(0,20).map((r,i)=>`
+    <div class="search-result">
+      <div style="display:flex;align-items:start;justify-content:space-between;gap:8px;">
+        <div style="flex:1;min-width:0;">
+          <div class="sr-source">${r.source}</div>
+          <div class="sr-text">${r.highlighted}</div>
+        </div>
+        <button onclick="addBookmark('${r.source.replace(/'/g,"\\'")}','${r.text.replace(/'/g,"\\'")}');event.stopPropagation();" style="background:none;border:none;color:var(--text-ghost);cursor:pointer;font-size:1rem;flex-shrink:0;padding:2px;" title="Bookmark">🔖</button>
+      </div>
+    </div>`).join('');
+}
+
+function initSacredSearch(){
+  loadBookmarks().then(()=>renderBookmarks());
 }
 
 // DAY/RETINOL
@@ -1110,9 +1569,13 @@ function showToast(msg){const t=document.getElementById('toast');t.textContent=m
 async function init(){
   buildDayGrid();setupBanners();setupLanding();
   try{await loadProducts();}catch(e){allProducts=KAYLEY_PRODUCTS.map(p=>({...p}));renderProducts();}
+  await loadWishlist();
+  await loadBookmarks();
   document.getElementById('loading').style.display='none';
   switchNav('landing');
   document.getElementById('edit-modal').addEventListener('click',function(e){if(e.target===this)closeModal();});
+  // Init sacred search when that screen is navigated to
+  document.getElementById('screen-sacred-search').addEventListener('click',function(){},true);
 }
 init();
 </script>
