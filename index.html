@@ -1,0 +1,1955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Kayley's World ✨</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ============ RESET & ROOT ============ */
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; }
+
+:root {
+  /* Dreamy ethereal palette */
+  --lavender: #b8a9d4;
+  --lavender-light: #d4c9e8;
+  --lavender-pale: #f0ecf8;
+  --lavender-deep: #8b7ab8;
+  --pearl: #f5f2ee;
+  --pearl-warm: #ede8e0;
+  --silver: #c8c4d0;
+  --silver-light: #e4e2e8;
+  --silver-pale: #f8f7fa;
+  --mist: rgba(255,255,255,0.72);
+  --mist-border: rgba(255,255,255,0.85);
+  
+  /* Text */
+  --text: #2a2535;
+  --text-mid: #5a5068;
+  --text-light: #9890a8;
+  --text-ghost: #c0b8cc;
+  
+  /* Accents */
+  --gold: #b8955a;
+  --gold-light: #d4b480;
+  --gold-pale: #f5edd8;
+  --blush: #e8c4d0;
+  --blush-pale: #fdf0f4;
+  
+  /* Functional */
+  --white: #ffffff;
+  --border: rgba(184,169,212,0.25);
+  --border-strong: rgba(184,169,212,0.45);
+  --shadow: 0 8px 32px rgba(139,122,184,0.12), 0 2px 8px rgba(139,122,184,0.06);
+  --shadow-hover: 0 16px 48px rgba(139,122,184,0.2), 0 4px 16px rgba(139,122,184,0.1);
+  --shadow-card: 0 4px 24px rgba(139,122,184,0.1);
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  background: var(--silver-pale);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Ambient background */
+body::before {
+  content: '';
+  position: fixed;
+  top: -40%;
+  right: -20%;
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(ellipse, rgba(184,169,212,0.15) 0%, transparent 65%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  bottom: -30%;
+  left: -15%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(ellipse, rgba(200,196,208,0.12) 0%, transparent 65%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ============ SCREENS ============ */
+.screen { display:none; min-height:100vh; flex-direction:column; position:relative; z-index:1; }
+.screen.active { display:flex; }
+.has-nav { padding-bottom: 74px; }
+
+/* ============ GLASSMORPHIC CARD ============ */
+.glass {
+  background: rgba(255,255,255,0.65);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--mist-border);
+  border-radius: 20px;
+  box-shadow: var(--shadow-card);
+}
+
+/* ============ TYPOGRAPHY ============ */
+.serif { font-family: 'Cormorant Garamond', serif; }
+.serif-italic { font-family: 'Cormorant Garamond', serif; font-style: italic; }
+
+h1, .h1 { font-family: 'Cormorant Garamond', serif; font-weight: 400; }
+h2, .h2 { font-family: 'Cormorant Garamond', serif; font-weight: 400; }
+
+/* ============ HEADER ============ */
+.page-header {
+  text-align: center;
+  padding: 52px 24px 24px;
+  position: relative;
+}
+
+.page-header h1 {
+  font-size: 2rem;
+  letter-spacing: 2px;
+  background: linear-gradient(135deg, var(--lavender-deep) 0%, var(--silver) 50%, var(--lavender) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.page-header p {
+  font-size: 0.68rem;
+  color: var(--text-ghost);
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  margin-top: 6px;
+}
+
+.page-header::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--lavender), transparent);
+  margin: 14px auto 0;
+}
+
+/* ============ CONTENT WRAPPER ============ */
+.content {
+  flex: 1;
+  padding: 16px 18px 24px;
+  max-width: 480px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* ============ BOTTOM NAV ============ */
+.bottom-nav {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: rgba(248,247,250,0.92);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-top: 1px solid var(--border-strong);
+  display: flex;
+  padding: 8px 0 env(safe-area-inset-bottom, 8px);
+  z-index: 200;
+}
+
+.nav-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 6px 4px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-family: 'DM Sans', sans-serif;
+  transition: all 0.2s;
+}
+
+.nav-item .n-icon { font-size: 1.25rem; transition: transform 0.2s; }
+.nav-item .n-label { font-size: 0.55rem; letter-spacing: 1.2px; text-transform: uppercase; color: var(--text-ghost); font-weight: 500; transition: color 0.2s; }
+.nav-item.active .n-label { color: var(--lavender-deep); }
+.nav-item.active .n-icon { transform: scale(1.1); filter: drop-shadow(0 0 6px rgba(139,122,184,0.5)); }
+
+/* ============ SCREEN TITLE ============ */
+.screen-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.55rem;
+  font-weight: 400;
+  font-style: italic;
+  text-align: center;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.screen-sub {
+  font-size: 0.67rem;
+  color: var(--text-ghost);
+  text-align: center;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 22px;
+}
+
+/* ============ CHOICE BUTTONS ============ */
+.choices { display: flex; flex-direction: column; gap: 10px; }
+
+.choice-btn {
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--mist-border);
+  border-radius: 18px;
+  padding: 18px 20px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 16px rgba(139,122,184,0.08);
+}
+
+.choice-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(184,169,212,0.1), rgba(200,196,208,0.08));
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.choice-btn:hover::before, .choice-btn:active::before { opacity: 1; }
+.choice-btn:hover, .choice-btn:active {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover);
+  border-color: rgba(184,169,212,0.5);
+}
+
+.choice-btn .c-emoji { font-size: 1.25rem; margin-bottom: 4px; display: block; }
+.choice-btn .c-title { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 600; color: var(--text); display: block; }
+.choice-btn .c-sub { font-size: 0.71rem; color: var(--text-light); margin-top: 2px; display: block; letter-spacing: 0.3px; }
+
+.suggested-badge {
+  position: absolute; top: 14px; right: 14px;
+  background: linear-gradient(135deg, var(--lavender-deep), var(--lavender));
+  color: white; font-size: 0.6rem; padding: 3px 10px;
+  border-radius: 10px; letter-spacing: 0.5px; font-weight: 500;
+}
+
+/* ============ PRIMARY BUTTON ============ */
+.btn-primary {
+  background: linear-gradient(135deg, var(--lavender-deep) 0%, var(--lavender) 60%, var(--silver) 100%);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  padding: 15px 24px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 6px 20px rgba(139,122,184,0.35);
+  width: 100%;
+}
+
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(139,122,184,0.45); }
+.btn-primary:active { transform: scale(0.98); }
+
+.btn-secondary {
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-strong);
+  border-radius: 14px;
+  padding: 15px 24px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: var(--text-mid);
+  width: 100%;
+}
+
+.btn-secondary:hover { border-color: var(--lavender); }
+
+/* ============ STEP PROGRESS ============ */
+.step-progress {
+  display: flex; align-items: center; justify-content: center;
+  gap: 5px; margin-bottom: 16px; flex-wrap: wrap;
+}
+
+.dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--border-strong); transition: all 0.3s;
+}
+.dot.done { background: var(--lavender); }
+.dot.current {
+  background: linear-gradient(90deg, var(--lavender-deep), var(--lavender));
+  width: 20px; border-radius: 3px;
+}
+
+/* ============ STEP CARD ============ */
+.step-card {
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--mist-border);
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.step-header {
+  background: linear-gradient(135deg, rgba(240,236,248,0.95), rgba(248,247,250,0.95));
+  padding: 20px 22px 16px;
+  border-bottom: 1px solid rgba(184,169,212,0.2);
+}
+
+.step-num {
+  font-size: 0.6rem; color: var(--lavender-deep);
+  letter-spacing: 2.5px; text-transform: uppercase; font-weight: 500; margin-bottom: 4px;
+}
+
+.step-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.7rem; font-weight: 400; color: var(--text);
+  display: flex; align-items: center; gap: 10px;
+}
+
+.step-body { padding: 18px 20px; }
+
+/* ============ PRODUCT ITEMS ============ */
+.section-label {
+  font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--lavender-deep); font-weight: 500; margin-bottom: 8px;
+  padding-bottom: 5px; border-bottom: 1px solid rgba(184,169,212,0.2);
+}
+
+.p-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 9px 0; border-bottom: 1px solid rgba(184,169,212,0.15);
+}
+.p-item:last-child { border-bottom: none; }
+
+.p-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--lavender-deep), var(--lavender));
+  margin-top: 7px; flex-shrink: 0;
+}
+
+.p-name { font-size: 0.87rem; color: var(--text); line-height: 1.4; }
+.p-tip { font-size: 0.72rem; color: var(--text-light); margin-top: 2px; line-height: 1.4; }
+
+/* WARN / TIP BOXES */
+.warn-box {
+  background: rgba(232,196,208,0.2);
+  border-left: 2px solid var(--blush);
+  border-radius: 0 10px 10px 0;
+  padding: 10px 14px; margin-top: 12px;
+  font-size: 0.75rem; color: #7a4055; line-height: 1.5;
+}
+
+.tip-box {
+  background: rgba(212,180,128,0.12);
+  border-left: 2px solid var(--gold);
+  border-radius: 0 10px 10px 0;
+  padding: 10px 14px; margin-top: 12px;
+  font-size: 0.75rem; color: #7a5a28; line-height: 1.5;
+}
+
+.divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(184,169,212,0.3), transparent); margin: 14px 0; }
+
+/* NAV ROW */
+.nav-row { display: flex; gap: 10px; padding: 16px 18px 20px; max-width: 480px; margin: 0 auto; width: 100%; }
+
+/* BACK BTN */
+.top-bar { padding: 10px 18px 0; max-width: 480px; margin: 0 auto; width: 100%; }
+.back-btn {
+  background: none; border: none; color: var(--text-ghost);
+  font-size: 0.68rem; cursor: pointer; letter-spacing: 1.5px;
+  text-transform: uppercase; padding: 6px 0; display: flex; align-items: center;
+  gap: 6px; font-family: 'DM Sans', sans-serif; font-weight: 400; transition: color 0.2s;
+}
+.back-btn:hover { color: var(--lavender-deep); }
+
+/* ANIMATIONS */
+@keyframes fadeUp { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
+.fade-in { animation: fadeUp 0.4s cubic-bezier(0.34, 1.2, 0.64, 1) forwards; }
+
+/* FORM ELEMENTS */
+.form-label { display: block; font-size: 0.62rem; letter-spacing: 1.8px; text-transform: uppercase; color: var(--text-light); font-weight: 500; margin-bottom: 6px; }
+
+.form-input {
+  width: 100%; padding: 11px 14px; border-radius: 12px;
+  border: 1px solid var(--border-strong); background: rgba(255,255,255,0.8);
+  font-family: 'DM Sans', sans-serif; font-size: 0.87rem; color: var(--text);
+  outline: none; transition: border-color 0.2s, box-shadow 0.2s; -webkit-appearance: none;
+}
+.form-input:focus { border-color: var(--lavender); box-shadow: 0 0 0 3px rgba(184,169,212,0.15); }
+
+.form-select {
+  width: 100%; padding: 11px 14px; border-radius: 12px;
+  border: 1px solid var(--border-strong); background: rgba(255,255,255,0.8);
+  font-family: 'DM Sans', sans-serif; font-size: 0.87rem; color: var(--text);
+  outline: none; -webkit-appearance: none; cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239890a8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 14px center;
+  transition: border-color 0.2s;
+}
+.form-select:focus { border-color: var(--lavender); outline: none; }
+
+/* TOAST */
+.toast {
+  position: fixed; bottom: 88px; left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: linear-gradient(135deg, var(--lavender-deep), var(--lavender));
+  color: white; padding: 10px 20px; border-radius: 12px;
+  font-size: 0.78rem; letter-spacing: 0.5px;
+  box-shadow: 0 8px 24px rgba(139,122,184,0.4);
+  opacity: 0; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  pointer-events: none; z-index: 300; white-space: nowrap;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* STOCK BUTTONS */
+.stock-btn {
+  padding: 7px 14px; border-radius: 10px; border: 1px solid var(--border-strong);
+  background: rgba(255,255,255,0.7); font-family: 'DM Sans', sans-serif;
+  font-size: 0.73rem; cursor: pointer; transition: all 0.2s; color: var(--text-mid);
+}
+.stock-btn.active {
+  background: linear-gradient(135deg, var(--lavender-deep), var(--lavender));
+  color: white; border-color: transparent;
+}
+
+/* INVENTORY CARDS */
+.inv-card {
+  background: rgba(255,255,255,0.65); backdrop-filter: blur(12px);
+  border: 1px solid var(--mist-border); border-radius: 16px;
+  padding: 13px 16px; margin-bottom: 8px; display: flex;
+  align-items: center; gap: 12px; cursor: pointer; transition: all 0.2s;
+  box-shadow: 0 2px 12px rgba(139,122,184,0.06);
+}
+.inv-card:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(139,122,184,0.12); border-color: rgba(184,169,212,0.4); }
+
+.stock-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.dot-full { background: #6db885; }
+.dot-good { background: #d4a840; }
+.dot-low { background: #e07a40; }
+.dot-empty { background: #c05060; }
+
+.inv-name { font-size: 0.85rem; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.inv-meta { font-size: 0.68rem; color: var(--text-light); margin-top: 2px; display: flex; gap: 8px; flex-wrap: wrap; }
+.inv-arrow { color: var(--text-ghost); font-size: 0.8rem; flex-shrink: 0; }
+
+.cat-header {
+  font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--lavender-deep); font-weight: 500; padding: 14px 0 6px;
+  border-bottom: 1px solid rgba(184,169,212,0.2); margin-bottom: 6px;
+}
+
+.custom-badge {
+  background: rgba(184,169,212,0.2); border: 1px solid rgba(184,169,212,0.4);
+  color: var(--lavender-deep); font-size: 0.58rem; padding: 1px 7px;
+  border-radius: 8px; margin-left: 6px; letter-spacing: 0.5px;
+}
+
+/* EDIT MODAL */
+.modal-overlay {
+  display: none; position: fixed; inset: 0; z-index: 500;
+  background: rgba(42,37,53,0.5); backdrop-filter: blur(8px);
+  align-items: flex-end; justify-content: center;
+}
+
+.modal-sheet {
+  background: var(--pearl); border-radius: 24px 24px 0 0;
+  padding: 24px 20px 40px; width: 100%; max-width: 480px;
+  box-shadow: 0 -8px 40px rgba(139,122,184,0.2);
+}
+
+.modal-handle { width: 36px; height: 3px; background: var(--border-strong); border-radius: 2px; margin: 0 auto 20px; }
+.modal-title { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-style: italic; color: var(--text); margin-bottom: 16px; }
+
+/* WELLNESS */
+.mood-emoji-btn {
+  font-size: 1.8rem; background: none; border: 2px solid transparent;
+  border-radius: 50%; width: 50px; height: 50px; cursor: pointer;
+  transition: all 0.2s; display: flex; align-items: center; justify-content: center;
+}
+.mood-emoji-btn.active { border-color: var(--lavender); background: var(--lavender-pale); }
+.mood-emoji-btn:hover { transform: scale(1.15); }
+
+.pin-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--border-strong); transition: background 0.2s; }
+.pin-dot.filled { background: linear-gradient(135deg, var(--lavender-deep), var(--lavender)); }
+
+.pin-btn {
+  padding: 14px; border-radius: 12px; border: 1px solid var(--border-strong);
+  background: rgba(255,255,255,0.7); font-family: 'DM Sans', sans-serif;
+  font-size: 1.1rem; cursor: pointer; transition: all 0.2s; color: var(--text); font-weight: 400;
+}
+.pin-btn:hover { background: var(--lavender-pale); border-color: var(--lavender); }
+.pin-btn:active { transform: scale(0.95); }
+
+.week-bar {
+  flex: 1; border-radius: 4px 4px 0 0; min-height: 4px;
+  background: linear-gradient(to top, var(--lavender-deep), var(--lavender-light));
+  transition: height 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); opacity: 0.6;
+}
+.week-bar.today { opacity: 1; box-shadow: 0 2px 8px rgba(139,122,184,0.35); }
+.week-day-lbl { font-size: 0.55rem; color: var(--text-ghost); text-transform: uppercase; text-align: center; flex: 1; }
+
+.journal-entry {
+  border-bottom: 1px solid rgba(184,169,212,0.2); padding: 10px 0; cursor: pointer;
+}
+.journal-entry:last-child { border-bottom: none; }
+.je-date { font-size: 0.63rem; color: var(--text-ghost); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 3px; }
+.je-preview { font-size: 0.82rem; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* MOTIVATION SCREEN THEMES */
+.mot-hype { background: linear-gradient(160deg, #f8f0ff, #f0eaff, #ffe8f5); }
+.mot-believe { background: linear-gradient(160deg, #eef0ff, #e8ecff, #f0f8ff); }
+.mot-kayley { background: linear-gradient(160deg, #fff0f8, #ffe8f4, #f8f0ff); }
+.mot-bible { background: linear-gradient(160deg, #f0fff4, #e8f8ee, #f4fff0); }
+.mot-wellness { background: linear-gradient(160deg, #f0f8ff, #e8f4f8, #f0f4ff); }
+
+/* DAY GRID */
+.day-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; margin-bottom: 20px; }
+.day-chip {
+  aspect-ratio: 1; border-radius: 10px; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; font-size: 0.52rem; font-weight: 400;
+  letter-spacing: 0.5px; text-transform: uppercase;
+  background: rgba(255,255,255,0.6); border: 1px solid var(--border); color: var(--text-mid);
+}
+.day-chip.retinol-day { background: rgba(168,197,160,0.2); border-color: rgba(168,197,160,0.4); color: #2d5a1e; }
+.day-chip.today {
+  background: linear-gradient(135deg, var(--lavender-deep), var(--lavender));
+  border-color: transparent; color: white;
+  box-shadow: 0 4px 14px rgba(139,122,184,0.4);
+}
+.day-chip.retinol-day.today { background: linear-gradient(135deg, #5a9048, #7ab068); }
+
+/* RETINOL BANNER */
+.retinol-banner {
+  margin: 0 18px 4px; padding: 11px 16px; border-radius: 14px;
+  font-size: 0.78rem; text-align: center; letter-spacing: 0.3px;
+}
+.r-banner-on { background: rgba(168,197,160,0.2); border: 1px solid rgba(168,197,160,0.4); color: #2d5a1e; }
+.r-banner-off { background: rgba(212,180,128,0.12); border: 1px solid rgba(212,180,128,0.3); color: #7a5a28; }
+
+/* LOADING */
+@keyframes pulse { 0%,100%{opacity:0.3;} 50%{opacity:1;} }
+.loading-dot { width:7px; height:7px; border-radius:50%; background: var(--lavender); animation: pulse 1.2s ease-in-out infinite; }
+.loading-dot:nth-child(2){animation-delay:0.2s;}
+.loading-dot:nth-child(3){animation-delay:0.4s;}
+
+/* MASK GRID */
+.mask-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+.mask-card {
+  background: rgba(255,255,255,0.65); backdrop-filter: blur(12px);
+  border: 1px solid var(--mist-border); border-radius: 14px; padding: 14px;
+  box-shadow: 0 2px 12px rgba(139,122,184,0.06);
+}
+.mask-card .m-emoji { font-size: 1.3rem; margin-bottom: 5px; display: block; }
+.mask-card .m-name { font-size: 0.78rem; font-weight: 500; color: var(--text); margin-bottom: 3px; }
+.mask-card .m-tip { font-size: 0.68rem; color: var(--text-light); line-height: 1.4; }
+
+/* COMPLETE SCREEN */
+.complete-wrap { text-align: center; padding: 60px 28px; display: flex; flex-direction: column; align-items: center; }
+.complete-icon { font-size: 3.5rem; margin-bottom: 20px; }
+.complete-title { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; font-weight: 300; font-style: italic; margin-bottom: 10px; }
+.complete-sub { font-size: 0.85rem; color: var(--text-light); line-height: 1.7; margin-bottom: 36px; max-width: 280px; }
+
+/* LANDING */
+#screen-landing { background: var(--silver-pale); }
+.landing-hero {
+  position: relative; min-height: 100vh; display: flex;
+  flex-direction: column; justify-content: flex-end; overflow: hidden;
+}
+.landing-bg {
+  position: absolute; inset: 0;
+  background: linear-gradient(160deg, #e8e0f0 0%, #f0eaf8 30%, #e4e0ec 60%, #ddd8e8 100%);
+}
+.landing-orbs {
+  position: absolute; inset: 0; overflow: hidden;
+}
+.orb {
+  position: absolute; border-radius: 50%;
+  filter: blur(60px); opacity: 0.5;
+}
+.orb-1 { width: 350px; height: 350px; background: radial-gradient(ellipse, rgba(184,169,212,0.6), transparent); top: -80px; right: -60px; }
+.orb-2 { width: 280px; height: 280px; background: radial-gradient(ellipse, rgba(232,196,208,0.5), transparent); top: 30%; left: -40px; }
+.orb-3 { width: 320px; height: 320px; background: radial-gradient(ellipse, rgba(200,196,208,0.4), transparent); bottom: 20%; right: -40px; }
+.orb-4 { width: 200px; height: 200px; background: radial-gradient(ellipse, rgba(212,180,128,0.3), transparent); bottom: -40px; left: 20%; }
+
+.landing-content {
+  position: relative; z-index: 2; padding: 0 28px 52px; text-align: center;
+}
+.landing-eyebrow {
+  font-family: 'DM Sans', sans-serif; font-size: 0.62rem; letter-spacing: 4px;
+  text-transform: uppercase; color: rgba(139,122,184,0.7); margin-bottom: 12px;
+}
+.landing-title {
+  font-family: 'Cormorant Garamond', serif; font-size: 4rem; font-weight: 300;
+  line-height: 1; color: var(--text); letter-spacing: 2px; margin-bottom: 4px;
+}
+.landing-subtitle {
+  font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-style: italic;
+  font-weight: 300; color: var(--lavender-deep); letter-spacing: 4px; margin-bottom: 8px;
+}
+.landing-rule {
+  width: 50px; height: 1px; background: linear-gradient(90deg, transparent, var(--lavender), transparent);
+  margin: 16px auto 24px;
+}
+.landing-date {
+  font-size: 0.65rem; color: var(--text-light); letter-spacing: 2px;
+  text-transform: uppercase; margin-bottom: 36px;
+}
+.landing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; max-width: 320px; margin: 0 auto; }
+.landing-btn {
+  background: rgba(255,255,255,0.45); backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.7);
+  border-radius: 18px; padding: 18px 12px; color: var(--text);
+  font-family: 'DM Sans', sans-serif; font-size: 0.65rem; letter-spacing: 1.5px;
+  text-transform: uppercase; cursor: pointer; transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  box-shadow: 0 4px 16px rgba(139,122,184,0.1);
+}
+.landing-btn:hover {
+  background: rgba(255,255,255,0.65); transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(139,122,184,0.18);
+}
+.landing-btn .lb-icon { font-size: 1.5rem; margin-bottom: 8px; display: block; }
+.landing-btn .lb-label { display: block; font-weight: 500; color: var(--lavender-deep); }
+
+/* PRODUCTS PAGE */
+.pm-header {
+  background: linear-gradient(160deg, var(--lavender-pale), rgba(248,247,250,0.9));
+  padding: 52px 22px 24px; text-align: center; border-bottom: 1px solid var(--border);
+}
+</style>
+</head>
+<body>
+
+<!-- LOADING -->
+<div id="loading" style="display:flex;align-items:center;justify-content:center;min-height:100vh;flex-direction:column;gap:16px;position:relative;z-index:999;background:var(--silver-pale);">
+  <div style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-style:italic;color:var(--lavender-deep);">loading your world</div>
+  <div style="display:flex;gap:7px;">
+    <div class="loading-dot"></div>
+    <div class="loading-dot"></div>
+    <div class="loading-dot"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- ============ LANDING ============ -->
+<div class="screen has-nav" id="screen-landing">
+  <div class="landing-hero">
+    <div class="landing-bg"></div>
+    <div class="landing-orbs">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+      <div class="orb orb-4"></div>
+    </div>
+    <div class="landing-content fade-in">
+      <div class="landing-eyebrow">Welcome back</div>
+      <div class="landing-title">Kayley's</div>
+      <div class="landing-subtitle">World</div>
+      <div class="landing-rule"></div>
+      <div class="landing-date" id="landing-date"></div>
+      <div class="landing-grid">
+        <button class="landing-btn" onclick="switchNav('skincare')">
+          <span class="lb-icon">🧴</span>
+          <span class="lb-label">Skincare</span>
+        </button>
+        <button class="landing-btn" onclick="switchNav('products')">
+          <span class="lb-icon">✨</span>
+          <span class="lb-label">Products</span>
+        </button>
+        <button class="landing-btn" onclick="switchNav('motivation')">
+          <span class="lb-icon">💫</span>
+          <span class="lb-label">Motivation</span>
+        </button>
+        <button class="landing-btn" onclick="switchNav('wellness')">
+          <span class="lb-icon">🌸</span>
+          <span class="lb-label">Wellness</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SKINCARE HOME ============ -->
+<div class="screen has-nav" id="screen-skincare">
+  <div class="page-header">
+    <h1>Kayley's Routine</h1>
+    <p>your personalised guide</p>
+  </div>
+  <div id="retinol-banner" class="retinol-banner"></div>
+  <div class="content fade-in">
+    <p class="screen-title">Good to see you!</p>
+    <p class="screen-sub">What are we doing today?</p>
+    <div class="day-grid" id="day-grid"></div>
+    <div class="choices">
+      <button class="choice-btn" onclick="goTo('screen-mood','am')">
+        <span class="c-emoji">🌞</span>
+        <span class="c-title">Morning Routine</span>
+        <span class="c-sub">Cleanse, treat, protect & glow</span>
+      </button>
+      <button class="choice-btn" onclick="goTo('screen-mood','pm')" id="pm-btn">
+        <span class="c-emoji">🌙</span>
+        <span class="c-title">Evening Routine</span>
+        <span class="c-sub">Wind down, repair & sleep beautifully</span>
+        <span class="suggested-badge" id="retinol-badge" style="display:none;">🌿 Retinol night!</span>
+      </button>
+      <button class="choice-btn" onclick="goTo('screen-maskday')">
+        <span class="c-emoji">🎭</span>
+        <span class="c-title">Mask Day & Treats</span>
+        <span class="c-sub">Sheet masks, eye patches, extras</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MOOD ============ -->
+<div class="screen has-nav" id="screen-mood">
+  <div class="page-header">
+    <h1>Kayley's Routine</h1>
+    <p id="mood-header-sub">Morning</p>
+  </div>
+  <div class="top-bar"><button class="back-btn" onclick="goBack()">← back</button></div>
+  <div class="content fade-in">
+    <p class="screen-title">How's your skin today?</p>
+    <p class="screen-sub">This shapes your whole routine</p>
+    <div class="choices">
+      <button class="choice-btn" onclick="startRoutine('normal')"><span class="c-emoji">😊</span><span class="c-title">Normal / Good</span><span class="c-sub">No major concerns today</span></button>
+      <button class="choice-btn" onclick="startRoutine('oily')"><span class="c-emoji">💦</span><span class="c-title">Oily / Congested</span><span class="c-sub">Shiny or feeling blocked</span></button>
+      <button class="choice-btn" onclick="startRoutine('breakout')"><span class="c-emoji">🩹</span><span class="c-title">Breakout / Spots</span><span class="c-sub">Active spots or congested</span></button>
+      <button class="choice-btn" onclick="startRoutine('sensitive')"><span class="c-emoji">🌸</span><span class="c-title">Sensitive / Irritated</span><span class="c-sub">Red, reactive or stripped</span></button>
+      <button class="choice-btn" onclick="startRoutine('dull')"><span class="c-emoji">✨</span><span class="c-title">Dull / Tired</span><span class="c-sub">Needs a serious glow boost</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ STEP ============ -->
+<div class="screen has-nav" id="screen-step">
+  <div class="page-header">
+    <h1>Kayley's Routine</h1>
+    <p id="step-sub">Morning · Normal</p>
+  </div>
+  <div class="top-bar"><button class="back-btn" onclick="goBack()">← back</button></div>
+  <div class="content fade-in">
+    <div class="step-progress" id="step-progress"></div>
+    <div id="step-card-wrap"></div>
+  </div>
+  <div class="nav-row">
+    <button class="btn-secondary" id="prev-btn" onclick="prevStep()">← Prev</button>
+    <button class="btn-primary" id="next-btn" onclick="nextStep()">Next →</button>
+  </div>
+</div>
+
+<!-- ============ COMPLETE ============ -->
+<div class="screen has-nav" id="screen-complete">
+  <div class="content">
+    <div class="complete-wrap fade-in">
+      <div class="complete-icon">🌟</div>
+      <div class="complete-title">Routine Complete!</div>
+      <p class="complete-sub">Your skin is going to be absolutely glowing, Kayley. Consistency is everything — you've got this! 💕</p>
+      <button class="btn-primary" onclick="goHome()" style="max-width:200px;">Back to Home</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MASK DAY ============ -->
+<div class="screen has-nav" id="screen-maskday">
+  <div class="page-header"><h1>Treat Yourself</h1><p>mask day & extras</p></div>
+  <div class="top-bar"><button class="back-btn" onclick="goBack()">← back</button></div>
+  <div class="content fade-in">
+    <p class="screen-title">Pick your treat 🎭</p>
+    <p class="screen-sub">Always cleanse & tone first!</p>
+    <div class="glass" style="padding:18px;margin-bottom:16px;">
+      <div class="section-label">🎭 Face Masks — choose one</div>
+      <div class="mask-grid">
+        <div class="mask-card"><span class="m-emoji">🖤</span><div class="m-name">Charcoal Clay Mask</div><div class="m-tip">Deep detox — 15 mins, rinse off</div></div>
+        <div class="mask-card"><span class="m-emoji">🫧</span><div class="m-name">Charcoal Bubble Sheet</div><div class="m-tip">Deep cleanse & so satisfying!</div></div>
+        <div class="mask-card"><span class="m-emoji">🏺</span><div class="m-name">Amazonian Clay Mask</div><div class="m-tip">Pores & oil control</div></div>
+        <div class="mask-card"><span class="m-emoji">🌹</span><div class="m-name">Rose Clay Mask</div><div class="m-tip">Soothing & brightening</div></div>
+        <div class="mask-card"><span class="m-emoji">🌊</span><div class="m-name">Algae Clay Mask</div><div class="m-tip">Nourishing & calming</div></div>
+        <div class="mask-card"><span class="m-emoji">💧</span><div class="m-name">Hyaluron Expert Mask</div><div class="m-tip">Major hydration boost</div></div>
+        <div class="mask-card"><span class="m-emoji">🍊</span><div class="m-name">Garnier Vit C Sheet</div><div class="m-tip">Glow & brightness</div></div>
+        <div class="mask-card"><span class="m-emoji">🌸</span><div class="m-name">Champneys Sheet Mask</div><div class="m-tip">Refresh & revive</div></div>
+        <div class="mask-card"><span class="m-emoji">✨</span><div class="m-name">Vit C & Collagen Sheet</div><div class="m-tip">Glow + firming combo</div></div>
+        <div class="mask-card"><span class="m-emoji">🥒</span><div class="m-name">Cucumber Sheet Mask</div><div class="m-tip">Calm sensitive skin</div></div>
+        <div class="mask-card"><span class="m-emoji">🍑</span><div class="m-name">Pomegranate Peel-Off</div><div class="m-tip">Brightening antioxidant</div></div>
+        <div class="mask-card"><span class="m-emoji">🧲</span><div class="m-name">Charcoal Peel-Off</div><div class="m-tip">Deep detox & satisfying!</div></div>
+        <div class="mask-card"><span class="m-emoji">🌿</span><div class="m-name">BeautyPro Bakuchiol</div><div class="m-tip">Evening only — not retinol nights! Store in fridge 🧊</div></div>
+      </div>
+      <div class="tip-box">💡 Always do masks after cleansing + toning, before serums & moisturiser</div>
+      <div class="divider"></div>
+      <div class="section-label">👁️ Eye Patches — optional add-on</div>
+      <div class="p-item"><div class="p-dot"></div><div><div class="p-name">Caffeine Eye Serum 360° Massage Ball</div><div class="p-tip">Roll gently outward from inner corner — lymphatic drainage!</div></div></div>
+      <div class="p-item"><div class="p-dot"></div><div><div class="p-name">Garnier Vit C Brightening Eye Mask</div></div></div>
+      <div class="p-item"><div class="p-dot"></div><div><div class="p-name">Garnier Moisture Bomb Cooling Eye Mask</div></div></div>
+      <div class="p-item"><div class="p-dot"></div><div><div class="p-name">Champneys Energising Eye Gel Patches</div></div></div>
+      <div class="p-item"><div class="p-dot"></div><div><div class="p-name">Face Facts Wrinkle Care Eye Patches</div></div></div>
+      <div class="p-item"><div class="p-dot"></div><div><div class="p-name">Skin Technique Vit C Eye Patches</div></div></div>
+      <div class="p-item"><div class="p-dot"></div><div><div class="p-name">🧊 Medi Grade Cooling Gel Mask</div><div class="p-tip">Standalone only — pop in fridge first!</div></div></div>
+      <div class="divider"></div>
+      <div class="section-label">👃 Nose Strips — max 1×/week</div>
+      <div class="p-item"><div class="p-dot"></div><div><div class="p-name">Peel-Off Nose Strips</div><div class="p-tip">Always after steaming for best results</div></div></div>
+    </div>
+  </div>
+  <div class="nav-row"><button class="btn-primary" onclick="goHome()">Done ✓</button></div>
+</div>
+
+<!-- ============ PRODUCTS ============ -->
+<div class="screen has-nav" id="screen-products">
+  <div class="pm-header">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-style:italic;background:linear-gradient(135deg,var(--lavender-deep),var(--silver));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">My Products</div>
+    <p style="font-size:0.65rem;color:var(--text-ghost);letter-spacing:2px;text-transform:uppercase;margin-top:6px;">tap to edit · <span id="product-count">90</span> products</p>
+  </div>
+  <div style="padding:12px 18px 0;max-width:480px;margin:0 auto;width:100%;display:flex;gap:10px;">
+    <input type="text" id="search-input" class="form-input" placeholder="Search products..." oninput="filterProducts()" style="flex:1;">
+    <select id="cat-filter" class="form-select" onchange="filterProducts()" style="width:130px;flex-shrink:0;">
+      <option value="">All</option>
+      <option value="Cleanser">Cleanser</option>
+      <option value="Toner">Toner</option>
+      <option value="Serum">Serum</option>
+      <option value="Eye Care">Eye Care</option>
+      <option value="Lip Care">Lip Care</option>
+      <option value="Moisturiser">Moisturiser</option>
+      <option value="SPF">SPF</option>
+      <option value="Face Mask">Face Mask</option>
+      <option value="Tool">Tool</option>
+      <option value="Body">Body</option>
+      <option value="Other">Other</option>
+    </select>
+  </div>
+  <div style="padding:10px 18px 0;max-width:480px;margin:0 auto;width:100%;">
+    <button class="btn-primary" onclick="toggleAddForm()" id="add-toggle-btn" style="margin-bottom:0;">+ Add New Product</button>
+    <div id="add-form-wrap" style="display:none;margin-top:10px;">
+      <div class="glass" style="padding:18px;margin-bottom:0;">
+        <div class="form-group" style="margin-bottom:12px;"><label class="form-label">Product Name</label><input type="text" id="new-product-name" class="form-input" placeholder="e.g. La Roche-Posay SPF 50"></div>
+        <div class="form-group" style="margin-bottom:12px;"><label class="form-label">Category</label>
+          <select id="new-product-category" class="form-select">
+            <option value="">Select...</option>
+            <option value="Cleanser">Cleanser</option><option value="Toner">Toner</option>
+            <option value="Serum">Serum</option><option value="Eye Care">Eye Care</option>
+            <option value="Lip Care">Lip Care</option><option value="Moisturiser">Moisturiser</option>
+            <option value="SPF">SPF</option><option value="Face Mask">Face Mask</option>
+            <option value="Tool">Tool</option><option value="Body">Body</option><option value="Other">Other</option>
+          </select>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
+          <div><label class="form-label">Store</label><input type="text" id="new-product-store" class="form-input" placeholder="Boots, Amazon..."></div>
+          <div><label class="form-label">Price</label><input type="text" id="new-product-price" class="form-input" placeholder="£0.00"></div>
+        </div>
+        <button class="btn-primary" onclick="addProduct()">Add to Collection ✨</button>
+      </div>
+    </div>
+  </div>
+  <div class="content fade-in" style="padding-top:12px;"><div id="products-list"></div></div>
+</div>
+
+<!-- ============ MOTIVATION ============ -->
+<div class="screen has-nav" id="screen-motivation">
+  <div style="min-height:100vh;display:flex;flex-direction:column;" id="mot-bg">
+    <div style="padding:52px 28px 24px;text-align:center;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;font-style:italic;color:var(--text);" id="mot-title">Today's Message</div>
+      <div style="font-size:0.62rem;letter-spacing:2.5px;text-transform:uppercase;margin-top:6px;color:var(--text-ghost);" id="mot-date-lbl"></div>
+    </div>
+    <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:20px 36px;">
+      <div style="text-align:center;max-width:320px;">
+        <div style="font-size:2.8rem;margin-bottom:20px;" id="mot-icon">💫</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:400;line-height:1.65;font-style:italic;color:var(--text);" id="mot-message">Loading...</div>
+        <div style="font-size:0.65rem;letter-spacing:2px;text-transform:uppercase;margin-top:20px;color:var(--text-ghost);" id="mot-type"></div>
+      </div>
+    </div>
+    <div style="padding:20px 28px 32px;text-align:center;">
+      <div style="font-size:0.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-ghost);margin-bottom:16px;">New message every day ✨</div>
+      <div style="display:flex;gap:8px;justify-content:center;" id="mot-dots"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ WELLNESS ============ -->
+<div class="screen has-nav" id="screen-wellness">
+  <div class="page-header" style="background:linear-gradient(160deg,rgba(240,236,248,0.8),rgba(248,247,250,0.8));">
+    <h1>Wellness</h1>
+    <p>mood · sleep · journal</p>
+  </div>
+  <div class="content fade-in" style="padding-top:14px;">
+
+    <!-- MOOD -->
+    <div class="glass" style="padding:18px;margin-bottom:12px;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-style:italic;margin-bottom:12px;color:var(--text);">Today's Mood 🌈</div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:10px;">
+        <button class="mood-emoji-btn" data-mood="5" onclick="setMood(5)">😄</button>
+        <button class="mood-emoji-btn" data-mood="4" onclick="setMood(4)">🙂</button>
+        <button class="mood-emoji-btn" data-mood="3" onclick="setMood(3)">😐</button>
+        <button class="mood-emoji-btn" data-mood="2" onclick="setMood(2)">😔</button>
+        <button class="mood-emoji-btn" data-mood="1" onclick="setMood(1)">😢</button>
+      </div>
+      <div style="font-size:0.73rem;color:var(--text-light);text-align:center;" id="mood-label">Tap to log your mood</div>
+    </div>
+
+    <!-- SLEEP -->
+    <div class="glass" style="padding:18px;margin-bottom:12px;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-style:italic;margin-bottom:12px;color:var(--text);">Sleep Tracker 🌙</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+        <div><label class="form-label">Bedtime</label><input type="time" id="sleep-bed" class="form-input" onchange="saveSleep()"></div>
+        <div><label class="form-label">Wake up</label><input type="time" id="sleep-wake" class="form-input" onchange="saveSleep()"></div>
+      </div>
+      <div style="background:rgba(184,169,212,0.1);border-radius:12px;padding:12px;text-align:center;margin-bottom:12px;">
+        <div style="font-size:0.62rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-light);margin-bottom:4px;">Hours Slept</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:2rem;color:var(--lavender-deep);" id="sleep-hours">--</div>
+      </div>
+      <div style="font-size:0.62rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-light);margin-bottom:8px;">Sleep Quality</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;">
+        <button class="stock-btn" data-q="great" onclick="setSleepQ(this)">😴 Great</button>
+        <button class="stock-btn" data-q="okay" onclick="setSleepQ(this)">😐 Okay</button>
+        <button class="stock-btn" data-q="poor" onclick="setSleepQ(this)">😩 Poor</button>
+      </div>
+    </div>
+
+    <!-- WEEK CHART -->
+    <div class="glass" style="padding:18px;margin-bottom:12px;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-style:italic;margin-bottom:12px;color:var(--text);">This Week 📊</div>
+      <div id="week-chart" style="display:flex;align-items:flex-end;gap:6px;height:60px;justify-content:space-between;"></div>
+      <div style="display:flex;justify-content:space-between;margin-top:6px;" id="week-labels"></div>
+    </div>
+
+    <!-- JOURNAL -->
+    <div class="glass" style="padding:18px;margin-bottom:80px;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-style:italic;margin-bottom:4px;color:var(--text);">Journal 📓</div>
+      <div style="font-size:0.7rem;color:var(--text-ghost);margin-bottom:14px;">PIN protected · private to you</div>
+      <div id="journal-locked">
+        <div style="text-align:center;padding:16px 0;">
+          <div style="font-size:2rem;margin-bottom:12px;">🔒</div>
+          <div style="font-size:0.8rem;color:var(--text-light);margin-bottom:16px;">Enter your PIN to open your journal</div>
+          <div style="display:flex;justify-content:center;gap:10px;margin-bottom:16px;" id="pin-dots">
+            <div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:220px;margin:0 auto;" id="pin-pad"></div>
+          <div id="pin-error" style="color:#c05060;font-size:0.73rem;margin-top:10px;display:none;">Incorrect PIN. Try again.</div>
+          <div id="set-pin-msg" style="font-size:0.73rem;color:var(--text-light);margin-top:10px;display:none;">First time? Set your 4-digit PIN.</div>
+        </div>
+      </div>
+      <div id="journal-open" style="display:none;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+          <div style="font-size:0.68rem;color:var(--text-light);" id="journal-date-lbl"></div>
+          <button onclick="lockJournal()" style="background:none;border:none;font-size:0.68rem;color:var(--text-ghost);cursor:pointer;letter-spacing:1px;text-transform:uppercase;font-family:'DM Sans',sans-serif;">🔒 Lock</button>
+        </div>
+        <textarea id="journal-text" class="form-input" placeholder="Pour it all out here — this is your safe space 💕" style="min-height:160px;resize:none;line-height:1.6;" oninput="autoSaveJournal()"></textarea>
+        <div style="font-size:0.65rem;color:var(--text-ghost);text-align:right;margin-top:6px;" id="journal-saved-lbl">Auto-saved</div>
+        <div style="margin-top:14px;">
+          <div class="form-label">Past Entries</div>
+          <div id="past-entries" style="max-height:200px;overflow-y:auto;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT MODAL -->
+<div class="modal-overlay" id="edit-modal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="edit-modal-title">Edit Product</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
+      <div><label class="form-label">Store</label>
+        <select id="edit-store" class="form-select">
+          <option value="">Unknown</option>
+          <option value="Amazon">Amazon</option><option value="Boots">Boots</option>
+          <option value="Superdrug">Superdrug</option><option value="ASOS">ASOS</option>
+          <option value="Shein">Shein</option><option value="Temu">Temu</option>
+          <option value="Primark">Primark</option><option value="Lookfantastic">Lookfantastic</option>
+          <option value="Holland & Barrett">Holland & Barrett</option>
+          <option value="Cult Beauty">Cult Beauty</option><option value="Other">Other</option>
+        </select>
+      </div>
+      <div><label class="form-label">Price</label><input type="text" id="edit-price" class="form-input" placeholder="£0.00"></div>
+    </div>
+    <div style="margin-bottom:12px;">
+      <div class="form-label">How Much Left?</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;">
+        <button class="stock-btn" data-val="full" onclick="setStock(this)">Full 💚</button>
+        <button class="stock-btn" data-val="good" onclick="setStock(this)">Good 💛</button>
+        <button class="stock-btn" data-val="low" onclick="setStock(this)">Low 🟠</button>
+        <button class="stock-btn" data-val="empty" onclick="setStock(this)">Empty ❌</button>
+      </div>
+    </div>
+    <div style="margin-bottom:16px;"><label class="form-label">Notes</label><input type="text" id="edit-notes" class="form-input" placeholder="e.g. repurchase soon, bought Dec 2024..."></div>
+    <button class="btn-primary" onclick="saveEdit()">Save Changes ✨</button>
+    <button onclick="closeModal()" style="width:100%;margin-top:10px;padding:12px;border-radius:12px;border:1px solid var(--border-strong);background:transparent;font-family:'DM Sans',sans-serif;font-size:0.73rem;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);cursor:pointer;">Cancel</button>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <button class="nav-item active" id="nav-landing" onclick="switchNav('landing')"><span class="n-icon">🌸</span><span class="n-label">Home</span></button>
+  <button class="nav-item" id="nav-skincare" onclick="switchNav('skincare')"><span class="n-icon">🧴</span><span class="n-label">Skincare</span></button>
+  <button class="nav-item" id="nav-products" onclick="switchNav('products')"><span class="n-icon">✨</span><span class="n-label">Products</span></button>
+  <button class="nav-item" id="nav-motivation" onclick="switchNav('motivation')"><span class="n-icon">💫</span><span class="n-label">Motivation</span></button>
+  <button class="nav-item" id="nav-wellness" onclick="switchNav('wellness')"><span class="n-icon">🌙</span><span class="n-label">Wellness</span></button>
+</nav>
+
+<script>
+// ============ SUPABASE ============
+const _SB_URL = 'https://dvszoijgydqzkxnmlxmy.supabase.co';
+const _SB_KEY = 'sb_publishable_TdkDtE_ZxkXb8194CD6A_Q_oUliAHBR';
+const sb = window.supabase.createClient(_SB_URL, _SB_KEY);
+
+// ============ PRODUCT DATA ============
+const KAYLEY_PRODUCTS = [
+  {id:1,name:"Supreme Skin CBD Cleansing Serum",category:"Cleanser",store:"",price:"",stock:"full",notes:"1-2x/week MAX — menthol can irritate!"},
+  {id:2,name:"NIP+FAB Salicylic Fix Gel Cleanser",category:"Cleanser",store:"",price:"",stock:"full",notes:"2-3x/week second cleanse on oily days"},
+  {id:3,name:"Nuage Micellar Cleansing Water – Vitamin C",category:"Cleanser",store:"",price:"",stock:"full",notes:"Light makeup / no makeup evenings"},
+  {id:4,name:"Garnier Micellar Cleansing Water (Pink Cap)",category:"Cleanser",store:"",price:"",stock:"full",notes:"Daily makeup removal on cotton pad — hold 10-15 secs!"},
+  {id:5,name:"Micellar Cleansing Rose Water",category:"Cleanser",store:"",price:"",stock:"full",notes:"After makeup removal as a toner/refresh"},
+  {id:6,name:"Kanzen Hypochlorous Cleansing Spray",category:"Cleanser",store:"Lookfantastic",price:"",stock:"full",notes:"After cleansing before toner. On spots. After tools. Sensitive days instead of toner. Can clean tools!"},
+  {id:7,name:"Simple Soothing Facial Toner",category:"Toner",store:"",price:"",stock:"full",notes:"Daily base toner — hands only"},
+  {id:8,name:"Super Facialist Salicylic Acid Purifying Toner",category:"Toner",store:"",price:"",stock:"full",notes:"2-4x/week on oily/congested days — never with salicylic serum!"},
+  {id:9,name:"The Ordinary Glycolic Acid 7% Toning Solution",category:"Toner",store:"",price:"",stock:"full",notes:"1x/week MAX — never with salicylic, never on retinol nights"},
+  {id:10,name:"AOC Ingredient Lab Hyaluronic Serum",category:"Serum",store:"",price:"",stock:"full",notes:"2-3 drops on damp skin — always first! Two types of HA + glycerin + peptides"},
+  {id:11,name:"The Ordinary Niacinamide 10% + Zinc 1%",category:"Serum",store:"",price:"",stock:"full",notes:"Oil control & pores — never same day as Vitamin C"},
+  {id:12,name:"Florence by Mills Vitamin C Serum",category:"Serum",store:"",price:"",stock:"full",notes:"Morning only ☀️ — brighten & even tone. 3-4x/week"},
+  {id:13,name:"Maybelline Grippy Niacinamide Primer Serum",category:"Serum",store:"",price:"",stock:"full",notes:"After SPF before makeup — matte base days"},
+  {id:14,name:"The Ordinary 100% Organic Rosehip Seed Oil",category:"Serum",store:"",price:"",stock:"full",notes:"Over moisturiser as last step — glow & repair"},
+  {id:15,name:"DermaVitamins 100% Organic Rosehip Oil",category:"Serum",store:"",price:"",stock:"full",notes:"Over moisturiser as last step — alternative to TO version"},
+  {id:16,name:"Geek & Gorgeous A-Game 101 Retinol Serum",category:"Serum",store:"",price:"",stock:"full",notes:"Mon/Wed/Fri nights only — pea sized, pat don't rub!"},
+  {id:17,name:"Supreme Skin CBD Retinol Serum",category:"Serum",store:"",price:"",stock:"full",notes:"Alternative retinol — Mon/Wed/Fri nights only"},
+  {id:18,name:"The Ordinary Salicylic Acid 2% Solution",category:"Serum",store:"",price:"",stock:"full",notes:"Spot use ONLY — never full face, never with salicylic toner"},
+  {id:19,name:"Tea Tree Essential Oil",category:"Serum",store:"",price:"",stock:"full",notes:"Dab on forming spots — let dry before serums. Fine on retinol nights but let dry, apply retinol AROUND not on top"},
+  {id:20,name:"Rosemary Essential Oil",category:"Serum",store:"",price:"",stock:"full",notes:"On brows for growth — tiny amount on fingertip"},
+  {id:21,name:"Sunkissed Skin Vitamin C Energising Face Mist",category:"Serum",store:"",price:"",stock:"full",notes:"Morning only ☀️ — spritz after serums before moisturiser"},
+  {id:22,name:"Sunkissed Skin Hydrating Face Mist (HA & Vit E)",category:"Serum",store:"",price:"",stock:"full",notes:"Morning AND evening 🌙 — spritz over moisturiser to lock in hydration"},
+  {id:23,name:"Anovia Rejuvenating Caffeine Eye Cream",category:"Eye Care",store:"",price:"",stock:"full",notes:"Pat gently — great for morning depuff"},
+  {id:24,name:"The Body Shop Vitamin E Eye Cream",category:"Eye Care",store:"",price:"",stock:"full",notes:"More nourishing option — good for evenings"},
+  {id:25,name:"Caffeine Eye Serum with HA 360° Massage Ball (20ml)",category:"Eye Care",store:"Amazon",price:"£9.99",stock:"full",notes:"Roll gently outward from inner corner for lymphatic drainage"},
+  {id:26,name:"Garnier Vitamin C Brightening Eye Mask",category:"Eye Care",store:"",price:"",stock:"full",notes:"Eye patches — optional treat"},
+  {id:27,name:"Garnier Moisture Bomb Eye Tissue Mask",category:"Eye Care",store:"",price:"",stock:"full",notes:"Cooling eye patches"},
+  {id:28,name:"Face Facts Eye Patches – Wrinkle Care",category:"Eye Care",store:"",price:"",stock:"full",notes:""},
+  {id:29,name:"Skin Technique Vitamin C Eye Patches",category:"Eye Care",store:"",price:"",stock:"full",notes:""},
+  {id:30,name:"Skin Technique Hydrogel Eye Mask",category:"Eye Care",store:"",price:"",stock:"full",notes:""},
+  {id:31,name:"Champneys Energising Eye Gel Patches",category:"Eye Care",store:"",price:"",stock:"full",notes:""},
+  {id:32,name:"Medi Grade Cooling Gel Face Mask Set",category:"Eye Care",store:"",price:"",stock:"full",notes:"STANDALONE — use before or after routine. Pop in fridge first!"},
+  {id:33,name:"Vaseline Lip Therapy – Original",category:"Lip Care",store:"",price:"",stock:"full",notes:""},
+  {id:34,name:"Vaseline Lip Therapy – Aloe",category:"Lip Care",store:"",price:"",stock:"full",notes:""},
+  {id:35,name:"Vaseline Lip Therapy – Rosy Lips",category:"Lip Care",store:"",price:"",stock:"full",notes:""},
+  {id:36,name:"Carmex Lip Balm",category:"Lip Care",store:"",price:"",stock:"full",notes:""},
+  {id:37,name:"Dr. Organic Rose Otto Lip Serum",category:"Lip Care",store:"",price:"",stock:"full",notes:""},
+  {id:38,name:"Beeswax Miracle Balm",category:"Lip Care",store:"",price:"",stock:"full",notes:""},
+  {id:39,name:"Aloe Vera 99% Lip Gel",category:"Lip Care",store:"",price:"",stock:"full",notes:""},
+  {id:40,name:"Aloe Vera 99% Lip Gel Minis x2",category:"Lip Care",store:"",price:"",stock:"full",notes:""},
+  {id:41,name:"W7 Gloss Away Lip Balm – Cherry",category:"Lip Care",store:"",price:"",stock:"full",notes:"Moisturising glossy finish"},
+  {id:42,name:"W7 Gloss Away Lip Balm – Vanilla",category:"Lip Care",store:"",price:"",stock:"full",notes:"Moisturising glossy finish"},
+  {id:43,name:"Daise Peptide Lip Butter – Cake Pop",category:"Lip Care",store:"",price:"",stock:"full",notes:"Peptides = plumping & repairing!"},
+  {id:44,name:"Daise Peptide Lip Butter – Sugar Bear",category:"Lip Care",store:"",price:"",stock:"full",notes:"Peptides = plumping & repairing!"},
+  {id:45,name:"Daise Peptide Lip Butter – Hot Mocha",category:"Lip Care",store:"",price:"",stock:"full",notes:"Peptides = plumping & repairing!"},
+  {id:46,name:"Daise Peptide Lip Butter – Very Vanilla",category:"Lip Care",store:"",price:"",stock:"full",notes:"Peptides = plumping & repairing!"},
+  {id:47,name:"Daise Lip Balm – Juicy Pomegranate",category:"Lip Care",store:"",price:"",stock:"full",notes:""},
+  {id:48,name:"Cherry Sweet Sugar Lip Scrub",category:"Lip Care",store:"",price:"",stock:"full",notes:"STANDALONE step — 2-3x/week. Before or after routine, never during!"},
+  {id:49,name:"Strawberry Sweet Sugar Lip Scrub",category:"Lip Care",store:"",price:"",stock:"full",notes:"STANDALONE step — 2-3x/week. Before or after routine, never during!"},
+  {id:50,name:"Cherry Swirl Overnight Lip Mask",category:"Lip Care",store:"",price:"",stock:"full",notes:"Nightly ritual 💕"},
+  {id:51,name:"Bubblegum Swirl Overnight Lip Mask",category:"Lip Care",store:"",price:"",stock:"full",notes:"Nightly ritual 💕"},
+  {id:52,name:"Watermelon Swirl Overnight Lip Mask",category:"Lip Care",store:"",price:"",stock:"full",notes:"Nightly ritual 💕"},
+  {id:53,name:"Strawberry Overnight Lip Mask",category:"Lip Care",store:"",price:"",stock:"full",notes:"Nightly ritual 💕"},
+  {id:54,name:"Propolis Lip Mask",category:"Lip Care",store:"",price:"",stock:"full",notes:"Nightly ritual 💕"},
+  {id:55,name:"Collagen Lip Mask",category:"Lip Care",store:"",price:"",stock:"full",notes:"Nightly ritual 💕"},
+  {id:56,name:"Nuage Ceramide Daily Moisturiser",category:"Moisturiser",store:"",price:"",stock:"full",notes:"Ride or die everyday moisturiser 🏆"},
+  {id:57,name:"E45 Daily Care Hydrating Lotion",category:"Moisturiser",store:"",price:"",stock:"full",notes:"Barrier repair queen — perfect for retinol nights & sensitive days"},
+  {id:58,name:"Neutrogena Clear & Defend Moisturiser",category:"Moisturiser",store:"",price:"",stock:"full",notes:"0.5% Salicylic Acid — best for breakout days"},
+  {id:59,name:"Aloe Vera Gel – Slow & Day",category:"Moisturiser",store:"",price:"",stock:"full",notes:"Irritated, red or greasy skin"},
+  {id:60,name:"PS… Facial Moisturiser",category:"Moisturiser",store:"",price:"",stock:"full",notes:"Basic backup"},
+  {id:61,name:"Botanics Gel Moisturiser",category:"Moisturiser",store:"",price:"",stock:"low",notes:"Very low — backup only"},
+  {id:62,name:"Bondi Sands Face SPF 50+",category:"SPF",store:"",price:"",stock:"full",notes:"Main SPF — 2 fingers worth EVERY day, even cloudy, even WFH!"},
+  {id:63,name:"Rodial Bee Venom SPF 30",category:"SPF",store:"",price:"",stock:"full",notes:"Backup SPF"},
+  {id:64,name:"Skin Techniques Charcoal Clay Mask x2",category:"Face Mask",store:"",price:"",stock:"full",notes:"Deep detox clay — 15 mins, rinse off"},
+  {id:65,name:"Skin Techniques Charcoal Bubble Sheet Mask",category:"Face Mask",store:"",price:"",stock:"full",notes:"Deep cleanse"},
+  {id:66,name:"PS… Purifying Charcoal Peel-Off Mask",category:"Face Mask",store:"",price:"",stock:"full",notes:"Detox"},
+  {id:67,name:"PS… Mattifying Priming Peel-Off Mask",category:"Face Mask",store:"",price:"",stock:"full",notes:""},
+  {id:68,name:"Amazonian White Clay Deep Cleansing Mask",category:"Face Mask",store:"",price:"",stock:"full",notes:"Pores & oil control"},
+  {id:69,name:"PS… Cucumber Infused Sheet Mask",category:"Face Mask",store:"",price:"",stock:"full",notes:"Calming"},
+  {id:70,name:"PS… Pomegranate Infused Peel-Off Mask",category:"Face Mask",store:"",price:"",stock:"full",notes:"Brightening"},
+  {id:71,name:"PS… Vitamin C & Collagen Sheet Mask",category:"Face Mask",store:"",price:"",stock:"full",notes:"Glow + firm"},
+  {id:72,name:"Garnier SkinActive Vitamin C Sheet Mask",category:"Face Mask",store:"",price:"",stock:"full",notes:"Glow day"},
+  {id:73,name:"Rose Clay Mask",category:"Face Mask",store:"",price:"",stock:"full",notes:"Soothing & brightening"},
+  {id:74,name:"Algae Clay Mask",category:"Face Mask",store:"",price:"",stock:"full",notes:"Nourishing & calming"},
+  {id:75,name:"Hyaluron Expert Brightening Tissue Mask",category:"Face Mask",store:"",price:"",stock:"full",notes:"Major hydration boost"},
+  {id:76,name:"Champneys Energising Face Sheet Mask",category:"Face Mask",store:"",price:"",stock:"full",notes:"Refresh & revive"},
+  {id:77,name:"BeautyPro Bakuchiol Facial Sheet Mask",category:"Face Mask",store:"Lookfantastic",price:"",stock:"full",notes:"Evening only, NOT retinol nights, 1-2x/week, single use, store in fridge!"},
+  {id:78,name:"Peel-Off Nose Strips – Bulk Pack",category:"Face Mask",store:"",price:"",stock:"full",notes:"1x/week max — always after steaming"},
+  {id:79,name:"Reusable Silicone Sheet Mask Cover",category:"Face Mask",store:"",price:"",stock:"full",notes:""},
+  {id:80,name:"LED Light Therapy Face Mask",category:"Tool",store:"",price:"",stock:"full",notes:"After serums, before moisturiser. SKIP on retinol nights!"},
+  {id:81,name:"K-Skin Facial Steamer",category:"Tool",store:"",price:"",stock:"full",notes:"1-2x/week before toning — 5-7 mins, 8-12 inches away"},
+  {id:82,name:"Ultrasonic Skin Scrubber / Spatula Tool",category:"Tool",store:"",price:"",stock:"full",notes:"1-2x/week on damp skin — Ion+ mode, scraping motion"},
+  {id:83,name:"Sonic Facial Cleansing Brush (Multiple Heads)",category:"Tool",store:"",price:"",stock:"full",notes:"🔵 Brush=deep cleanse 🟣 Silicone=daily 🟤 Exfoliating=1-2x/week ⚪ Pumice=rough patches 🟡 Massage=any day"},
+  {id:84,name:"Face/Neck Massaging Device (LED + Vibration)",category:"Tool",store:"",price:"",stock:"full",notes:"After moisturiser always! Retinol nights: cool/green mode on neck ONLY"},
+  {id:85,name:"Double-Ended Silicone Spatula Tool",category:"Tool",store:"",price:"",stock:"full",notes:""},
+  {id:86,name:"Silicone Lip Scrubber",category:"Tool",store:"",price:"",stock:"full",notes:""},
+  {id:87,name:"L'Occitane Amande Sublime Smoothing Milk Concentrate",category:"Body",store:"Lookfantastic",price:"",stock:"full",notes:"Body only (arms, legs, torso) — apply after shower on damp skin"},
+  {id:88,name:"L'Occitane Amande Sublime Hand Cream",category:"Body",store:"Lookfantastic",price:"",stock:"full",notes:"Hands only"},
+  {id:89,name:"Acne Patches – Bulk Pack",category:"Other",store:"",price:"",stock:"full",notes:"Apply AFTER cleansing & toning on dry skin, BEFORE serums"},
+  {id:90,name:"Manucurist Active Shine Nail Care",category:"Other",store:"",price:"",stock:"full",notes:"Buff & clean dry nails first. No oils/cream before applying! Lasts 7 days."},
+  {id:91,name:"Caffeine Eye Serum with HA 360° Massage Ball (20ml)",category:"Eye Care",store:"Amazon",price:"£9.99",stock:"full",notes:"Roll gently outward from inner corner"},
+];
+
+// ============ MOTIVATIONS ============
+const MOTIVATIONS = [
+  {msg:"Let's f***ing GO, Kayley! Today is YOURS. Take it.",type:"hype"},
+  {msg:"Wakey wakey buttercup ☀️ The world isn't ready for you today.",type:"hype"},
+  {msg:"You didn't come this far to only come this far. GET UP.",type:"hype"},
+  {msg:"Other girls wish they had your drive. Now go show them why.",type:"hype"},
+  {msg:"Rise and slay babe. Full stop.",type:"hype"},
+  {msg:"Today's the day. You already know it. Now go prove it.",type:"hype"},
+  {msg:"She woke up and chose VIOLENCE. The good kind. Go.",type:"hype"},
+  {msg:"You are literally that girl. Act like it.",type:"hype"},
+  {msg:"The version of you they haven't met yet? She's getting dressed right now.",type:"hype"},
+  {msg:"Hot girl walk, hot girl mindset, hot girl everything. Let's go.",type:"hype"},
+  {msg:"You've survived 100% of your bad days so far. Pretty good odds.",type:"believe"},
+  {msg:"Everything you need is already inside you. Always has been.",type:"believe"},
+  {msg:"You are more capable than the voice in your head tells you.",type:"believe"},
+  {msg:"Hard days build the woman you're becoming. Keep going.",type:"believe"},
+  {msg:"She believed she could, so she did. That's you. That's always been you.",type:"believe"},
+  {msg:"Your only competition is who you were yesterday.",type:"believe"},
+  {msg:"Progress isn't always visible. But it's always happening.",type:"believe"},
+  {msg:"You are allowed to take up space. All of it.",type:"believe"},
+  {msg:"The glow up is a mindset before it's anything else.",type:"believe"},
+  {msg:"Don't shrink for anyone. Not ever.",type:"believe"},
+  {msg:"Note to self: stop doubting. You've been right about yourself this whole time.",type:"kayley"},
+  {msg:"Reminder from me to me: I am enough, I am worthy, I am exactly where I need to be.",type:"kayley"},
+  {msg:"I don't need their validation. I've got mine.",type:"kayley"},
+  {msg:"Today I choose me. No explanation needed.",type:"kayley"},
+  {msg:"I've been through worse and I'm still here, still beautiful, still standing.",type:"kayley"},
+  {msg:"My story isn't over. Not even close.",type:"kayley"},
+  {msg:"I am not for everyone. And that is perfectly fine.",type:"kayley"},
+  {msg:"I am someone's answered prayer. I act like it.",type:"kayley"},
+  {msg:"Walk with God and let nothing separate you from His purpose for your life. — Book of Enoch",type:"bible"},
+  {msg:"The Lord is my light and my salvation; whom shall I fear? — Psalm 27:1",type:"bible"},
+  {msg:"She is clothed with strength and dignity, and she laughs without fear of the future. — Proverbs 31:25",type:"bible"},
+  {msg:"For I know the plans I have for you, plans to prosper you and not to harm you. — Jeremiah 29:11",type:"bible"},
+  {msg:"Be strong and courageous. Do not be afraid; do not be discouraged. — Joshua 1:9",type:"bible"},
+  {msg:"The Watchers looked down and saw beauty — but true beauty begins within. — Book of Enoch 6",type:"bible"},
+  {msg:"You are fearfully and wonderfully made. — Psalm 139:14",type:"bible"},
+  {msg:"She opens her mouth with wisdom, and the teaching of kindness is on her tongue. — Proverbs 31:26",type:"bible"},
+  {msg:"Ask and it shall be given to you; seek and you shall find. — Matthew 7:7",type:"bible"},
+  {msg:"With God, all things are possible. — Matthew 19:26",type:"bible"},
+  {msg:"Drink your water. Do your routine. You always feel better after.",type:"wellness"},
+  {msg:"Your skin is glowing. Your mind is growing. Your energy is everything.",type:"wellness"},
+  {msg:"Rest is productive. Healing is productive. You are productive.",type:"wellness"},
+  {msg:"Take care of your body. It's the only place you have to live.",type:"wellness"},
+  {msg:"One good morning routine can change the entire trajectory of your day.",type:"wellness"},
+  {msg:"You don't have to earn rest. You just have to take it.",type:"wellness"},
+  {msg:"Protect your peace like it's your most valuable possession. Because it is.",type:"wellness"},
+  {msg:"Journal it. Pray it. Sleep on it. Then wake up and go again.",type:"wellness"},
+  {msg:"Consistency over perfection. Every single time.",type:"wellness"},
+  {msg:"Your future self is cheering you on right now.",type:"wellness"},
+];
+
+// ============ STATE ============
+let currentTime = 'am';
+let currentMood = 'normal';
+let currentStep = 0;
+let steps = [];
+let navHistory = ['screen-landing'];
+let allProducts = [];
+let editingId = null;
+let currentStock = 'full';
+let wellnessData = {};
+let journalEntries = {};
+let pinAttempt = '';
+let savedPin = null;
+let sleepQuality = '';
+
+// ============ SUPABASE FUNCTIONS ============
+async function loadProducts() {
+  try {
+    const { data, error } = await sb.from('kayley_products').select('*').order('product_id');
+    if (error) throw error;
+    if (data && data.length > 0) {
+      allProducts = data.map(p => ({ id:p.product_id||p.id, dbId:p.id, name:p.name, category:p.category, store:p.store||'', price:p.price||'', stock:p.stock||'full', notes:p.notes||'', custom:p.custom||false }));
+    } else {
+      allProducts = KAYLEY_PRODUCTS.map(p => ({...p}));
+      await seedProducts();
+    }
+  } catch(e) {
+    console.error('Load products error:', e);
+    allProducts = KAYLEY_PRODUCTS.map(p => ({...p}));
+  }
+  renderProducts();
+}
+
+async function seedProducts() {
+  try {
+    const rows = KAYLEY_PRODUCTS.map(p => ({ product_id:p.id, name:p.name, category:p.category, store:p.store||'', price:p.price||'', stock:'full', notes:p.notes||'', custom:false }));
+    const { error } = await sb.from('kayley_products').insert(rows);
+    if (error) console.error('Seed error:', error);
+  } catch(e) { console.error('Seed failed:', e); }
+}
+
+async function saveProductToDB(p) {
+  try {
+    if (p.dbId) {
+      await sb.from('kayley_products').update({ store:p.store, price:p.price, stock:p.stock, notes:p.notes, updated_at:new Date().toISOString() }).eq('id', p.dbId);
+    } else {
+      const { data, error } = await sb.from('kayley_products').insert([{ product_id:p.id, name:p.name, category:p.category, store:p.store||'', price:p.price||'', stock:p.stock||'full', notes:p.notes||'', custom:true }]).select();
+      if (!error && data) p.dbId = data[0].id;
+    }
+  } catch(e) { console.error('Save product failed:', e); }
+}
+
+async function deleteProductFromDB(dbId) {
+  try { await sb.from('kayley_products').delete().eq('id', dbId); } catch(e) { console.error('Delete failed:', e); }
+}
+
+async function loadWellness() {
+  try {
+    const { data: wd } = await sb.from('kayley_wellness').select('*');
+    if (wd) wd.forEach(r => { wellnessData[r.entry_date] = { mood:r.mood, bed:r.bed_time, wake:r.wake_time, sleepQ:r.sleep_quality }; });
+    const { data: jd } = await sb.from('kayley_journal').select('*');
+    if (jd) jd.forEach(r => { journalEntries[r.entry_date] = { text:r.text, date:r.entry_date }; });
+    const { data: pd } = await sb.from('kayley_settings').select('value').eq('key','pin').single();
+    if (pd) savedPin = pd.value;
+  } catch(e) { console.error('Load wellness error:', e); }
+  restoreWellness();
+  buildPinPad();
+  renderWeekChart();
+  renderPastEntries();
+  if (!savedPin) document.getElementById('set-pin-msg').style.display = 'block';
+}
+
+async function saveWellness() {
+  const today = todayKey();
+  const d = wellnessData[today] || {};
+  try {
+    await sb.from('kayley_wellness').upsert({ entry_date:today, mood:d.mood||null, bed_time:d.bed||null, wake_time:d.wake||null, sleep_quality:d.sleepQ||null, updated_at:new Date().toISOString() }, { onConflict:'entry_date' });
+  } catch(e) { console.error('Save wellness failed:', e); }
+}
+
+// ============ NAVIGATION ============
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById(id);
+  el.classList.add('active');
+  const fi = el.querySelector('.fade-in');
+  if (fi) { fi.style.animation='none'; requestAnimationFrame(()=>fi.style.animation=''); }
+  window.scrollTo(0,0);
+}
+
+function goTo(screenId, data) {
+  navHistory.push(screenId);
+  if (data==='am'||data==='pm') { currentTime=data; document.getElementById('mood-header-sub').textContent=data==='am'?'Morning':'Evening'; }
+  showScreen(screenId);
+}
+
+function goBack() { navHistory.pop(); showScreen(navHistory[navHistory.length-1]||'screen-landing'); }
+
+function goHome() { navHistory=['screen-landing']; switchNav('landing'); }
+
+function switchNav(tab) {
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const el = document.getElementById('nav-'+tab);
+  if (el) el.classList.add('active');
+  const screenMap = { landing:'screen-landing', skincare:'screen-skincare', products:'screen-products', motivation:'screen-motivation', wellness:'screen-wellness' };
+  if (screenMap[tab]) {
+    navHistory = [screenMap[tab]];
+    showScreen(screenMap[tab]);
+    if (tab==='motivation') renderMotivation();
+    if (tab==='wellness') loadWellness();
+  }
+}
+
+// ============ DAY / RETINOL ============
+const DAYS = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
+const RETINOL_DAYS = [1,3,5];
+function isRetinolNight() { return RETINOL_DAYS.includes(new Date().getDay()); }
+
+function buildDayGrid() {
+  const grid = document.getElementById('day-grid');
+  const today = new Date().getDay();
+  grid.innerHTML = DAYS.map((d,i) => {
+    let cls = 'day-chip';
+    if (RETINOL_DAYS.includes(i)) cls+=' retinol-day';
+    if (i===today) cls+=' today';
+    return `<div class="${cls}"><span style="font-size:0.48rem">${d}</span><span style="font-size:0.6rem;margin-top:1px">${RETINOL_DAYS.includes(i)?'🌿':'·'}</span></div>`;
+  }).join('');
+}
+
+function setupBanners() {
+  const banner = document.getElementById('retinol-banner');
+  const badge = document.getElementById('retinol-badge');
+  if (isRetinolNight()) {
+    banner.className='retinol-banner r-banner-on';
+    banner.innerHTML="🌿 Tonight is a <strong>Retinol Night</strong> — Mon/Wed/Fri. Don't skip it!";
+    badge.style.display='block';
+  } else {
+    banner.className='retinol-banner r-banner-off';
+    banner.innerHTML='✨ Normal night tonight — enjoy your routine!';
+    badge.style.display='none';
+  }
+}
+
+function setupLanding() {
+  const el = document.getElementById('landing-date');
+  if (el) el.textContent = new Date().toLocaleDateString('en-GB',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+}
+
+// ============ ROUTINE BUILDERS ============
+function startRoutine(mood) {
+  currentMood=mood; currentStep=0;
+  steps = currentTime==='am' ? buildAM(mood) : (isRetinolNight()?buildRetinol(mood):buildPM(mood));
+  navHistory.push('screen-step');
+  renderStep();
+  showScreen('screen-step');
+}
+
+// HTML helpers
+const I = (name, tip='') => `<div class="p-item"><div class="p-dot"></div><div><div class="p-name">${name}</div>${tip?`<div class="p-tip">${tip}</div>`:''}</div></div>`;
+const S = (label, items) => `<div class="section-label">${label}</div>${items.map(i=>I(i.name,i.tip||'')).join('')}`;
+const W = msg => `<div class="warn-box">${msg}</div>`;
+const T = msg => `<div class="tip-box">${msg}</div>`;
+const D = () => `<div class="divider"></div>`;
+
+const BRUSH_GUIDE = D()+`<div class="section-label">🖌️ Which Brush Head to Use</div>`+
+  I('🔵 Brush Head','Deep cleanse — oily/congested days. 2–3×/week max. NOT on retinol nights!')+
+  I('🟣 Silicone Head','Everyday gentle cleanse — your daily go-to!')+
+  I('🟤 Exfoliating Head','1–2×/week glow boost. Never on broken skin or retinol nights!')+
+  I('⚪ Pumice Head','Rough patches only. 1×/week max')+
+  I('🟡 Massage Head','Boosts circulation — any day after cleansing!');
+
+function buildAM(mood) {
+  const s = [];
+
+  // CLEANSE
+  s.push({ emoji:'🧼', name:'Cleanse', content:() => {
+    let html = '';
+    if (mood==='oily'||mood==='breakout') {
+      html = I('Step 1: Garnier Micellar (Pink Cap) on cotton pad','Hold 10–15 secs — removes makeup. No foam bottle!')+
+             I('Step 2: CeraVe Foaming Cleanser + 🟣 Silicone Head','Daily second cleanse 🏆')+
+             I('OR Step 2: NIP+FAB Salicylic + 🔵 Brush Head','2–3×/week on very oily/congested days');
+    } else if (mood==='sensitive') {
+      html = I('Step 1: Garnier Micellar (Pink Cap) on cotton pad','Hold 10–15 secs gently — no foam bottle!')+
+             I('Step 2: CeraVe Foaming Cleanser + 🟣 Silicone Head','Gentle daily second cleanse 🏆')+
+             I('CBD Cleanser ONLY','1–2×/week MAX on very sensitive days — menthol can irritate!');
+    } else {
+      html = I('Step 1: Garnier Micellar (Pink Cap) on cotton pad','Hold 10–15 secs — no foam bottle!')+
+             I('Step 2: CeraVe Foaming Cleanser + 🟣 Silicone Head','Daily second cleanse 🏆')+
+             I('OR NIP+FAB Salicylic','2–3×/week on oily days instead of CeraVe');
+    }
+    const steamer = mood==='oily' ? T('💆 Steamer 1–2×/week before toning — amazing for congestion!') : '';
+    return html + BRUSH_GUIDE + T('💦 Kanzen Hypochlorous Spray — spritz on skin after cleansing before toner! Great for reactive skin & spots.') + steamer;
+  }});
+
+  // TONE
+  s.push({ emoji:'🌀', name:'Tone', content:() => {
+    if (mood==='sensitive') return I('Simple Soothing Toner — hands only','That\'s it today, no acids!');
+    let html = I('Simple Soothing Toner — hands only','Daily base toner, always safe');
+    if (mood==='oily'||mood==='breakout') {
+      html += I('Super Facialist Salicylic Toner','2–4×/week for oily/congested — not with salicylic serum!');
+      html += W('🛑 Never use Salicylic Toner AND Salicylic Serum on same day');
+    }
+    return html;
+  }});
+
+  // SPOT TREATMENT (after cleanse & tone, before serums)
+  s.push({ emoji:'🩹', name:'Spot Treatment', content:() =>
+    I('🩹 Hydrocolloid Acne Patch','AFTER cleansing & toning on dry skin — before serums. This is the right time!')+
+    I('🌿 Tea Tree Essential Oil','Dab on red/forming spots with cotton bud. Let fully dry before serums!')+
+    I('TO Salicylic Acid 2% Serum','Spot use ONLY — only if no Salicylic Toner used today!')+
+    W('🛑 Patch goes AFTER cleanse & tone — never before or it washes straight off!')+
+    W('🛑 Never layer Salicylic Toner + Salicylic Serum on the same day')
+  });
+
+  // LIP SCRUB - standalone
+  s.push({ emoji:'💋', name:'Lip Scrub', content:() =>
+    I('Cherry Sweet Sugar OR Strawberry Sweet Sugar Lip Scrub','STANDALONE step — apply to lips, leave 30 secs, wipe off. Do before or after routine, never during — wiping near face disturbs your products!')+
+    T('💡 Best done before you start or after everything is fully dry!')
+  });
+
+  // SERUMS
+  s.push({ emoji:'💧', name:'Serums', content:() => {
+    let step2 = '', warnings = '';
+    if (mood==='sensitive') { step2=I('That\'s it for serums today!','HA is enough — keep it simple'); }
+    else if (mood==='dull') { step2=I('Florence Vitamin C Serum','Best for glow & brightness — 3–4×/week ☀️'); warnings=W('🛑 Skip Vit C if you used Salicylic or Glycolic acid'); }
+    else if (mood==='oily'||mood==='breakout') { step2=I('TO Niacinamide 10% + Zinc 1%','Oil control hero — perfect for oily/breakout skin'); warnings=W('🛑 Skip Niacinamide on days you use Vitamin C'); }
+    else { step2=I('Florence Vitamin C Serum','3–4×/week — brighten & even tone ☀️')+I('OR TO Niacinamide 10% + Zinc','Oil control — alternate with Vit C'); warnings=W('🛑 Never use Vitamin C and Niacinamide on the same day'); }
+    return S('Step 1 — Always first on damp skin',[{name:'AOC Ingredient Lab Hyaluronic Serum',tip:'2–3 drops on damp skin'}])+step2+warnings;
+  }});
+
+  // SUNKISSED MISTS
+  s.push({ emoji:'💦', name:'Face Mists', content:() =>
+    I('🟠 Sunkissed Vit C Energising Face Mist','Morning only ☀️ — spritz after serums before moisturiser')+
+    I('🩷 Sunkissed HA + Vit E Face Mist','Morning AND evening 🌙 — spritz over moisturiser to lock in hydration')+
+    T('💡 Vit C mist = mornings only. HA mist = any time of day!')
+  });
+
+  // EYE CARE
+  s.push({ emoji:'👁️', name:'Eye Care', content:() =>
+    I('Caffeine Eye Serum 360° Massage Ball','Roll gently outward from inner corner — best for morning depuff & dark circles!')+
+    I('Anovia Rejuvenating Caffeine Eye Cream','Pat gently around eye area')+
+    I('OR The Body Shop Vitamin E Eye Cream','More nourishing option')+
+    D()+I('🧊 Medi Grade Cooling Gel Mask','STANDALONE — use before or after your full routine. Pop in fridge first!')
+  });
+
+  // MOISTURISER
+  s.push({ emoji:'🧴', name:'Moisturiser', content:() => {
+    if (mood==='sensitive') return I('E45 Daily Care Hydrating Lotion','🏆 Barrier repair queen')+I('OR Aloe Vera Gel','If very red or irritated');
+    if (mood==='oily'||mood==='breakout') return I('Neutrogena Clear & Defend','🏆 Best for breakout days — 0.5% Salicylic Acid')+I('OR Nuage Ceramide','If skin feels stripped');
+    return I('Nuage Ceramide Daily Moisturiser','🏆 Your everyday ride or die')+I('OR E45 Lotion','If skin feels dry or stripped');
+  }});
+
+  // MIST OVER MOISTURISER
+  s.push({ emoji:'🌸', name:'Lock It In', content:() =>
+    I('🩷 Sunkissed HA + Vit E Face Mist','Spritz over moisturiser FIRST to lock in hydration')+
+    I('Rosehip Oil (TO or DermaVitamins)','Then seal OVER the mist — last step for max glow! ✨')+
+    T('Order matters: Moisturiser → HA Mist → Rosehip Oil!')
+  });
+
+  // NECK MASSAGER
+  s.push({ emoji:'💆‍♀️', name:'Neck Massager', content:() =>
+    I('Cool (Green) Mode only in mornings','After moisturiser & mist — 2–4 mins')+
+    I('Gentle upward strokes only','Always upward — never downward!')+
+    T('💡 Optional but your neck will thank you! Always AFTER moisturiser for best glide.')
+  });
+
+  // SPF
+  s.push({ emoji:'☀️', name:'SPF', content:() =>
+    I('Bondi Sands Face SPF 50+','🏆 Main girl — 2 fingers worth, EVERY day! Even cloudy. Even WFH!')+
+    I('OR Rodial Bee Venom SPF 30','Backup option')+
+    T('⏳ Let sit 2–3 mins before makeup or Grippy Primer!')
+  });
+
+  // MAKEUP BASE
+  s.push({ emoji:'✨', name:'Makeup Base', content:() => {
+    if (mood==='sensitive') return I('Skip Grippy & Niacinamide today','Just SPF → straight to makeup')+T('C — Sensitive: Aloe/HA → Nuage/E45 → SPF → Makeup');
+    if (mood==='oily') return I('Maybelline Grippy Niacinamide Primer','After SPF absorbs — keeps makeup locked all day')+T('B — Matte: HA → Niacinamide → Neutrogena → SPF → Grippy → Makeup');
+    return I('Maybelline Grippy Niacinamide Primer','Optional after SPF absorbs')+T('A — Glowy: HA → Nuage/E45 → SPF → Grippy → Makeup ✨');
+  }});
+
+  return s;
+}
+
+function buildPM(mood) {
+  const s = [];
+
+  // DOUBLE CLEANSE
+  s.push({ emoji:'🧼', name:'Double Cleanse', content:() =>
+    S('Step 1 — Remove Makeup',[
+      {name:'Garnier Micellar (Pink) on cotton pad',tip:'Soak pad, hold 10–15 secs — no foam bottle!'},
+      {name:'OR Nuage Vit C Micellar on cotton pad',tip:'Good for light makeup / no makeup evenings'}
+    ])+
+    S('Step 2 — Cleanse + Pick Your Head',[
+      {name:'CeraVe Foaming Cleanser + 🟣 Silicone Head',tip:'🏆 Daily go-to second cleanse!'},
+      {name:'OR NIP+FAB Salicylic + 🔵 Brush Head',tip:'2–3×/week oily nights — NOT on retinol nights!'},
+      {name:'CBD Cleanser',tip:'1–2×/week MAX on gentle nights only — menthol can irritate!'}
+    ])+
+    T('💦 Kanzen Spray — spritz after cleansing before toner on reactive skin days!')+
+    BRUSH_GUIDE
+  });
+
+  // SPATULA
+  if (mood!=='sensitive') {
+    s.push({ emoji:'🧽', name:'Spatula Tool', content:() =>
+      I('Ultrasonic Spatula (Ion+ mode)','1–2×/week on damp skin — scraping motion to lift congestion')+
+      T('💡 Optional — skip on sensitive or reactive nights')
+    });
+  }
+
+  // TONE
+  s.push({ emoji:'🌀', name:'Tone', content:() => {
+    if (mood==='sensitive') return I('Simple Soothing Toner only','No acids tonight!');
+    if (mood==='dull') return I('TO Glycolic Acid 7%','1×/week max — amazing for glow & texture!')+I('Simple Soothing Toner','All other nights')+W('🛑 Glycolic = 1×/week max. Never with salicylic. No retinol on glycolic nights!');
+    return I('Simple Soothing Toner','Daily base')+I('Super Facialist Salicylic Toner','2–4×/week if oily/congested')+W('🛑 Skip toner on retinol nights');
+  }});
+
+  // SPOT TREATMENT - after cleanse and tone
+  s.push({ emoji:'🩹', name:'Spot Treatment', content:() =>
+    I('🩹 Hydrocolloid Acne Patch','AFTER cleansing & toning on dry skin — before serums. Stays on overnight!')+
+    I('🌿 Tea Tree Essential Oil','Dab on forming spots, let fully dry before anything else')+
+    I('TO Salicylic Acid 2% Serum','Spot use ONLY — never if Salicylic Toner used tonight!')+
+    W('🛑 Patch goes AFTER cleanse & tone — never before!')+
+    W('🛑 Spot use only. Never full face. Never with other acids.')
+  });
+
+  // SERUMS
+  s.push({ emoji:'💧', name:'Serums', content:() => {
+    let step2='', warnings='';
+    if (mood==='sensitive') { step2=I('That\'s it for serums tonight','HA is enough — let skin rest'); }
+    else if (mood==='dull') { step2=I('Florence Vitamin C Serum','Glow booster — skip if glycolic used!'); warnings=W('🛑 No Vit C if you used Glycolic tonight'); }
+    else { step2=I('Florence Vitamin C Serum','3–4×/week')+I('OR TO Niacinamide 10% + Zinc','Non-acid nights'); warnings=W('🛑 No Vit C or Niacinamide if using acids or skin is reactive'); }
+    return S('Step 1 — Always',[{name:'AOC Ingredient Lab Hyaluronic Serum',tip:'2–3 drops on damp skin'}])+step2+warnings;
+  }});
+
+  // LED MASK
+  s.push({ emoji:'💡', name:'LED Mask', content:() =>
+    S('Choose Your Mode — 10–20 mins',[
+      {name:'🔴 Red Light',tip:'Glow, anti-ageing, general skin health — use most nights'},
+      {name:'🔵 Blue Light',tip:'Active breakouts & acne — use on breakout nights'},
+      {name:'🟢 Green Light',tip:'Redness & calming reactive skin'}
+    ])+
+    T('💡 LED goes AFTER serums and BEFORE moisturiser!')
+  });
+
+  // MOISTURISER
+  s.push({ emoji:'🧴', name:'Moisturiser', content:() => {
+    if (mood==='sensitive') return I('E45 Daily Care Hydrating Lotion','🏆 Barrier repair')+I('OR Aloe Vera Gel','If very hot or reactive');
+    if (mood==='dull') return I('Nuage Ceramide Daily Moisturiser','Base')+I('+ Rosehip Oil over top','Layer for extra overnight glow ✨');
+    return I('Nuage Ceramide Daily Moisturiser','🏆 Everyday go-to night moisturiser')+I('OR E45 Lotion','If skin feels stripped or dry');
+  }});
+
+  // LOCK IT IN
+  s.push({ emoji:'🌸', name:'Lock It In', content:() =>
+    I('🩷 Sunkissed HA + Vit E Face Mist','Spritz over moisturiser FIRST to lock in hydration 🌙')+
+    I('Rosehip Oil (TO or DermaVitamins)','Then seal OVER the mist — last step! ✨')+
+    W('🛑 Skip the orange Vit C mist in evenings — morning only ingredient!')+
+    T('Order: Moisturiser → HA Mist → Rosehip Oil')
+  });
+
+  // NECK MASSAGER
+  s.push({ emoji:'💆‍♀️', name:'Neck Massager', content:() =>
+    I('Red mode → Heat mode → Green (cool) mode','AFTER moisturiser & mist — always!')+
+    I('Gentle upward strokes — 2–4 mins','Never downward')+
+    T('💡 Always AFTER moisturiser for best glide!')
+  });
+
+  // EYE + LIPS + EXTRAS
+  s.push({ emoji:'✨', name:'Eye, Lips & Extras', content:() =>
+    I('Caffeine Eye Serum 360° Massage Ball','Roll gently outward from inner corner!')+
+    I('Anovia Caffeine Eye Cream OR Body Shop Vitamin E','Pat gently around eye area')+
+    I('Eye Patches','Optional — Garnier / Champneys / Face Facts / Skin Technique')+
+    I('🧊 Medi Grade Cooling Gel Mask','STANDALONE — not layered in routine')+
+    D()+
+    I('Overnight Lip Mask','Nightly 💕 — Cherry / Watermelon / Bubblegum / Strawberry / Propolis / Collagen')+
+    I('🌿 Rosemary Oil on brows','Best for brow GROWTH — tiny amount!')+
+    I('OR Sweet Almond Oil on brows','Nourishing & conditioning alternative')
+  });
+
+  return s;
+}
+
+function buildRetinol(mood) {
+  const s = [];
+
+  s.push({ emoji:'🌿', name:'Retinol Night!', content:() => `
+    <div class="tip-box" style="margin-bottom:14px;">🌿 Tonight is a <strong>Retinol Night</strong> — Mon/Wed/Fri. Don't skip this, Kayley! 💪</div>
+    <div class="section-label">❌ Skip ALL of these tonight</div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;">
+      ${['LED Mask','Steamer','Spatula Tool','Niacinamide','Vitamin C','Grippy Primer','Salicylic Acid','Glycolic Acid'].map(i=>`<span style="background:rgba(192,80,96,0.1);border:1px solid rgba(192,80,96,0.3);color:#7a3040;font-size:0.7rem;padding:3px 10px;border-radius:10px;">❌ ${i}</span>`).join('')}
+    </div>
+  `});
+
+  s.push({ emoji:'🧼', name:'Cleanse', content:() =>
+    I('Step 1: Garnier Micellar (Pink) on cotton pad','Soak pad, hold 10–15 secs — remove all makeup gently')+
+    I('Step 2: CeraVe Foaming Cleanser + 🟣 Silicone Head','Gentle second cleanse — no brush on retinol nights!')+
+    W('🛑 No NIP+FAB Salicylic on retinol nights!')+
+    W('🛑 Skip toner entirely on retinol nights — HA serum is your buffer instead!')
+  });
+
+  // SPOT TREATMENT first after cleanse
+  s.push({ emoji:'🩹', name:'Spot Treatment', content:() =>
+    I('🩹 Hydrocolloid Acne Patch','Apply on dry skin AFTER cleansing — before serums!')+
+    I('🌿 Tea Tree on forming spots','Dab on spots, let FULLY dry — then apply retinol AROUND the area, not on top!')+
+    W('🛑 Tea tree is okay on retinol nights — but let it dry first and NEVER apply retinol directly on top of it!')+
+    T('Patch must go on AFTER cleansing — never before!')
+  });
+
+  s.push({ emoji:'💧', name:'Serums', content:() =>
+    S('Step 1 — Buffer Layer first! (always)',[{name:'AOC Ingredient Lab Hyaluronic Serum',tip:'Damp skin — this protects from retinol irritation!'}])+
+    S('Step 2 — Retinol (pea-sized, pat don\'t rub)',[
+      {name:'Geek & Gorgeous A-Game 101 Retinol',tip:'🏆 This one is brilliant — use this!'},
+      {name:'OR Supreme Skin CBD Retinol Serum',tip:'Alternative option'}
+    ])+
+    T('💡 Always buffer with HA first — massively reduces sensitivity!')
+  });
+
+  s.push({ emoji:'🧴', name:'Moisturiser', content:() =>
+    I('E45 Daily Care Hydrating Lotion','🏆 Perfect retinol buffer — locks it in and soothes')+
+    I('OR Nuage Ceramide Daily Moisturiser','Great alternative')+
+    I('Rosehip Oil over top','Optional — only if very dry or flaky')
+  });
+
+  s.push({ emoji:'🌸', name:'Lock It In', content:() =>
+    I('🩷 Sunkissed HA + Vit E Face Mist','Spritz over moisturiser to lock in hydration')+
+    W('🛑 Skip the orange Vit C mist — mornings only!')
+  });
+
+  s.push({ emoji:'💆‍♀️', name:'Neck Massager', content:() =>
+    I('✅ Cool / Green mode on neck only','AFTER moisturiser — this is fine on retinol nights!')+
+    I('Gentle upward strokes — 2–4 mins','Always upward, never downward')+
+    W('🛑 Skip Red & Heat modes tonight — can push retinol too deep and cause irritation!')+
+    W('🛑 Do NOT use on your face on retinol nights!')
+  });
+
+  s.push({ emoji:'✨', name:'Eye, Lips & Extras', content:() =>
+    I('Caffeine Eye Serum 360° Massage Ball','Roll gently outward from inner corner — keep away from retinol area!')+
+    I('Anovia Caffeine Eye Cream OR Body Shop Vitamin E','Pat gently — keep retinol away from eye area!')+
+    D()+
+    I('Overnight Lip Mask','Nightly ritual 💕 — Cherry / Watermelon / Bubblegum / Strawberry / Propolis / Collagen')+
+    I('🌿 Rosemary Oil on brows','Best for brow growth — tiny amount!')+
+    I('OR Sweet Almond Oil on brows','Nourishing alternative')
+  });
+
+  return s;
+}
+
+// ============ STEP RENDER ============
+function renderStep() {
+  const step = steps[currentStep];
+  const total = steps.length;
+  document.getElementById('step-sub').textContent =
+    (currentTime==='am'?'Morning':(isRetinolNight()&&currentTime==='pm'?'🌿 Retinol Night':'Evening'))+
+    ' · '+currentMood.charAt(0).toUpperCase()+currentMood.slice(1);
+
+  document.getElementById('step-progress').innerHTML =
+    steps.map((_,i)=>`<div class="dot${i<currentStep?' done':i===currentStep?' current':''}"></div>`).join('');
+
+  document.getElementById('step-card-wrap').innerHTML = `
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-num">Step ${currentStep+1} of ${total}</div>
+        <div class="step-name">${step.emoji} ${step.name}</div>
+      </div>
+      <div class="step-body">${step.content()}</div>
+    </div>`;
+
+  document.getElementById('prev-btn').style.display = currentStep===0?'none':'block';
+  document.getElementById('next-btn').textContent = currentStep===total-1?'Complete ✓':'Next →';
+  window.scrollTo(0,0);
+}
+
+function nextStep() {
+  if (currentStep<steps.length-1) { currentStep++; renderStep(); }
+  else { navHistory.push('screen-complete'); showScreen('screen-complete'); }
+}
+
+function prevStep() { if (currentStep>0) { currentStep--; renderStep(); } }
+
+// ============ PRODUCTS ============
+function toggleAddForm() {
+  const wrap = document.getElementById('add-form-wrap');
+  const btn = document.getElementById('add-toggle-btn');
+  const showing = wrap.style.display!=='none';
+  wrap.style.display = showing?'none':'block';
+  btn.textContent = showing?'+ Add New Product':'✕ Cancel';
+}
+
+async function addProduct() {
+  const name = document.getElementById('new-product-name').value.trim();
+  const category = document.getElementById('new-product-category').value;
+  const store = document.getElementById('new-product-store').value.trim();
+  const price = document.getElementById('new-product-price').value.trim();
+  if (!name||!category) { showToast('Fill in name & category!'); return; }
+  const newP = { id:Date.now(), name, category, store, price, stock:'full', notes:'', custom:true };
+  await saveProductToDB(newP);
+  allProducts.push(newP);
+  renderProducts();
+  document.getElementById('new-product-name').value='';
+  document.getElementById('new-product-category').value='';
+  document.getElementById('new-product-store').value='';
+  document.getElementById('new-product-price').value='';
+  toggleAddForm();
+  showToast('Added to your collection! 💕');
+}
+
+function filterProducts() {
+  const search = document.getElementById('search-input').value.toLowerCase();
+  const cat = document.getElementById('cat-filter').value;
+  renderProducts(search, cat);
+}
+
+function stockDot(stock) {
+  const m = {full:'dot-full',good:'dot-good',low:'dot-low',empty:'dot-empty'};
+  return `<div class="stock-dot ${m[stock]||'dot-full'}"></div>`;
+}
+
+function stockLabel(stock) {
+  return {full:'Full 💚',good:'Good 💛',low:'Low 🟠',empty:'Empty ❌'}[stock]||'Full';
+}
+
+function renderProducts(search='', catFilter='') {
+  const container = document.getElementById('products-list');
+  let filtered = allProducts;
+  if (search) filtered = filtered.filter(p=>p.name.toLowerCase().includes(search));
+  if (catFilter) filtered = filtered.filter(p=>p.category===catFilter);
+  if (filtered.length===0) { container.innerHTML='<div style="text-align:center;padding:40px 20px;color:var(--text-light);font-style:italic;">No products found 🔍</div>'; return; }
+  const catOrder = ['Cleanser','Toner','Serum','Eye Care','Lip Care','Moisturiser','SPF','Face Mask','Tool','Body','Other'];
+  const groups = {};
+  filtered.forEach(p => { if (!groups[p.category]) groups[p.category]=[]; groups[p.category].push(p); });
+  const sortedCats = catOrder.filter(c=>groups[c]).concat(Object.keys(groups).filter(c=>!catOrder.includes(c)));
+  const total = filtered.length;
+  document.getElementById('product-count').textContent = total;
+  container.innerHTML = sortedCats.map(cat => `
+    <div class="cat-header">${cat} (${groups[cat].length})</div>
+    ${groups[cat].map(p=>`
+      <div class="inv-card" onclick="openEdit(${p.id})">
+        ${stockDot(p.stock)}
+        <div style="flex:1;min-width:0;">
+          <div class="inv-name">${p.name}${p.custom?'<span class="custom-badge">New</span>':''}</div>
+          <div class="inv-meta">
+            ${p.store?`<span>📍 ${p.store}</span>`:'<span style="opacity:0.5">No store</span>'}
+            ${p.price?`<span>💷 ${p.price}</span>`:''}
+            <span>${stockLabel(p.stock)}</span>
+            ${p.notes?`<span>📝 ${p.notes.substring(0,30)}${p.notes.length>30?'...':''}</span>`:''}
+          </div>
+        </div>
+        <div class="inv-arrow">›</div>
+      </div>
+    `).join('')}
+  `).join('');
+}
+
+function openEdit(id) {
+  const p = allProducts.find(x=>x.id===id);
+  if (!p) return;
+  editingId = id;
+  currentStock = p.stock||'full';
+  document.getElementById('edit-modal-title').textContent = p.name;
+  document.getElementById('edit-store').value = p.store||'';
+  document.getElementById('edit-price').value = p.price||'';
+  document.getElementById('edit-notes').value = p.notes||'';
+  document.querySelectorAll('[data-val]').forEach(b=>b.classList.toggle('active', b.dataset.val===currentStock));
+  const modal = document.getElementById('edit-modal');
+  modal.style.display='flex';
+  document.body.style.overflow='hidden';
+}
+
+function setStock(btn) {
+  currentStock = btn.dataset.val;
+  document.querySelectorAll('[data-val]').forEach(b=>b.classList.toggle('active', b===btn));
+}
+
+function closeModal() {
+  document.getElementById('edit-modal').style.display='none';
+  document.body.style.overflow='';
+  editingId=null;
+}
+
+async function saveEdit() {
+  const p = allProducts.find(x=>x.id===editingId);
+  if (!p) return;
+  p.store = document.getElementById('edit-store').value;
+  p.price = document.getElementById('edit-price').value;
+  p.stock = currentStock;
+  p.notes = document.getElementById('edit-notes').value;
+  await saveProductToDB(p);
+  renderProducts(document.getElementById('search-input').value.toLowerCase(), document.getElementById('cat-filter').value);
+  closeModal();
+  showToast('Saved! 💕');
+}
+
+async function deleteProductDB(id) {
+  const p = allProducts.find(x=>x.id===id);
+  if (p && p.dbId) await deleteProductFromDB(p.dbId);
+  allProducts = allProducts.filter(x=>x.id!==id);
+  renderProducts();
+  showToast('Removed!');
+}
+
+// ============ MOTIVATION ============
+function renderMotivation() {
+  const now = new Date();
+  const dayOfYear = Math.floor((now - new Date(now.getFullYear(),0,0))/86400000);
+  const idx = dayOfYear % MOTIVATIONS.length;
+  const mot = MOTIVATIONS[idx];
+  const bgMap = {hype:'mot-hype',believe:'mot-believe',kayley:'mot-kayley',bible:'mot-bible',wellness:'mot-wellness'};
+  const iconMap = {hype:'🔥',believe:'💪',kayley:'💕',bible:'✝️',wellness:'🌿'};
+  const typeMap = {hype:'Energy & Hype',believe:'Self Belief',kayley:'From Kayley',bible:'Scripture',wellness:'Wellness'};
+  const bg = document.getElementById('mot-bg');
+  if (bg) bg.className = 'screen has-nav '+(bgMap[mot.type]||'mot-wellness');
+  const msgEl = document.getElementById('mot-message'); if (msgEl) msgEl.textContent = mot.msg;
+  const iconEl = document.getElementById('mot-icon'); if (iconEl) iconEl.textContent = iconMap[mot.type]||'💫';
+  const typeEl = document.getElementById('mot-type'); if (typeEl) typeEl.textContent = typeMap[mot.type]||'';
+  const dateEl = document.getElementById('mot-date-lbl'); if (dateEl) dateEl.textContent = now.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});
+  const dots = document.getElementById('mot-dots');
+  if (dots) {
+    const total=7, pos=idx%total;
+    dots.innerHTML = Array.from({length:total},(_,i)=>`<div style="width:${i===pos?18:6}px;height:6px;border-radius:3px;background:${i===pos?'linear-gradient(90deg,var(--lavender-deep),var(--lavender))':'var(--border-strong)'};transition:all 0.3s;"></div>`).join('');
+  }
+}
+
+// ============ WELLNESS ============
+function todayKey() { const n=new Date(); return `${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}-${String(n.getDate()).padStart(2,'0')}`; }
+function moodLabel(v) { return ['','😢 Not great','😔 Low','😐 Okay','🙂 Pretty good','😄 Amazing!'][v]||''; }
+
+function restoreWellness() {
+  const today = todayKey();
+  const d = wellnessData[today]||{};
+  if (d.bed) document.getElementById('sleep-bed').value=d.bed;
+  if (d.wake) document.getElementById('sleep-wake').value=d.wake;
+  if (d.bed&&d.wake) calcSleep();
+  if (d.sleepQ) { sleepQuality=d.sleepQ; document.querySelectorAll('[data-q]').forEach(b=>b.classList.toggle('active',b.dataset.q===sleepQuality)); }
+  if (d.mood) { document.querySelectorAll('.mood-emoji-btn').forEach(b=>b.classList.toggle('active',parseInt(b.dataset.mood)===d.mood)); document.getElementById('mood-label').textContent=moodLabel(d.mood); }
+}
+
+async function setMood(val) {
+  document.querySelectorAll('.mood-emoji-btn').forEach(b=>b.classList.toggle('active',parseInt(b.dataset.mood)===val));
+  document.getElementById('mood-label').textContent=moodLabel(val);
+  const today=todayKey();
+  if (!wellnessData[today]) wellnessData[today]={};
+  wellnessData[today].mood=val;
+  await saveWellness();
+  renderWeekChart();
+  showToast('Mood logged 💕');
+}
+
+async function saveSleep() {
+  calcSleep();
+  const today=todayKey();
+  if (!wellnessData[today]) wellnessData[today]={};
+  wellnessData[today].bed=document.getElementById('sleep-bed').value;
+  wellnessData[today].wake=document.getElementById('sleep-wake').value;
+  await saveWellness();
+}
+
+function calcSleep() {
+  const bed=document.getElementById('sleep-bed').value;
+  const wake=document.getElementById('sleep-wake').value;
+  if (!bed||!wake) return;
+  const [bh,bm]=bed.split(':').map(Number);
+  const [wh,wm]=wake.split(':').map(Number);
+  let mins=(wh*60+wm)-(bh*60+bm);
+  if (mins<0) mins+=1440;
+  const el=document.getElementById('sleep-hours');
+  if (el) el.textContent=(mins/60).toFixed(1)+'h';
+}
+
+async function setSleepQ(btn) {
+  sleepQuality=btn.dataset.q;
+  document.querySelectorAll('[data-q]').forEach(b=>b.classList.toggle('active',b===btn));
+  const today=todayKey();
+  if (!wellnessData[today]) wellnessData[today]={};
+  wellnessData[today].sleepQ=sleepQuality;
+  await saveWellness();
+  showToast('Sleep quality saved!');
+}
+
+function renderWeekChart() {
+  const chart=document.getElementById('week-chart');
+  const labels=document.getElementById('week-labels');
+  if (!chart) return;
+  const days=[];
+  for (let i=6;i>=0;i--) { const d=new Date(); d.setDate(d.getDate()-i); const key=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; days.push({key,dayName:['Su','Mo','Tu','We','Th','Fr','Sa'][d.getDay()],isToday:i===0}); }
+  chart.innerHTML=days.map(d=>{const mood=wellnessData[d.key]?.mood||0;const h=mood?Math.round((mood/5)*100):4;return `<div class="week-bar${d.isToday?' today':''}" style="height:${h}%;flex:1;"></div>`;}).join('');
+  if (labels) labels.innerHTML=days.map(d=>`<div class="week-day-lbl">${d.dayName}</div>`).join('');
+}
+
+// ============ PIN / JOURNAL ============
+function buildPinPad() {
+  const pad=document.getElementById('pin-pad');
+  if (!pad) return;
+  ['1','2','3','4','5','6','7','8','9','','0','⌫'].forEach(n=>{
+    if (n==='') { pad.appendChild(document.createElement('div')); return; }
+    const btn=document.createElement('button');
+    btn.className='pin-btn'; btn.textContent=n; btn.onclick=()=>pinTap(n);
+    pad.appendChild(btn);
+  });
+}
+
+function pinTap(val) {
+  if (val==='⌫') pinAttempt=pinAttempt.slice(0,-1);
+  else { if (pinAttempt.length>=4) return; pinAttempt+=val; }
+  updatePinDots();
+  if (pinAttempt.length===4) setTimeout(()=>checkPin(),200);
+}
+
+function updatePinDots() { document.querySelectorAll('.pin-dot').forEach((d,i)=>d.classList.toggle('filled',i<pinAttempt.length)); }
+
+async function checkPin() {
+  if (!savedPin) {
+    savedPin=pinAttempt;
+    try { await sb.from('kayley_settings').upsert({key:'pin',value:savedPin},{onConflict:'key'}); } catch(e){}
+    unlockJournal(); showToast('PIN set! Remember it 🔐');
+  } else if (pinAttempt===savedPin) {
+    unlockJournal();
+  } else {
+    document.getElementById('pin-error').style.display='block';
+    pinAttempt=''; updatePinDots();
+    setTimeout(()=>{document.getElementById('pin-error').style.display='none';},2000);
+  }
+  pinAttempt=''; updatePinDots();
+}
+
+function unlockJournal() {
+  document.getElementById('journal-locked').style.display='none';
+  document.getElementById('journal-open').style.display='block';
+  const today=todayKey();
+  const dateEl=document.getElementById('journal-date-lbl');
+  if (dateEl) dateEl.textContent=new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  const txt=document.getElementById('journal-text');
+  if (txt) txt.value=journalEntries[today]?.text||'';
+  renderPastEntries();
+}
+
+function lockJournal() {
+  document.getElementById('journal-locked').style.display='block';
+  document.getElementById('journal-open').style.display='none';
+  pinAttempt=''; updatePinDots();
+}
+
+let journalTimer=null;
+function autoSaveJournal() {
+  clearTimeout(journalTimer);
+  journalTimer=setTimeout(async()=>{
+    const today=todayKey();
+    const text=document.getElementById('journal-text').value;
+    if (!journalEntries[today]) journalEntries[today]={};
+    journalEntries[today].text=text; journalEntries[today].date=today;
+    try { await sb.from('kayley_journal').upsert({entry_date:today,text},{onConflict:'entry_date'}); } catch(e){}
+    const lbl=document.getElementById('journal-saved-lbl');
+    if (lbl) { lbl.textContent='Saved ✓'; setTimeout(()=>lbl.textContent='Auto-saved',1500); }
+  },800);
+}
+
+function renderPastEntries() {
+  const container=document.getElementById('past-entries');
+  if (!container) return;
+  const today=todayKey();
+  const entries=Object.values(journalEntries).filter(e=>e.date&&e.date!==today&&e.text).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,10);
+  if (entries.length===0) { container.innerHTML='<div style="font-size:0.77rem;color:var(--text-ghost);padding:8px 0;font-style:italic;">No past entries yet</div>'; return; }
+  container.innerHTML=entries.map(e=>`<div class="journal-entry" onclick="viewEntry('${e.date}')"><div class="je-date">${new Date(e.date+'T12:00:00').toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short',year:'numeric'})}</div><div class="je-preview">${e.text.substring(0,80)}${e.text.length>80?'...':''}</div></div>`).join('');
+}
+
+function viewEntry(date) {
+  const entry=journalEntries[date];
+  if (!entry) return;
+  const txt=document.getElementById('journal-text');
+  if (txt) txt.value=entry.text;
+  const dateEl=document.getElementById('journal-date-lbl');
+  if (dateEl) dateEl.textContent=new Date(date+'T12:00:00').toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'})+' (past entry)';
+  showToast('Viewing past entry');
+}
+
+// ============ TOAST ============
+function showToast(msg) {
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+// ============ INIT ============
+async function init() {
+  buildDayGrid();
+  setupBanners();
+  setupLanding();
+  try { await loadProducts(); } catch(e) { allProducts=KAYLEY_PRODUCTS.map(p=>({...p})); renderProducts(); }
+  document.getElementById('loading').style.display='none';
+  switchNav('landing');
+  document.getElementById('edit-modal').addEventListener('click',function(e){if(e.target===this)closeModal();});
+}
+
+init();
+</script>
+</body>
+</html>
