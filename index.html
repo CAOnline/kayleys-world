@@ -334,7 +334,7 @@ body{
   -webkit-backdrop-filter:blur(28px) saturate(1.5);
   border:1px solid var(--line-strong);
   border-radius:100px;
-  padding:8px;
+  padding:6px;
   display:flex;
   justify-content:space-around;
   z-index:100;
@@ -345,19 +345,19 @@ body{
   flex:1;
   background:transparent;
   border:none;
-  padding:10px 4px;
+  padding:9px 2px;
   cursor:pointer;
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap:4px;
+  gap:3px;
   border-radius:100px;
   transition:all 0.4s cubic-bezier(0.22,1,0.36,1);
   position:relative;
   color:var(--ink-faint);
 }
-.nav-btn svg{width:20px;height:20px;stroke-width:1.5}
-.nav-label{font-size:9px;letter-spacing:0.1em;text-transform:uppercase;font-weight:500}
+.nav-btn svg{width:18px;height:18px;stroke-width:1.5}
+.nav-label{font-size:8.5px;letter-spacing:0.08em;text-transform:uppercase;font-weight:500}
 .nav-btn.active{
   background:linear-gradient(135deg,var(--lavender-200),var(--rose-mist));
   color:var(--ink);
@@ -1173,6 +1173,472 @@ body{
 }
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
+/* ============== SCRIPTURE ============== */
+.scripture-page{padding:0 24px}
+
+.trans-toggle{
+  display:flex;
+  gap:6px;
+  background:var(--lavender-100);
+  border-radius:100px;
+  padding:4px;
+  margin:8px 0 20px;
+  border:1px solid var(--line);
+}
+.trans-btn{
+  flex:1;
+  background:transparent;
+  border:none;
+  padding:10px 4px;
+  font-family:'Outfit',sans-serif;
+  font-size:10px;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  font-weight:500;
+  color:var(--ink-faint);
+  cursor:pointer;
+  border-radius:100px;
+  transition:all 0.4s cubic-bezier(0.22,1,0.36,1);
+}
+.trans-btn.active{
+  background:#fff;
+  color:var(--ink);
+  box-shadow:var(--shadow-soft);
+}
+
+.verse-card{
+  background:linear-gradient(155deg,#FBF6F0 0%,#F4E8EC 50%,#E8DFF1 100%);
+  border:1px solid rgba(255,255,255,0.6);
+  border-radius:var(--r-xl);
+  padding:36px 28px 32px;
+  margin-bottom:18px;
+  position:relative;
+  overflow:hidden;
+  box-shadow:var(--shadow-deep);
+  text-align:center;
+}
+.verse-card::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255,255,255,0.4), transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(212,184,150,0.18), transparent 50%);
+  pointer-events:none;
+}
+.verse-card::after{
+  content:'';
+  position:absolute;
+  top:14px;
+  left:50%;
+  transform:translateX(-50%);
+  width:50px;
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold-deep),transparent);
+}
+.verse-illumination{
+  font-family:'Fraunces',serif;
+  font-size:22px;
+  color:var(--gold-deep);
+  margin-bottom:14px;
+  position:relative;
+  z-index:1;
+  opacity:0.7;
+}
+.verse-ref{
+  font-family:'Outfit',sans-serif;
+  font-size:10px;
+  letter-spacing:0.28em;
+  text-transform:uppercase;
+  color:var(--gold-deep);
+  font-weight:500;
+  margin-bottom:18px;
+  position:relative;
+  z-index:1;
+}
+.verse-text{
+  font-family:'Cormorant Garamond',serif;
+  font-weight:400;
+  font-size:22px;
+  line-height:1.45;
+  color:var(--ink);
+  letter-spacing:-0.005em;
+  position:relative;
+  z-index:1;
+  font-style:italic;
+}
+.verse-translation{
+  font-family:'Outfit',sans-serif;
+  font-size:9px;
+  letter-spacing:0.22em;
+  text-transform:uppercase;
+  color:var(--silver-deep);
+  margin-top:20px;
+  font-weight:500;
+  position:relative;
+  z-index:1;
+}
+
+.study-card{
+  background:var(--glass-strong);
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
+  border:1px solid var(--line-strong);
+  border-radius:var(--r-lg);
+  padding:24px;
+  margin-bottom:14px;
+  box-shadow:var(--shadow-soft);
+}
+.study-eyebrow{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-family:'Outfit',sans-serif;
+  text-transform:uppercase;
+  font-size:10px;
+  letter-spacing:0.22em;
+  font-weight:500;
+  color:var(--silver-deep);
+  margin-bottom:18px;
+  padding-bottom:12px;
+  border-bottom:1px solid var(--line);
+}
+.study-eyebrow span:first-child{
+  color:var(--gold-deep);
+  font-size:14px;
+  letter-spacing:0;
+}
+.study-section{margin-bottom:18px}
+.study-section:last-child{margin-bottom:0}
+.study-label{
+  font-family:'Fraunces',serif;
+  font-style:italic;
+  font-size:13px;
+  color:var(--lavender-500);
+  margin-bottom:6px;
+}
+.study-body{
+  font-size:14px;
+  line-height:1.6;
+  color:var(--ink-soft);
+  font-weight:300;
+}
+.study-italic{
+  font-family:'Fraunces',serif;
+  font-style:italic;
+  color:var(--ink);
+  font-size:14.5px;
+}
+
+.reflection-card{
+  background:linear-gradient(135deg,var(--lavender-100),var(--rose-mist));
+  border:1px solid var(--line);
+  border-radius:var(--r-lg);
+  padding:24px;
+  margin-bottom:14px;
+}
+.reflection-prompt{
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;
+  font-size:17px;
+  color:var(--ink);
+  line-height:1.4;
+  margin:8px 0 14px;
+}
+.reflection-input{
+  width:100%;
+  min-height:120px;
+  background:rgba(255,255,255,0.7);
+  border:1px solid var(--line);
+  border-radius:var(--r-md);
+  padding:14px;
+  font-family:'Fraunces',serif;
+  font-size:14px;
+  color:var(--ink);
+  font-weight:300;
+  line-height:1.5;
+  resize:vertical;
+  outline:none;
+  margin-bottom:10px;
+  font-style:italic;
+}
+.reflection-input:focus{border-color:var(--lavender-400);background:#fff}
+
+/* ============== WELLNESS TABS ============== */
+.well-tabs{
+  display:flex;
+  gap:6px;
+  background:var(--lavender-100);
+  border-radius:100px;
+  padding:4px;
+  margin:8px 0 18px;
+  border:1px solid var(--line);
+}
+.well-tab{
+  flex:1;
+  background:transparent;
+  border:none;
+  padding:11px 6px;
+  font-family:'Outfit',sans-serif;
+  font-size:10.5px;
+  letter-spacing:0.16em;
+  text-transform:uppercase;
+  font-weight:500;
+  color:var(--ink-faint);
+  cursor:pointer;
+  border-radius:100px;
+  transition:all 0.4s cubic-bezier(0.22,1,0.36,1);
+}
+.well-tab.active{
+  background:#fff;
+  color:var(--ink);
+  box-shadow:var(--shadow-soft);
+}
+.well-tab-content{display:none}
+.well-tab-content.active{display:block;animation:rise 0.4s cubic-bezier(0.22,1,0.36,1)}
+
+/* ============== HIGHLIGHTS ============== */
+.highlights-intro{
+  background:linear-gradient(135deg,#fff,var(--rose-mist) 70%,var(--lavender-200));
+  border:1px solid var(--line);
+  border-radius:var(--r-lg);
+  padding:20px 22px;
+  margin-bottom:18px;
+  box-shadow:var(--shadow-soft);
+}
+.highlights-title-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:14px;
+  margin-bottom:14px;
+}
+.week-badge{
+  background:rgba(255,255,255,0.7);
+  border:1px solid var(--line-strong);
+  border-radius:100px;
+  padding:6px 12px;
+  font-family:'Fraunces',serif;
+  font-style:italic;
+  font-size:12px;
+  color:var(--ink);
+  white-space:nowrap;
+  flex-shrink:0;
+}
+
+.upload-cta{
+  background:var(--ink);
+  color:#fff;
+  border:none;
+  border-radius:100px;
+  padding:14px 20px;
+  font-family:'Outfit',sans-serif;
+  font-size:11px;
+  letter-spacing:0.22em;
+  text-transform:uppercase;
+  font-weight:500;
+  cursor:pointer;
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  transition:all 0.3s;
+}
+.upload-cta:active{transform:scale(0.98)}
+.upload-cta svg{width:14px;height:14px;stroke-width:1.8}
+
+.this-week-photo{
+  border-radius:var(--r-md);
+  overflow:hidden;
+  position:relative;
+  margin-top:8px;
+}
+.this-week-photo img{
+  width:100%;
+  display:block;
+  aspect-ratio:1;
+  object-fit:cover;
+}
+.this-week-overlay{
+  position:absolute;
+  bottom:10px;
+  left:10px;
+  right:10px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+.this-week-meta{
+  background:rgba(0,0,0,0.5);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  color:#fff;
+  border-radius:100px;
+  padding:6px 12px;
+  font-family:'Fraunces',serif;
+  font-style:italic;
+  font-size:11px;
+}
+.replace-link{
+  background:rgba(255,255,255,0.85);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  color:var(--ink);
+  border:none;
+  border-radius:100px;
+  padding:6px 14px;
+  font-family:'Outfit',sans-serif;
+  font-size:9.5px;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  font-weight:500;
+  cursor:pointer;
+}
+
+.highlights-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+.highlight-tile{
+  position:relative;
+  border-radius:var(--r-md);
+  overflow:hidden;
+  aspect-ratio:1;
+  background:var(--lavender-100);
+  cursor:pointer;
+  transition:transform 0.3s;
+  box-shadow:var(--shadow-soft);
+}
+.highlight-tile:active{transform:scale(0.97)}
+.highlight-tile img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+.highlight-tile-overlay{
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  background:linear-gradient(180deg,transparent,rgba(0,0,0,0.6));
+  padding:24px 12px 12px;
+  color:#fff;
+  font-family:'Fraunces',serif;
+  font-style:italic;
+  font-size:12px;
+  letter-spacing:0.02em;
+}
+.highlights-empty{
+  grid-column:span 2;
+  text-align:center;
+  padding:60px 20px;
+  background:var(--lavender-50);
+  border-radius:var(--r-md);
+  border:1px dashed var(--line-strong);
+}
+.highlights-empty-mark{
+  font-family:'Fraunces',serif;
+  font-style:italic;
+  font-size:32px;
+  color:var(--lavender-400);
+  margin-bottom:12px;
+}
+.highlights-empty-text{
+  font-family:'Fraunces',serif;
+  font-style:italic;
+  font-size:14px;
+  color:var(--ink-soft);
+  line-height:1.5;
+}
+
+/* Photo lightbox */
+.lightbox{
+  position:fixed;
+  inset:0;
+  background:rgba(20,15,30,0.92);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  z-index:400;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  animation:fadeIn 0.3s ease;
+}
+.lightbox.show{display:flex}
+.lightbox img{
+  max-width:100%;
+  max-height:80vh;
+  border-radius:var(--r-md);
+  box-shadow:0 20px 60px rgba(0,0,0,0.5);
+}
+.lightbox-close{
+  position:absolute;
+  top:calc(20px + var(--safe-top));
+  right:20px;
+  background:rgba(255,255,255,0.15);
+  border:1px solid rgba(255,255,255,0.3);
+  color:#fff;
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  font-size:18px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.lightbox-meta{
+  position:absolute;
+  bottom:calc(30px + var(--safe-bot));
+  left:20px;
+  right:20px;
+  text-align:center;
+  color:#fff;
+  font-family:'Fraunces',serif;
+  font-style:italic;
+  font-size:14px;
+}
+.lightbox-actions{
+  position:absolute;
+  bottom:calc(70px + var(--safe-bot));
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  gap:10px;
+}
+.lightbox-actions button{
+  background:rgba(255,255,255,0.15);
+  border:1px solid rgba(255,255,255,0.3);
+  color:#fff;
+  border-radius:100px;
+  padding:8px 16px;
+  font-family:'Outfit',sans-serif;
+  font-size:10px;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  font-weight:500;
+  cursor:pointer;
+}
+
+.upload-progress{
+  background:var(--lavender-100);
+  border-radius:100px;
+  height:6px;
+  overflow:hidden;
+  margin-top:10px;
+}
+.upload-progress-bar{
+  height:100%;
+  background:linear-gradient(90deg,var(--lavender-400),var(--rose-deep));
+  width:0%;
+  transition:width 0.3s ease;
+}
+
 /* Loader */
 .loader{
   position:fixed;inset:0;
@@ -1361,6 +1827,11 @@ body{
         <div class="nav-card-desc">Step by step, just for tonight's skin</div>
         <div class="nav-card-meta" id="ritualMeta">— retinol night</div>
       </div>
+      <div class="nav-card" onclick="go('scripture')">
+        <div class="nav-icon">𓆗</div>
+        <div class="nav-card-title">Scripture</div>
+        <div class="nav-card-desc" id="verseRefHome">today's verse</div>
+      </div>
       <div class="nav-card" onclick="go('motivation')">
         <div class="nav-icon">✦</div>
         <div class="nav-card-title">Daily Word</div>
@@ -1476,6 +1947,68 @@ body{
   </div>
 </div>
 
+<!-- ============== SCRIPTURE ============== -->
+<div class="page" id="scripture">
+  <div class="page-header">
+    <div class="page-title-stack">
+      <div class="eyebrow">Today's Verse</div>
+      <h2 class="page-title">Scripture<br><em>& Study</em></h2>
+    </div>
+  </div>
+
+  <div class="scripture-page">
+    <!-- Translation toggle -->
+    <div class="trans-toggle">
+      <button class="trans-btn active" data-trans="all" onclick="setTrans('all')">All</button>
+      <button class="trans-btn" data-trans="kjv" onclick="setTrans('kjv')">KJV</button>
+      <button class="trans-btn" data-trans="modern" onclick="setTrans('modern')">Modern</button>
+      <button class="trans-btn" data-trans="enoch" onclick="setTrans('enoch')">Enoch</button>
+    </div>
+
+    <!-- Verse card -->
+    <div class="verse-card" id="verseCard">
+      <div class="verse-illumination">✦</div>
+      <div class="verse-ref" id="verseRef"></div>
+      <div class="verse-text" id="verseText"></div>
+      <div class="verse-translation" id="verseTrans"></div>
+    </div>
+
+    <!-- Study notes -->
+    <div class="study-card">
+      <div class="study-eyebrow">
+        <span>𓆗</span>
+        <span>Study notes</span>
+      </div>
+      <div class="study-section">
+        <div class="study-label">Context</div>
+        <div class="study-body" id="studyContext"></div>
+      </div>
+      <div class="study-section">
+        <div class="study-label">What it means</div>
+        <div class="study-body" id="studyMeaning"></div>
+      </div>
+      <div class="study-section">
+        <div class="study-label">For today</div>
+        <div class="study-body study-italic" id="studyApplication"></div>
+      </div>
+    </div>
+
+    <!-- Reflection -->
+    <div class="reflection-card">
+      <div class="study-eyebrow"><span>✿</span><span>Reflect</span></div>
+      <div class="reflection-prompt" id="reflectionPrompt"></div>
+      <textarea class="reflection-input" id="reflectionText" placeholder="write what comes to mind..."></textarea>
+      <button class="btn-primary" onclick="saveReflection()">Save reflection</button>
+    </div>
+
+    <!-- Actions -->
+    <div class="moti-actions" style="margin-top:14px">
+      <button class="moti-btn" onclick="prevVerse()">← Previous</button>
+      <button class="moti-btn" onclick="nextVerse()">Next →</button>
+    </div>
+  </div>
+</div>
+
 <!-- ============== WELLNESS ============== -->
 <div class="page" id="wellness">
   <div class="page-header">
@@ -1488,48 +2021,80 @@ body{
   <div class="wellness-page">
     <div class="wellness-intro">A little check-in. Just for you, just for today.</div>
 
-    <!-- Mood -->
-    <div class="well-card">
-      <div class="well-title">Today's mood <em>tap one</em></div>
-      <div class="mood-row" id="moodRow">
-        <button class="mood-btn" data-m="1" onclick="setDailyMood(1)">😔</button>
-        <button class="mood-btn" data-m="2" onclick="setDailyMood(2)">😕</button>
-        <button class="mood-btn" data-m="3" onclick="setDailyMood(3)">😐</button>
-        <button class="mood-btn" data-m="4" onclick="setDailyMood(4)">🙂</button>
-        <button class="mood-btn" data-m="5" onclick="setDailyMood(5)">✨</button>
-      </div>
+    <!-- Wellness tabs -->
+    <div class="well-tabs">
+      <button class="well-tab active" data-tab="checkin" onclick="setWellTab('checkin')">Check-in</button>
+      <button class="well-tab" data-tab="diary" onclick="setWellTab('diary')">Diary</button>
+      <button class="well-tab" data-tab="highlights" onclick="setWellTab('highlights')">Highlights</button>
     </div>
 
-    <!-- Sleep -->
-    <div class="well-card">
-      <div class="well-title">Sleep <em>last night</em></div>
-      <div class="sleep-grid">
-        <div class="sleep-input-wrap">
-          <div class="sleep-label">Bed</div>
-          <input type="time" class="sleep-input" id="bedTime" onchange="calcSleep()">
-        </div>
-        <div class="sleep-input-wrap">
-          <div class="sleep-label">Wake</div>
-          <input type="time" class="sleep-input" id="wakeTime" onchange="calcSleep()">
+    <!-- Tab: Check-in (Mood + Sleep + Chart) -->
+    <div class="well-tab-content active" id="tab-checkin">
+      <!-- Mood -->
+      <div class="well-card">
+        <div class="well-title">Today's mood <em>tap one</em></div>
+        <div class="mood-row" id="moodRow">
+          <button class="mood-btn" data-m="1" onclick="setDailyMood(1)">😔</button>
+          <button class="mood-btn" data-m="2" onclick="setDailyMood(2)">😕</button>
+          <button class="mood-btn" data-m="3" onclick="setDailyMood(3)">😐</button>
+          <button class="mood-btn" data-m="4" onclick="setDailyMood(4)">🙂</button>
+          <button class="mood-btn" data-m="5" onclick="setDailyMood(5)">✨</button>
         </div>
       </div>
-      <div class="sleep-result" id="sleepResult" style="display:none">
-        <div class="sleep-hours" id="sleepHours">—</div>
-        <div class="sleep-hours-label" id="sleepLabel">hours</div>
+
+      <!-- Sleep -->
+      <div class="well-card">
+        <div class="well-title">Sleep <em>last night</em></div>
+        <div class="sleep-grid">
+          <div class="sleep-input-wrap">
+            <div class="sleep-label">Bed</div>
+            <input type="time" class="sleep-input" id="bedTime" onchange="calcSleep()">
+          </div>
+          <div class="sleep-input-wrap">
+            <div class="sleep-label">Wake</div>
+            <input type="time" class="sleep-input" id="wakeTime" onchange="calcSleep()">
+          </div>
+        </div>
+        <div class="sleep-result" id="sleepResult" style="display:none">
+          <div class="sleep-hours" id="sleepHours">—</div>
+          <div class="sleep-hours-label" id="sleepLabel">hours</div>
+        </div>
+      </div>
+
+      <!-- Mood chart -->
+      <div class="well-card">
+        <div class="well-title">Past 7 days</div>
+        <div class="chart-week" id="chartWeek"></div>
       </div>
     </div>
 
-    <!-- Mood chart -->
-    <div class="well-card">
-      <div class="well-title">Past 7 days</div>
-      <div class="chart-week" id="chartWeek"></div>
+    <!-- Tab: Diary -->
+    <div class="well-tab-content" id="tab-diary">
+      <div class="well-card" id="journalCard">
+        <div class="well-title">Diary <em id="journalTitleSub">private</em></div>
+        <div id="journalContent"></div>
+      </div>
     </div>
 
-    <!-- Journal -->
-    <div class="well-card" id="journalCard">
-      <div class="well-title">Diary <em id="journalTitleSub">private</em></div>
-      <div id="journalContent"></div>
+    <!-- Tab: Highlights -->
+    <div class="well-tab-content" id="tab-highlights">
+      <div class="highlights-intro">
+        <div class="highlights-title-row">
+          <div>
+            <div class="serif" style="font-style:italic;font-size:18px;color:var(--ink)">One photo a week</div>
+            <div style="font-size:12px;color:var(--ink-faint);margin-top:4px;font-family:'Fraunces',serif;font-style:italic">Build a year of moments — slowly, gently.</div>
+          </div>
+          <div class="week-badge" id="weekBadge">Week —</div>
+        </div>
+
+        <div id="thisWeekStatus"></div>
+
+        <input type="file" id="photoInput" accept="image/*" style="display:none" onchange="handlePhotoUpload(event)">
+      </div>
+
+      <div class="highlights-grid" id="highlightsGrid"></div>
     </div>
+
   </div>
 </div>
 
@@ -1550,6 +2115,10 @@ body{
   <button class="nav-btn" data-page="motivation" onclick="go('motivation')">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2l2.4 7.6H22l-6.2 4.5 2.4 7.6L12 17.2 5.8 21.7l2.4-7.6L2 9.6h7.6z"/></svg>
     <span class="nav-label">Word</span>
+  </button>
+  <button class="nav-btn" data-page="scripture" onclick="go('scripture')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 4v16a2 2 0 0 0 2 2h14V2H6a2 2 0 0 0-2 2z"/><path d="M8 6h8M8 10h8M8 14h5"/></svg>
+    <span class="nav-label">Verse</span>
   </button>
   <button class="nav-btn" data-page="wellness" onclick="go('wellness')">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>
@@ -1627,6 +2196,17 @@ body{
   </div>
 </div>
 
+<!-- Photo lightbox -->
+<div class="lightbox" id="lightbox" onclick="if(event.target===this)closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightboxImg" src="" alt="">
+  <div class="lightbox-actions">
+    <button onclick="replaceCurrentHighlight()">Replace</button>
+    <button onclick="deleteCurrentHighlight()">Delete</button>
+  </div>
+  <div class="lightbox-meta" id="lightboxMeta"></div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -1653,6 +2233,11 @@ const state = {
   sleepData:{},
   journalEntries:[],
   streak:0,
+  scriptureFilter:'all',
+  scriptureIndex:null,
+  reflections:{},
+  wellTab:'checkin',
+  highlights:[],
 };
 
 // ============== DEFAULT INVENTORY (Kayley's full collection) ==============
@@ -1820,6 +2405,154 @@ const MOTIVATIONS = [
   {t:"Get up. Get dressed. Get going. The world's gonna feel YOU today.", a:"Hype"},
 ];
 
+// ============== SCRIPTURE LIBRARY ==============
+const VERSES = [
+  {
+    ref:"Psalm 46:10",
+    trans:"kjv",
+    text:"Be still, and know that I am God: I will be exalted among the heathen, I will be exalted in the earth.",
+    context:"Written during a time of national upheaval. The psalmist speaks to a people surrounded by chaos — wars, shaking mountains, roaring waters — and offers them a single command: stillness.",
+    meaning:"To 'be still' here is not passivity. The Hebrew word implies cease striving, let your hands fall, stop trying to control. It is a deliberate surrender — not weakness, but trust.",
+    application:"When the day feels too loud, the to-do list too long, your skin too reactive, your heart too tired — pause. The God who holds galaxies also holds you. You don't have to fix everything today.",
+    prompt:"Where in your life right now are you striving when stillness is what's being asked of you?"
+  },
+  {
+    ref:"Jeremiah 29:11",
+    trans:"modern",
+    text:"For I know the plans I have for you, declares the Lord, plans to prosper you and not to harm you, plans to give you hope and a future.",
+    context:"Written to Israelites in exile in Babylon — a people displaced, anxious, uncertain whether they had any future at all. Jeremiah delivers this letter from God to people who felt forgotten.",
+    meaning:"God's plans rarely match our timeline. The Israelites would remain in exile for 70 more years. The promise wasn't immediate rescue — it was assured purpose. He knows. He sees. The plan is good even when the chapter you're in is hard.",
+    application:"You are not a mistake. You are not behind. The waiting is part of the plan, not a delay in it. Trust the chapter you're in is preparing you for the one you can't see yet.",
+    prompt:"What part of your life feels like 'exile' right now — and what might God be preparing in you through it?"
+  },
+  {
+    ref:"Genesis 5:24",
+    trans:"kjv",
+    text:"And Enoch walked with God: and he was not; for God took him.",
+    context:"Tucked into a list of genealogies, this single verse stands out. Among generations who 'lived and died,' Enoch alone is described differently. He walked. And then — he was simply taken.",
+    meaning:"To 'walk with God' is a pattern, not a moment. It's daily, ordinary closeness. Enoch's intimacy with God was so real that death didn't fit the rhythm of his life. He didn't die — he was translated, taken up while still walking.",
+    application:"You don't need a dramatic spiritual life to be close to God. Just walk. One day at a time. Talk to Him while you do your skincare, while you commute, while you wash dishes. The walk is the point.",
+    prompt:"What does walking with God look like for you in this season — not in a perfect future, but in this very ordinary today?"
+  },
+  {
+    ref:"1 Enoch 1:2",
+    trans:"enoch",
+    text:"And he took up his parable and said — Enoch, a righteous man, whose eyes were opened by God, saw the vision of the Holy One in the heavens, which the angels showed me.",
+    context:"The Book of Enoch (1 Enoch) is an ancient Jewish text — quoted in the New Testament book of Jude. Though not in the Protestant canon, it was widely read by early Christians and is canonical in Ethiopian Orthodox tradition.",
+    meaning:"Enoch is described as a righteous man whose eyes were opened — he sees what most cannot. The text frames spiritual sight as a gift, something granted, not earned. The angels are the messengers; Enoch is the witness.",
+    application:"There are seasons where God opens your eyes to things others don't see. Don't dismiss the small visions, the gut nudges, the quiet knowings. They might be the very things you're meant to carry forward.",
+    prompt:"What has God shown you recently that you've been tempted to dismiss as coincidence or imagination?"
+  },
+  {
+    ref:"Proverbs 3:5-6",
+    trans:"kjv",
+    text:"Trust in the Lord with all thine heart; and lean not unto thine own understanding. In all thy ways acknowledge him, and he shall direct thy paths.",
+    context:"Proverbs is wisdom literature — written largely by Solomon to his son. This passage sits in a chapter teaching a young man how to live a good and steady life.",
+    meaning:"'Lean not unto thine own understanding' isn't a dismissal of intelligence — it's a warning against self-reliance. Our understanding is partial. God's is complete. Acknowledge Him in everything, and the path becomes clear.",
+    application:"You don't have to have it figured out. Surrender the timeline, the outcome, the how. Direction comes when you stop demanding to see the whole map.",
+    prompt:"What decision are you trying to figure out right now where you need to lean less on your own understanding?"
+  },
+  {
+    ref:"Isaiah 58:11",
+    trans:"modern",
+    text:"The Lord will guide you continually, and satisfy your soul in drought, and make strong your bones; and you shall be like a watered garden, like a spring of water, whose waters do not fail.",
+    context:"Isaiah is speaking to a people who had been performing religion without justice — fasting while oppressing the poor. God promises that genuine devotion (caring for the broken) leads to deep, sustaining life.",
+    meaning:"Even in drought — emotional, spiritual, financial, relational — God promises continual guidance and inner satisfaction. A 'watered garden' is fed from underground; the source isn't visible, but it never fails.",
+    application:"When you feel dry, look beneath. The spring is still flowing even when the surface looks parched. Care for others. Show up. The water will rise.",
+    prompt:"Where do you feel spiritually or emotionally dry right now? What 'underground spring' might still be feeding you?"
+  },
+  {
+    ref:"Psalm 23:1-3",
+    trans:"kjv",
+    text:"The Lord is my shepherd; I shall not want. He maketh me to lie down in green pastures: he leadeth me beside the still waters. He restoreth my soul.",
+    context:"Written by David — a former shepherd himself. He understood intimately what it took to keep a flock alive: finding water, fending off predators, leading them through dangerous terrain.",
+    meaning:"The shepherd doesn't drive the sheep — he leads. He doesn't shame them into the green pastures — he makes them lie down. There is a tenderness here. A patience. A rest that's commanded, not optional.",
+    application:"You are not behind. You are being led. If you feel exhausted, maybe today is a 'lie down in green pastures' kind of day — and rest is obedience, not laziness.",
+    prompt:"What does your soul need restoring from? Can you give it permission to rest today?"
+  },
+  {
+    ref:"1 Peter 5:7",
+    trans:"modern",
+    text:"Cast all your anxiety on him because he cares for you.",
+    context:"Peter writes to scattered, persecuted Christians — believers facing real fear, loss, displacement. This isn't wishful thinking; it's a survival instruction.",
+    meaning:"The Greek word for 'cast' is forceful — to hurl, to throw with intention. Anxiety isn't just felt, it's carried. Peter says: don't carry it. Throw it. He cares.",
+    application:"Pick one anxiety today. Name it specifically. Then physically — out loud or in writing — give it to Him. Don't pick it back up an hour later. Practice the casting.",
+    prompt:"What anxiety have you been carrying that you need to actively cast onto Him today?"
+  },
+  {
+    ref:"Psalm 30:5",
+    trans:"kjv",
+    text:"For his anger endureth but a moment; in his favour is life: weeping may endure for a night, but joy cometh in the morning.",
+    context:"David writes this after recovering from serious illness — a song of dedication and gratitude. The psalm holds the full arc of grief and restoration.",
+    meaning:"The 'night' here isn't always literal. It's the season of weeping, of unanswered prayers, of feeling far from God. But mornings come. Always. Joy isn't absent — it's coming.",
+    application:"If today is a night for you, hold on. Mornings are not earned by doing more. They arrive. Your job is to keep breathing through the dark.",
+    prompt:"What 'night' are you in right now, and what would believing morning is coming change about how you face today?"
+  },
+  {
+    ref:"1 John 4:4",
+    trans:"kjv",
+    text:"Greater is he that is in you, than he that is in the world.",
+    context:"John writes to early Christians being deceived by false teachers. He reminds them that the Spirit of God within them is more powerful than any spirit of deception working in the world.",
+    meaning:"You are not weaker than what's coming against you. The accuser, the doubt, the fear, the comparison — none of it has the final word. The One in you outranks the one out there.",
+    application:"When the lies feel loud — that you're not enough, not loved, not progressing — remember whose voice carries more weight. The Greater One is in you. Walk like it.",
+    prompt:"What lie about yourself have you been agreeing with that the Greater One in you would push back against?"
+  },
+  {
+    ref:"Philippians 4:6-7",
+    trans:"modern",
+    text:"Do not be anxious about anything, but in every situation, by prayer and petition, with thanksgiving, present your requests to God. And the peace of God, which transcends all understanding, will guard your hearts and minds.",
+    context:"Paul writes from prison — a man genuinely entitled to anxiety. Yet he speaks of peace as something present and available even there.",
+    meaning:"The formula isn't magic — pray, ask, give thanks, then peace guards you. The Greek word for 'guard' is military: to garrison, to stand watch. Peace doesn't wait until problems resolve. It posts up before they do.",
+    application:"Anxiety lies about what you can control. Prayer reframes. Thanksgiving rewires. Try it as practice today: name one anxiety, ask specifically, then thank Him for three things — and watch what guards your mind.",
+    prompt:"What three things — small or big — can you genuinely give thanks for today, even in the middle of what's hard?"
+  },
+  {
+    ref:"1 Enoch 39:6",
+    trans:"enoch",
+    text:"In those days mine eyes saw the dwelling of the elect and the dwelling of the righteous, where the holy and elect ones rest. And there mine eyes saw their dwellings with His righteous angels.",
+    context:"This passage from 1 Enoch describes a vision of the heavenly realms — the resting place of the righteous. The book is heavy with apocalyptic imagery and a vivid spiritual cosmology.",
+    meaning:"There is rest prepared for the righteous. Not earned by perfection, but prepared by grace. The dwelling exists. The angels are already there. Your weariness is not the final word.",
+    application:"When the day demands more than you have, remember: there is a rest prepared. The exhaustion is temporary. Show up tired if you must. Just keep showing up.",
+    prompt:"What does 'rest prepared for the righteous' mean for you in a culture that worships hustle?"
+  },
+  {
+    ref:"Romans 8:28",
+    trans:"modern",
+    text:"And we know that in all things God works for the good of those who love him, who have been called according to his purpose.",
+    context:"Paul writes to Roman Christians during a tense political climate. This verse follows a section about creation groaning and the Spirit interceding when we don't know what to pray.",
+    meaning:"It does NOT say all things are good — that would be a lie. It says God WORKS in all things for good. The pain isn't reframed as positive; it's woven into a larger purpose you may not yet see.",
+    application:"You don't have to pretend the hard thing is fine. You can grieve. You can be angry. AND — you can trust that none of it is wasted. Both can be true at once.",
+    prompt:"What painful thing in your past can you now see God worked good through, even though it was real pain?"
+  },
+  {
+    ref:"Lamentations 3:22-23",
+    trans:"kjv",
+    text:"It is of the Lord's mercies that we are not consumed, because his compassions fail not. They are new every morning: great is thy faithfulness.",
+    context:"Lamentations is a book of grief — written after the destruction of Jerusalem. The prophet Jeremiah weeps through five chapters. And yet here, in the middle of devastation, this song of mercy.",
+    meaning:"His mercies are NEW every morning. Not recycled. Not earned. Brand new, custom-made for the day you wake into. Yesterday's failures don't reduce today's mercy.",
+    application:"Whatever you carried yesterday — the missed routine, the harsh words, the comfort eating, the spiritual drift — does not deplete today's mercy. There is fresh grace waiting. Receive it.",
+    prompt:"What from yesterday do you need to release in order to receive the mercy that is new this morning?"
+  },
+  {
+    ref:"Matthew 11:28-29",
+    trans:"modern",
+    text:"Come to me, all you who are weary and burdened, and I will give you rest. Take my yoke upon you and learn from me, for I am gentle and humble in heart, and you will find rest for your souls.",
+    context:"Jesus speaks these words after harshly rebuking unrepentant cities. The contrast is striking: stern with the proud, tender with the tired.",
+    meaning:"He doesn't ask you to be less weary before you come. The invitation is for the weary. The yoke — usually a symbol of burden — is offered as the path TO rest. His way is lighter than the way you've been carrying it alone.",
+    application:"Stop trying to earn the rest by finishing the list. Come tired. Come overwhelmed. He's not waiting for the version of you that has it together.",
+    prompt:"What burden have you been carrying alone that He's actually inviting you to bring to Him?"
+  },
+  {
+    ref:"Psalm 139:14",
+    trans:"kjv",
+    text:"I will praise thee; for I am fearfully and wonderfully made: marvellous are thy works; and that my soul knoweth right well.",
+    context:"David writes one of the most intimate psalms — a meditation on being fully known by God. This verse comes after marveling at how God formed him in the womb.",
+    meaning:"'Fearfully' means with reverence and awe. You weren't an accident. You weren't manufactured. You were crafted with deliberate, awe-inspiring care. Every freckle, every scar, every tendency.",
+    application:"The skin you criticise was knit. The body you rush past was formed. The personality you apologise for was designed. You are not a problem to be solved — you are a marvel to be marvelled at.",
+    prompt:"What part of yourself have you been treating as a flaw that you might receive as fearfully and wonderfully made?"
+  },
+];
+
 // ============== HELPERS ==============
 function $(id){return document.getElementById(id)}
 function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1800)}
@@ -1854,6 +2587,7 @@ function go(page){
   if(page==='skincare'){renderSkincare()}
   if(page==='products'){renderProducts()}
   if(page==='motivation'){renderMotivation()}
+  if(page==='scripture'){renderScripture()}
   if(page==='wellness'){renderWellness()}
 }
 
@@ -1881,6 +2615,9 @@ function renderLanding(){
 
   const ritualMeta=isRetinolNight()?'tonight is a retinol night':(isMaskFriendlyNight()?'mask-friendly evening':'gentle evening ahead');
   $('ritualMeta').textContent=`— ${ritualMeta}`;
+  // Today's verse ref on landing
+  const todaysVerse=VERSES[dayOfYear()%VERSES.length];
+  if(todaysVerse&&$('verseRefHome'))$('verseRefHome').textContent=todaysVerse.ref;
 
   $('streakNum').textContent=state.streak;
 }
@@ -2431,6 +3168,71 @@ function shareMotivation(){
   else if(navigator.clipboard){navigator.clipboard.writeText(text);toast('Copied')}
 }
 
+// ============== SCRIPTURE ==============
+function getFilteredVerses(){
+  if(state.scriptureFilter==='all')return VERSES;
+  return VERSES.filter(v=>v.trans===state.scriptureFilter);
+}
+
+function renderScripture(){
+  const list=getFilteredVerses();
+  if(list.length===0){
+    $('verseRef').textContent='—';
+    $('verseText').textContent='No verses in this translation yet.';
+    return;
+  }
+  // Stay on current verse if visible, else default to today's verse
+  if(state.scriptureIndex===null||state.scriptureIndex>=list.length){
+    state.scriptureIndex=dayOfYear()%list.length;
+  }
+  const v=list[state.scriptureIndex];
+  $('verseRef').textContent=v.ref;
+  $('verseText').textContent=v.text;
+  const transLabels={kjv:'King James Version',modern:'Modern Translation',enoch:'Book of Enoch'};
+  $('verseTrans').textContent=transLabels[v.trans]||'';
+  $('studyContext').textContent=v.context;
+  $('studyMeaning').textContent=v.meaning;
+  $('studyApplication').textContent=v.application;
+  $('reflectionPrompt').textContent=v.prompt;
+
+  // Update toggle state
+  document.querySelectorAll('.trans-btn').forEach(b=>{
+    b.classList.toggle('active',b.dataset.trans===state.scriptureFilter);
+  });
+
+  // Load saved reflection for this verse
+  const saved=state.reflections[v.ref]||'';
+  if($('reflectionText'))$('reflectionText').value=saved;
+}
+
+function setTrans(t){
+  state.scriptureFilter=t;
+  state.scriptureIndex=null;  // reset to today's index in new filter
+  renderScripture();
+}
+
+function nextVerse(){
+  const list=getFilteredVerses();
+  state.scriptureIndex=(state.scriptureIndex+1)%list.length;
+  renderScripture();
+}
+function prevVerse(){
+  const list=getFilteredVerses();
+  state.scriptureIndex=(state.scriptureIndex-1+list.length)%list.length;
+  renderScripture();
+}
+
+async function saveReflection(){
+  const text=$('reflectionText').value;
+  const list=getFilteredVerses();
+  const v=list[state.scriptureIndex];
+  if(!v)return;
+  state.reflections[v.ref]=text;
+  await sbSetting('reflection_'+v.ref,text);
+  saveLocal();
+  toast('Reflection saved');
+}
+
 // ============== WELLNESS ==============
 function renderWellness(){
   if(state.todayMood){
@@ -2444,6 +3246,15 @@ function renderWellness(){
   }
   renderMoodChart();
   renderJournalCard();
+  renderHighlights();
+}
+
+function setWellTab(tab){
+  state.wellTab=tab;
+  document.querySelectorAll('.well-tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));
+  document.querySelectorAll('.well-tab-content').forEach(c=>c.classList.remove('active'));
+  $('tab-'+tab).classList.add('active');
+  if(tab==='highlights')renderHighlights();
 }
 
 async function setDailyMood(m){
@@ -2611,6 +3422,224 @@ async function saveJournal(){
 
 function lockJournal(){state.pinUnlocked=false;renderJournalCard()}
 
+// ============== HIGHLIGHTS ==============
+function getWeekKey(date=new Date()){
+  // ISO week: Mon-Sun. Returns YYYY-Www
+  const d=new Date(Date.UTC(date.getFullYear(),date.getMonth(),date.getDate()));
+  const dayNum=d.getUTCDay()||7;
+  d.setUTCDate(d.getUTCDate()+4-dayNum);
+  const yearStart=new Date(Date.UTC(d.getUTCFullYear(),0,1));
+  const weekNum=Math.ceil(((d-yearStart)/86400000+1)/7);
+  return `${d.getUTCFullYear()}-W${String(weekNum).padStart(2,'0')}`;
+}
+
+function getWeekRange(weekKey){
+  // Returns "Mon DD - Sun DD" for a given week key
+  const [year,wk]=weekKey.split('-W').map(Number);
+  const jan4=new Date(Date.UTC(year,0,4));
+  const dayOfWeek=jan4.getUTCDay()||7;
+  const monday=new Date(jan4);
+  monday.setUTCDate(jan4.getUTCDate()-dayOfWeek+1+(wk-1)*7);
+  const sunday=new Date(monday);
+  sunday.setUTCDate(monday.getUTCDate()+6);
+  const fmt=d=>d.toLocaleDateString('en-GB',{day:'numeric',month:'short',timeZone:'UTC'});
+  return `${fmt(monday)} – ${fmt(sunday)}`;
+}
+
+function renderHighlights(){
+  const currentWeek=getWeekKey();
+  $('weekBadge').textContent=getWeekRange(currentWeek);
+
+  const thisWeek=state.highlights.find(h=>h.week_key===currentWeek);
+  const status=$('thisWeekStatus');
+  if(thisWeek){
+    status.innerHTML=`<div class="this-week-photo">
+      <img src="${thisWeek.photo_url}" alt="this week">
+      <div class="this-week-overlay">
+        <div class="this-week-meta">This week's pick</div>
+        <button class="replace-link" onclick="document.getElementById('photoInput').click()">Replace</button>
+      </div>
+    </div>`;
+  } else {
+    status.innerHTML=`<button class="upload-cta" onclick="document.getElementById('photoInput').click()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 19V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2z"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+      Pick this week's moment
+    </button>
+    <div id="uploadProgress" style="display:none"><div class="upload-progress"><div class="upload-progress-bar" id="uploadProgressBar"></div></div></div>`;
+  }
+
+  // Past highlights (excluding current week)
+  const past=state.highlights.filter(h=>h.week_key!==currentWeek).sort((a,b)=>b.week_key.localeCompare(a.week_key));
+  const grid=$('highlightsGrid');
+  if(past.length===0){
+    grid.innerHTML=`<div class="highlights-empty">
+      <div class="highlights-empty-mark">✦</div>
+      <div class="highlights-empty-text">Your collection grows here.<br>One picture, one week at a time.</div>
+    </div>`;
+  } else {
+    grid.innerHTML=past.map(h=>`
+      <div class="highlight-tile" onclick="openLightbox('${h.week_key}')">
+        <img src="${h.photo_url}" alt="${h.week_key}" loading="lazy">
+        <div class="highlight-tile-overlay">${getWeekRange(h.week_key)}</div>
+      </div>
+    `).join('');
+  }
+}
+
+async function handlePhotoUpload(event){
+  const file=event.target.files[0];
+  if(!file)return;
+  if(!sb){toast('Cloud not connected');return}
+
+  const currentWeek=getWeekKey();
+  const progressWrap=$('uploadProgress');
+  const progressBar=$('uploadProgressBar');
+  if(progressWrap){progressWrap.style.display='block';progressBar.style.width='10%'}
+
+  try{
+    // Compress image first to keep storage costs sensible
+    const compressed=await compressImage(file,1600,0.85);
+    if(progressBar)progressBar.style.width='40%';
+
+    const ext=file.name.split('.').pop()||'jpg';
+    const path=`${currentWeek}-${Date.now()}.${ext}`;
+
+    // Delete existing photo for this week if it exists
+    const existing=state.highlights.find(h=>h.week_key===currentWeek);
+    if(existing&&existing.storage_path){
+      try{await sb.storage.from('kayley_highlights').remove([existing.storage_path])}catch(e){}
+    }
+
+    // Upload new photo
+    const {data:uploadData,error:uploadErr}=await sb.storage.from('kayley_highlights').upload(path,compressed,{upsert:true,contentType:'image/jpeg'});
+    if(uploadErr)throw uploadErr;
+    if(progressBar)progressBar.style.width='75%';
+
+    // Get public URL
+    const {data:urlData}=sb.storage.from('kayley_highlights').getPublicUrl(path);
+    const photoUrl=urlData.publicUrl;
+
+    // Save metadata to DB
+    await sb.from('kayley_highlights').upsert({
+      week_key:currentWeek,
+      photo_url:photoUrl,
+      storage_path:path,
+    },{onConflict:'week_key'});
+
+    if(progressBar)progressBar.style.width='100%';
+
+    // Update local state
+    if(existing){
+      existing.photo_url=photoUrl;
+      existing.storage_path=path;
+    } else {
+      state.highlights.push({week_key:currentWeek,photo_url:photoUrl,storage_path:path});
+    }
+
+    setTimeout(()=>{
+      renderHighlights();
+      toast('Saved to your collection');
+    },300);
+  }catch(e){
+    console.error(e);
+    toast('Upload failed — try again');
+    if(progressWrap)progressWrap.style.display='none';
+  }
+
+  // Reset input so same file can be picked again if needed
+  event.target.value='';
+}
+
+function compressImage(file,maxDim,quality){
+  return new Promise((resolve,reject)=>{
+    const reader=new FileReader();
+    reader.onload=e=>{
+      const img=new Image();
+      img.onload=()=>{
+        let{width,height}=img;
+        if(width>height&&width>maxDim){
+          height=Math.round(height*(maxDim/width));
+          width=maxDim;
+        } else if(height>maxDim){
+          width=Math.round(width*(maxDim/height));
+          height=maxDim;
+        }
+        const canvas=document.createElement('canvas');
+        canvas.width=width;canvas.height=height;
+        const ctx=canvas.getContext('2d');
+        ctx.drawImage(img,0,0,width,height);
+        canvas.toBlob(blob=>resolve(blob),'image/jpeg',quality);
+      };
+      img.onerror=reject;
+      img.src=e.target.result;
+    };
+    reader.onerror=reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+let currentLightboxKey=null;
+function openLightbox(weekKey){
+  const h=state.highlights.find(x=>x.week_key===weekKey);
+  if(!h)return;
+  currentLightboxKey=weekKey;
+  $('lightboxImg').src=h.photo_url;
+  $('lightboxMeta').textContent=getWeekRange(weekKey);
+  $('lightbox').classList.add('show');
+}
+function closeLightbox(){
+  $('lightbox').classList.remove('show');
+  currentLightboxKey=null;
+}
+function replaceCurrentHighlight(){
+  if(!currentLightboxKey)return;
+  // Temporarily swap current week so upload replaces this one
+  const original=getWeekKey();
+  const replaceKey=currentLightboxKey;
+  closeLightbox();
+  // Trigger picker; on upload, point to this week instead
+  const input=$('photoInput');
+  const originalHandler=input.onchange;
+  input.onchange=async function(e){
+    input.onchange=originalHandler;
+    const file=e.target.files[0];
+    if(!file)return;
+    if(!sb){toast('Cloud not connected');return}
+    try{
+      const compressed=await compressImage(file,1600,0.85);
+      const ext=file.name.split('.').pop()||'jpg';
+      const path=`${replaceKey}-${Date.now()}.${ext}`;
+      const existing=state.highlights.find(h=>h.week_key===replaceKey);
+      if(existing&&existing.storage_path){
+        try{await sb.storage.from('kayley_highlights').remove([existing.storage_path])}catch(e){}
+      }
+      const {error}=await sb.storage.from('kayley_highlights').upload(path,compressed,{upsert:true,contentType:'image/jpeg'});
+      if(error)throw error;
+      const {data:urlData}=sb.storage.from('kayley_highlights').getPublicUrl(path);
+      await sb.from('kayley_highlights').upsert({week_key:replaceKey,photo_url:urlData.publicUrl,storage_path:path},{onConflict:'week_key'});
+      if(existing){existing.photo_url=urlData.publicUrl;existing.storage_path=path}
+      renderHighlights();
+      toast('Replaced');
+    }catch(err){console.error(err);toast('Upload failed')}
+    e.target.value='';
+  };
+  input.click();
+}
+async function deleteCurrentHighlight(){
+  if(!currentLightboxKey)return;
+  if(!confirm('Delete this highlight? This cannot be undone.'))return;
+  const h=state.highlights.find(x=>x.week_key===currentLightboxKey);
+  if(!h)return;
+  try{
+    if(h.storage_path)await sb.storage.from('kayley_highlights').remove([h.storage_path]);
+    await sb.from('kayley_highlights').delete().eq('week_key',currentLightboxKey);
+    state.highlights=state.highlights.filter(x=>x.week_key!==currentLightboxKey);
+    closeLightbox();
+    renderHighlights();
+    toast('Deleted');
+  }catch(e){toast('Delete failed')}
+}
+
 // ============== SUPABASE OPS ==============
 async function sbInsert(p){
   if(!sb)return;
@@ -2675,7 +3704,19 @@ async function loadFromCloud(){
       if(pinSetting&&pinSetting.value)state.pin=pinSetting.value;
       const streakSetting=settings.find(s=>s.key==='streak');
       if(streakSetting)state.streak=Number(streakSetting.value)||0;
+      // Load reflections (any setting key starting with reflection_)
+      settings.forEach(s=>{
+        if(s.key&&s.key.startsWith('reflection_')&&s.value){
+          state.reflections[s.key.replace('reflection_','')]=s.value;
+        }
+      });
     }
+
+    // Highlights
+    try{
+      const {data:highlights}=await sb.from('kayley_highlights').select('*').order('week_key',{ascending:false});
+      if(highlights)state.highlights=highlights;
+    }catch(e){console.warn('highlights table not ready',e)}
 
     saveLocal();
   }catch(e){
@@ -2700,6 +3741,7 @@ function saveLocal(){
       todayMood:state.todayMood,
       sleepData:state.sleepData,
       streak:state.streak,
+      reflections:state.reflections,
       lastSeen:todayKey()
     }));
   }catch(e){}
@@ -2714,6 +3756,7 @@ function loadLocal(){
       state.todayMood=s.todayMood||null;
       state.sleepData=s.sleepData||{};
       state.streak=s.streak||0;
+      state.reflections=s.reflections||{};
     } else {
       state.products=DEFAULT_PRODUCTS.map((p,i)=>({...p,id:i+1,stock:p.stock||'full'}));
     }
