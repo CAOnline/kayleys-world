@@ -2772,16 +2772,15 @@ function renderRoutine(){
       ]
     });
 
-    // 8. Moisturise → HA mist → Rosehip
+    // 8. Moisturise → HA mist
     const moisturiser = m==='breakout' ? "Neutrogena Clear & Defend Moisturiser" : (m==='sensitive'?"Cetaphil Moisturising Lotion":(m==='dull'||m==='normal'?"Innisfree Green Tea Ceramide Milk":"Nuage Ceramide Daily Moisturiser"));
     steps.push({
       title:"Moisturise",
       icon:"❁",
       products:[
         {p:moisturiser,m:"press in, don't rub"},
-        {p:"Sunkissed Hydrating Mist (HA + Vit E)",m:"spritz over moisturiser to seal hydration"},
-        m!=='oily'&&m!=='breakout'?{p:"The Ordinary Rosehip Oil",m:"1-2 drops — locks everything in"}:null
-      ].filter(Boolean)
+        {p:"Sunkissed Hydrating Mist (HA + Vit E)",m:"spritz over moisturiser to seal hydration"}
+      ]
     });
 
     // 9. Vit C mist (energising)
@@ -2791,27 +2790,26 @@ function renderRoutine(){
       products:[{p:"Sunkissed Vitamin C Energising Mist (Aloe)",m:"AM only — glow boost. Skip if using niacinamide today"}]
     });
 
-    // 10. Primer
-    steps.push({
-      title:"Prime",
-      icon:"◇",
-      products:[{p:"Maybelline Fit Me 2% Niacinamide Primer Serum",m:"preps for makeup + extends wear"}]
-    });
-
-    // 11. SPF
+    // 10. SPF
     steps.push({
       title:"SPF — non-negotiable",
       icon:"☀",
-      products:[{p:"Bondi Sands Face SPF 50+",m:"two finger lengths — last step, every single day"}]
+      products:[{p:"Bondi Sands Face SPF 50+",m:"two finger lengths — every single day"}]
     });
 
-    // 12. Lips & brows
+    // 11. Primer
     steps.push({
-      title:"Lips & brows",
+      title:"Prime",
+      icon:"◇",
+      products:[{p:"Maybelline Fit Me 2% Niacinamide Primer Serum",m:"after SPF — preps for makeup + extends wear"}]
+    });
+
+    // 12. Lips
+    steps.push({
+      title:"Lips",
       icon:"♡",
       products:[
-        {p:"Vaseline / Daise Peptide Lip Butter",m:"hydrate before makeup"},
-        {p:"Rosemary Oil on brows",m:"daily — promotes growth"}
+        {p:"Vaseline / Daise Peptide Lip Butter",m:"hydrate before makeup"}
       ]
     });
 
