@@ -2746,18 +2746,20 @@ function renderRoutine(){
       });
     }
 
-    // 6. Serums
-    const serumProducts=[];
+    // 6. Serums (HA always first on damp skin, then actives)
+    const serumProducts=[{p:"AOC Hyaluronic Serum",m:"on damp skin — always first"}];
+    
     if(m==='dull'){
-      serumProducts.push({p:"Florence by Mills Vitamin C Serum",m:"glow boost — never with niacinamide same day"});
-    } else if(m==='oily'||m==='breakout'){
-      serumProducts.push({p:"The Ordinary Niacinamide 10%",m:"oil control & calm — not with Vit C"});
-    } else if(m==='sensitive'){
-      serumProducts.push({p:"AOC Hyaluronic Serum",m:"hydration only — keep it minimal today"});
-    } else {
-      serumProducts.push({p:"AOC Hyaluronic Serum",m:"on damp skin"});
+      serumProducts.push({p:"Florence by Mills Vitamin C Serum",m:"after HA — glow boost, never with niacinamide same day"});
+    } else if(m==='oily'){
+      serumProducts.push({p:"The Ordinary Niacinamide 10%",m:"after HA — oil control & calm, not with Vit C"});
+    } else if(m==='breakout'){
+      serumProducts.push({p:"The Ordinary Niacinamide 10%",m:"after HA — calms inflammation"});
+    } else if(m==='calm'){
       serumProducts.push({p:"The Ordinary Niacinamide",m:"after HA, before moisturiser"});
     }
+    // Sensitive gets HA only (no extra actives)
+    
     steps.push({title:"Serums",icon:"✺",products:serumProducts});
 
     // 7. Eye care
@@ -2789,14 +2791,21 @@ function renderRoutine(){
       products:[{p:"Sunkissed Vitamin C Energising Mist (Aloe)",m:"AM only — glow boost. Skip if using niacinamide today"}]
     });
 
-    // 10. SPF
+    // 10. Primer
+    steps.push({
+      title:"Prime",
+      icon:"◇",
+      products:[{p:"Maybelline Fit Me 2% Niacinamide Primer Serum",m:"preps for makeup + extends wear"}]
+    });
+
+    // 11. SPF
     steps.push({
       title:"SPF — non-negotiable",
       icon:"☀",
       products:[{p:"Bondi Sands Face SPF 50+",m:"two finger lengths — last step, every single day"}]
     });
 
-    // 11. Lips & brows
+    // 12. Lips & brows
     steps.push({
       title:"Lips & brows",
       icon:"♡",
