@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#E8DFF1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Ritual — Kayley's World</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&family=Outfit:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link rel="stylesheet" href="shared.css">
+</head>
+<body>
+<div class="aurora"></div>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+<div class="loader" id="loader">
+  <div class="loader-mark">Kayley's World</div>
+  <div class="loader-line"></div>
+</div>
+<div class="app">
+
+<!-- Wake Up With Steve entry card -->
+<div style="padding: 20px 24px 0; padding-top: calc(20px + env(safe-area-inset-top,0px));">
+  <div class="nav-card" onclick="window.location.href='steve.html'" style="margin-bottom:0; background: linear-gradient(135deg, rgba(232,223,241,0.8), rgba(244,232,236,0.8)); display:flex; align-items:center; gap:16px; padding:18px 20px;">
+    <div style="font-size:28px; animation: float 4s ease-in-out infinite;">👽</div>
+    <div style="flex:1">
+      <div class="nav-card-title" style="font-size:16px;">Wake Up With Steve</div>
+      <div class="nav-card-desc">Check in · earn XP · start your morning routine</div>
+    </div>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--ink-faint)"><path d="M9 6l6 6-6 6"/></svg>
+  </div>
+</div>
+
+<div class="page active" id="skincare">
+  <div class="page-header">
+    <div class="page-title-stack">
+      <div class="eyebrow">The Ritual</div>
+      <h2 class="page-title">Today's<br><em>Routine</em></h2>
+    </div>
+  </div>
+
+  <div class="flow-container">
+    <div class="week-strip" id="weekStrip"></div>
+
+    <div class="time-toggle">
+      <button class="active" data-time="am" onclick="setTime('am')">Morning</button>
+      <button data-time="pm" onclick="setTime('pm')">Evening</button>
+    </div>
+
+    <div id="smartHint"></div>
+
+    <div class="section-eyebrow">How is skin feeling?</div>
+    <div class="mood-grid" id="moodGrid">
+      <div class="mood-pill" data-mood="normal" onclick="setMood('normal')">
+        <div class="mood-icon">◯</div>
+        <div><div class="mood-name">Calm</div><div class="mood-desc">Normal day</div></div>
+      </div>
+      <div class="mood-pill" data-mood="oily" onclick="setMood('oily')">
+        <div class="mood-icon">◑</div>
+        <div><div class="mood-name">Oily</div><div class="mood-desc">Shiny / congested</div></div>
+      </div>
+      <div class="mood-pill" data-mood="breakout" onclick="setMood('breakout')">
+        <div class="mood-icon">✦</div>
+        <div><div class="mood-name">Breakout</div><div class="mood-desc">Spots active</div></div>
+      </div>
+      <div class="mood-pill" data-mood="sensitive" onclick="setMood('sensitive')">
+        <div class="mood-icon">❀</div>
+        <div><div class="mood-name">Sensitive</div><div class="mood-desc">Reactive day</div></div>
+      </div>
+      <div class="mood-pill" data-mood="dull" onclick="setMood('dull')">
+        <div class="mood-icon">✺</div>
+        <div><div class="mood-name">Dull</div><div class="mood-desc">Glow boost</div></div>
+      </div>
+      <div class="mood-pill" data-mood="mask" onclick="setMood('mask')">
+        <div class="mood-icon">⌘</div>
+        <div><div class="mood-name">Mask Day</div><div class="mood-desc">Treat yourself</div></div>
+      </div>
+    </div>
+
+    <div id="routine"></div>
+  </div>
+</div>
+
+</div><!-- /app -->
+
+<div class="bottom-nav">
+  <button class="nav-btn" onclick="window.location.href='index.html'">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9.5L12 3l9 6.5V21H3z"/><path d="M9 21V12h6v9"/></svg>
+    <span class="nav-label">Home</span>
+  </button>
+  <button class="nav-btn active" onclick="window.location.href='routine.html'">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2C8 2 6 6 6 9c0 6 6 13 6 13s6-7 6-13c0-3-2-7-6-7z"/></svg>
+    <span class="nav-label">Ritual</span>
+  </button>
+  <button class="nav-btn" onclick="window.location.href='products.html'">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 5h18l-2 14H5z"/><path d="M9 5V3h6v2"/></svg>
+    <span class="nav-label">Shelf</span>
+  </button>
+  <button class="nav-btn" onclick="window.location.href='motivation.html'">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2l2.4 7.6H22l-6.2 4.5 2.4 7.6L12 17.2 5.8 21.7l2.4-7.6L2 9.6h7.6z"/></svg>
+    <span class="nav-label">Word</span>
+  </button>
+  <button class="nav-btn" onclick="window.location.href='scripture.html'">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 4v16a2 2 0 0 0 2 2h14V2H6a2 2 0 0 0-2 2z"/><path d="M8 6h8M8 10h8M8 14h5"/></svg>
+    <span class="nav-label">Verse</span>
+  </button>
+  <button class="nav-btn" onclick="window.location.href='wellness.html'">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>
+    <span class="nav-label">Inner</span>
+  </button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="shared.js"></script>
+<script>
+
+async function init(){
+  await loadFromCloud();
+  renderSkincare();
+  setTimeout(()=>{
+    $('loader').classList.add('hide');
+    setTimeout(()=>$('loader').remove(),700);
+  },800);
+}
+init();
+</script>
+</body>
+</html>
