@@ -24,17 +24,7 @@
 </div>
 <div class="app">
 
-<!-- Wake Up With Steve entry card -->
-<div style="padding: 20px 24px 0; padding-top: calc(20px + env(safe-area-inset-top,0px));">
-  <div class="nav-card" onclick="window.location.href='steve.html'" style="margin-bottom:0; background: linear-gradient(135deg, rgba(232,223,241,0.8), rgba(244,232,236,0.8)); display:flex; align-items:center; gap:16px; padding:18px 20px;">
-    <div style="font-size:28px; animation: float 4s ease-in-out infinite;">👽</div>
-    <div style="flex:1">
-      <div class="nav-card-title" style="font-size:16px;">Wake Up With Steve</div>
-      <div class="nav-card-desc">Check in · earn XP · start your morning routine</div>
-    </div>
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--ink-faint)"><path d="M9 6l6 6-6 6"/></svg>
-  </div>
-</div>
+
 
 <div class="page active" id="skincare">
   <div class="page-header">
@@ -86,6 +76,86 @@
   </div>
 </div>
 
+<!-- Steve — floating routine companion -->
+<div id="steveCompanion" style="
+  position:fixed;
+  bottom:calc(96px + env(safe-area-inset-bottom,0px));
+  right:18px;
+  z-index:90;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:6px;
+  pointer-events:none;
+">
+  <!-- Speech bubble -->
+  <div id="steveBubble" style="
+    background:rgba(255,255,255,0.82);
+    backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);
+    border:1px solid rgba(255,255,255,0.8);
+    border-radius:16px 16px 4px 16px;
+    padding:9px 13px;
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-size:12px;
+    color:#54485E;
+    max-width:180px;
+    line-height:1.4;
+    box-shadow:0 4px 16px rgba(149,121,181,0.15);
+    opacity:0;
+    transform:translateY(6px);
+    transition:opacity 0.4s ease, transform 0.4s ease;
+    pointer-events:none;
+  "></div>
+
+  <!-- Steve body -->
+  <div onclick="steveTap()" style="pointer-events:all;cursor:pointer;">
+    <svg style="animation:steveFloat 4s ease-in-out infinite;filter:drop-shadow(0 4px 12px rgba(180,140,255,0.35));display:block;" width="54" height="64" viewBox="0 0 160 190" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="sbg" cx="45%" cy="35%" r="60%">
+          <stop offset="0%" stop-color="#f0e6ff" stop-opacity="0.95"/>
+          <stop offset="40%" stop-color="#d8c8f8" stop-opacity="0.85"/>
+          <stop offset="100%" stop-color="#b8a0e8" stop-opacity="0.7"/>
+        </radialGradient>
+        <radialGradient id="sey" cx="35%" cy="30%" r="60%">
+          <stop offset="0%" stop-color="#ffffff"/>
+          <stop offset="60%" stop-color="#d0b8ff"/>
+          <stop offset="100%" stop-color="#7050a0"/>
+        </radialGradient>
+        <filter id="sg"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
+      <ellipse cx="80" cy="108" rx="58" ry="72" fill="url(#sbg)" filter="url(#sg)"/>
+      <ellipse cx="62" cy="78" rx="20" ry="25" fill="rgba(255,255,255,0.2)"/>
+      <line x1="60" y1="40" x2="48" y2="14" stroke="#c8b0ee" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="48" cy="12" r="5" fill="#e0c8ff"/>
+      <circle cx="48" cy="12" r="2" fill="white"/>
+      <line x1="100" y1="40" x2="113" y2="16" stroke="#c8b0ee" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="113" cy="14" r="5" fill="#c8e8ff"/>
+      <circle cx="113" cy="14" r="2" fill="white"/>
+      <ellipse cx="60" cy="100" rx="14" ry="17" fill="url(#sey)"/>
+      <ellipse cx="100" cy="100" rx="14" ry="17" fill="url(#sey)"/>
+      <circle cx="54" cy="93" r="5" fill="white" opacity="0.9"/>
+      <circle cx="94" cy="93" r="5" fill="white" opacity="0.9"/>
+      <ellipse cx="62" cy="102" rx="6" ry="8" fill="#5030a0" opacity="0.6"/>
+      <ellipse cx="102" cy="102" rx="6" ry="8" fill="#5030a0" opacity="0.6"/>
+      <ellipse cx="45" cy="118" rx="9" ry="4" fill="rgba(255,180,200,0.3)"/>
+      <ellipse cx="115" cy="118" rx="9" ry="4" fill="rgba(255,180,200,0.3)"/>
+      <path d="M 68 128 Q 80 138 92 128" stroke="#b090d8" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <ellipse cx="24" cy="120" rx="11" ry="8" fill="url(#sbg)" opacity="0.8"/>
+      <ellipse cx="136" cy="120" rx="11" ry="8" fill="url(#sbg)" opacity="0.8"/>
+      <ellipse cx="80" cy="172" rx="30" ry="12" fill="url(#sbg)" opacity="0.5"/>
+    </svg>
+  </div>
+</div>
+
+<style>
+@keyframes steveFloat {
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-8px)}
+}
+</style>
+
 </div><!-- /app -->
 
 <div class="bottom-nav">
@@ -119,10 +189,83 @@
 
 <script src="shared.js"></script>
 <script>
+const SUPABASE_URL = 'https://dvszoijgydqzkxnmlxmy.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_TdkDtE_ZxkXb8194CD6A_Q_oUliAHBR';
+let sb = null;
+try{ sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY); }catch(e){ console.warn('supabase init failed'); }
+
+// ── Steve companion ──
+const steveAM = {
+  normal:  "good morning ✨ skin's looking calm today — let's keep it that way",
+  oily:    "oily day? no stress 💧 we've got the right steps for this",
+  breakout:"spots happen 🌿 tea tree and patches incoming — you've got this",
+  sensitive:"gentle mode ON 🌸 Steve is being very careful today",
+  dull:    "glow up incoming ☀️ vit C is about to do its thing",
+  mask:    "mask day!! Steve is SO excited for you 🫧"
+};
+const stevePM = {
+  normal:  "evening routine time 🌙 wash the day away lovely",
+  oily:    "salicylic tonight 💚 let's clear those pores while you sleep",
+  breakout:"retinol night incoming ✦ tea tree first, then we go in",
+  sensitive:"gentle gentle 🌸 no actives tonight — just calm and hydrate",
+  dull:    "glow serums tonight 🌹 rosehip as your last step, chef's kiss",
+  mask:    "mask night! 🧖 not retinol night tho — Steve checked 👀"
+};
+const steveTaps = [
+  "hi Kayley!! 💜","you smell amazing already","Steve believes in you ✨",
+  "don't forget SPF!! ☀️","you're doing so well 🌸","almost glowing fr 👽"
+];
+let tapIdx = 0;
+
+function steveSpeak(msg){
+  const b = document.getElementById('steveBubble');
+  if(!b) return;
+  b.textContent = msg;
+  b.style.opacity = '1';
+  b.style.transform = 'translateY(0)';
+  clearTimeout(steveSpeak._t);
+  steveSpeak._t = setTimeout(()=>{
+    b.style.opacity = '0';
+    b.style.transform = 'translateY(6px)';
+  }, 4000);
+}
+
+function steveTap(){
+  steveSpeak(steveTaps[tapIdx % steveTaps.length]);
+  tapIdx++;
+  // little bounce
+  const svg = document.querySelector('#steveCompanion svg');
+  if(svg){ svg.style.animation='none'; void svg.offsetWidth; svg.style.animation='steveFloat 4s ease-in-out infinite'; }
+}
+
+function steveReact(time, mood){
+  const bank = time === 'am' ? steveAM : stevePM;
+  const msg = bank[mood] || bank.normal;
+  setTimeout(()=> steveSpeak(msg), 300);
+}
+
+// Hook into setTime and setMood
+const _origSetTime = typeof setTime === 'function' ? setTime : null;
+const _origSetMood = typeof setMood === 'function' ? setMood : null;
+
+function setTime(t){
+  state.time = t;
+  renderSkincare();
+  steveReact(t, state.mood);
+}
+function setMood(m){
+  state.mood = m;
+  renderSkincare();
+  steveReact(state.time, m);
+}
 
 async function init(){
   await loadFromCloud();
   renderSkincare();
+  // Steve says hi on load
+  const hour = new Date().getHours();
+  const timeOfDay = hour < 12 ? 'am' : 'pm';
+  setTimeout(()=> steveSpeak(hour < 12 ? "good morning Kayley ✨ ready to glow?" : hour < 19 ? "hey lovely 🌸 afternoon routine?" : "evening ritual time 🌙 let's go"), 1200);
   setTimeout(()=>{
     $('loader').classList.add('hide');
     setTimeout(()=>$('loader').remove(),700);
