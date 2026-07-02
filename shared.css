@@ -247,3 +247,19 @@ em{font-style:italic;}
 .product-name{color:#fff;font-size:14.5px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .product-meta-row{color:var(--ink-faint);font-size:12px;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .empty{text-align:center;color:var(--ink-faint);padding:60px 20px;font-family:'Fraunces',serif;font-style:italic;}
+
+/* ── diary / pin lock ── */
+.journal-locked{text-align:center;padding:10px 0;}
+.lock-icon{font-size:26px;color:var(--gold);margin-bottom:10px;}
+.pin-display{display:flex;justify-content:center;gap:12px;margin-bottom:22px;}
+.pin-dot{width:12px;height:12px;border-radius:50%;border:1.5px solid var(--glass-b);background:transparent;transition:.2s;}
+.pin-dot.filled{background:var(--rose);border-color:var(--rose);}
+.pin-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:260px;margin:0 auto;}
+.pin-pad button{background:var(--glass);border:1px solid var(--glass-b);color:#fff;font-family:'Outfit',sans-serif;font-size:18px;font-weight:500;border-radius:14px;padding:16px 0;cursor:pointer;min-height:48px;}
+.pin-pad button:active{background:var(--glass-2);transform:scale(0.96);}
+.pin-pad button.pin-action{font-size:13px;color:var(--ink-dim);}
+.edit-link{color:var(--ink-faint);font-size:12px;text-decoration:underline;cursor:pointer;}
+.journal-textarea{width:100%;min-height:140px;background:rgba(0,0,0,0.2);border:1px solid var(--glass-b);border-radius:14px;padding:14px;color:var(--ink);font-family:'Outfit',sans-serif;font-size:16px;resize:vertical;margin-bottom:12px;line-height:1.5;}
+.past-entry{background:rgba(0,0,0,0.15);border:1px solid var(--glass-b);border-radius:14px;padding:12px 14px;margin-bottom:8px;}
+.past-entry-date{font-size:11px;color:var(--gold);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;}
+.past-entry-preview{font-size:13px;color:var(--ink-dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
