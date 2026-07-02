@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Cognitive Triangle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink-0:#0c181d;
+    --ink-1:#10222a;
+    --ink-2:#173039;
+    --surface:rgba(255,255,255,0.045);
+    --surface-2:rgba(255,255,255,0.07);
+    --line:rgba(255,255,255,0.10);
+    --text:#eaf1ef;
+    --text-dim:#9db2b0;
+    --text-faint:#6f8683;
+
+    --thought:#77d0d6;   /* cool aqua  */
+    --emotion:#e79f86;   /* warm rose  */
+    --behave:#c7bd7a;    /* sage gold  */
+    --body:#b79cd6;      /* soft violet*/
+
+    --thought-soft:rgba(119,208,214,0.14);
+    --emotion-soft:rgba(231,159,134,0.14);
+    --behave-soft:rgba(199,189,122,0.14);
+    --body-soft:rgba(183,156,214,0.14);
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    font-family:'Inter',system-ui,-apple-system,sans-serif;
+    background:
+      radial-gradient(120% 90% at 50% -10%, #1a3540 0%, var(--ink-1) 45%, var(--ink-0) 100%);
+    color:var(--text);
+    line-height:1.6;
+    min-height:100vh;
+    padding:clamp(18px,4vw,44px) clamp(14px,4vw,20px) 80px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:760px;margin:0 auto}
+
+  /* ---------- Header ---------- */
+  header{text-align:center;margin-bottom:clamp(24px,5vw,40px)}
+  .eyebrow{
+    font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;
+    color:var(--text-faint);font-weight:500;margin-bottom:14px;
+  }
+  h1{
+    font-family:'Cormorant Garamond',serif;
+    font-weight:500;
+    font-size:clamp(2.6rem,9vw,4.2rem);
+    line-height:1.02;letter-spacing:.01em;
+  }
+  h1 em{font-style:italic;color:var(--thought)}
+  .sub{
+    color:var(--text-dim);max-width:42ch;margin:16px auto 0;
+    font-size:clamp(.94rem,2.6vw,1.02rem);
+  }
+
+  /* ---------- Triangle stage ---------- */
+  .stage{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:26px;
+    padding:clamp(14px,3vw,26px);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    margin-bottom:20px;
+  }
+  .tri-svg{width:100%;height:auto;display:block;overflow:visible;touch-action:manipulation}
+  .edge{fill:none;stroke:var(--line);stroke-width:1.5}
+  .edge-flow{
+    fill:none;stroke-width:1.5;stroke-linecap:round;
+    stroke-dasharray:2 12;opacity:.55;
+    animation:flow 3.4s linear infinite;
+  }
+  @keyframes flow{to{stroke-dashoffset:-140}}
+  .node{cursor:pointer;outline:none}
+  .node circle{transition:r .3s cubic-bezier(.2,.8,.2,1),fill .3s,stroke .3s}
+  .node .halo{opacity:0;transition:opacity .35s;transform-origin:center}
+  .node .glyph{font-family:'Inter';font-weight:600;font-size:11px;fill:var(--ink-0)}
+  .node .cap{
+    font-family:'Cormorant Garamond',serif;font-style:italic;
+    font-size:19px;font-weight:600;fill:var(--text);
+  }
+  .node .capsub{font-family:'Inter';font-size:8.5px;letter-spacing:.18em;fill:var(--text-faint);text-transform:uppercase}
+  .node.on .halo{opacity:.9;animation:breathe 3.2s ease-in-out infinite}
+  @keyframes breathe{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.18);opacity:.9}}
+  .node:focus-visible circle.core{stroke:#fff;stroke-width:2.5}
+
+  .center-node{cursor:pointer;transition:opacity .4s}
+  .center-hidden{opacity:0;pointer-events:none}
+
+  /* toggle row */
+  .stage-foot{
+    display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;justify-content:center;
+    margin-top:16px;padding-top:16px;border-top:1px solid var(--line);
+  }
+  .legend{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
+  .legdot{display:inline-flex;align-items:center;gap:7px;font-size:.8rem;color:var(--text-dim)}
+  .legdot i{width:9px;height:9px;border-radius:50%;display:inline-block}
+  .switch{
+    display:inline-flex;align-items:center;gap:9px;cursor:pointer;
+    font-size:.82rem;color:var(--text-dim);user-select:none;
+    background:var(--surface-2);border:1px solid var(--line);
+    padding:7px 13px;border-radius:999px;
+  }
+  .switch .track{width:34px;height:19px;border-radius:999px;background:rgba(255,255,255,.12);position:relative;transition:background .3s}
+  .switch .thumb{position:absolute;top:2px;left:2px;width:15px;height:15px;border-radius:50%;background:#cfdad8;transition:transform .3s}
+  .switch.active .track{background:var(--body)}
+  .switch.active .thumb{transform:translateX(15px);background:#fff}
+
+  /* ---------- Detail card (vertex meaning) ---------- */
+  .detail{
+    border-radius:20px;padding:20px 20px 22px;margin-bottom:26px;
+    border:1px solid var(--line);background:var(--surface);
+    min-height:60px;transition:border-color .3s;
+  }
+  .detail .dhead{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+  .detail .chip{
+    font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;font-weight:600;
+    padding:5px 11px;border-radius:999px;
+  }
+  .detail h3{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.5rem}
+  .detail p{color:var(--text-dim);font-size:.95rem;margin-top:4px}
+  .detail .eg{
+    margin-top:14px;padding:12px 14px;border-radius:12px;
+    background:rgba(0,0,0,.18);font-size:.9rem;color:var(--text-dim);
+  }
+  .detail .eg b{color:var(--text);font-weight:500}
+  .detail.placeholder{display:flex;align-items:center;justify-content:center;text-align:center;color:var(--text-faint);font-style:italic;font-family:'Cormorant Garamond',serif;font-size:1.15rem}
+
+  /* ---------- Tabs ---------- */
+  .tabs{display:flex;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:5px;margin-bottom:22px}
+  .tab{
+    flex:1;text-align:center;padding:10px 8px;border-radius:999px;cursor:pointer;
+    font-size:.82rem;font-weight:500;color:var(--text-dim);border:none;background:none;
+    font-family:inherit;letter-spacing:.02em;transition:all .25s;
+  }
+  .tab.active{background:var(--surface-2);color:var(--text)}
+  .panel{display:none;animation:rise .45s cubic-bezier(.2,.8,.2,1)}
+  .panel.active{display:block}
+  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+  /* section heading */
+  .sec-title{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.35rem;margin-bottom:4px;color:var(--text)}
+  .sec-note{font-size:.85rem;color:var(--text-faint);margin-bottom:16px}
+
+  /* scenario chips */
+  .chips{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:20px}
+  .chip-btn{
+    font-family:inherit;font-size:.85rem;color:var(--text-dim);cursor:pointer;
+    background:var(--surface);border:1px solid var(--line);border-radius:999px;
+    padding:9px 15px;transition:all .22s;
+  }
+  .chip-btn:hover{color:var(--text);border-color:rgba(255,255,255,.22)}
+  .chip-btn.active{background:var(--thought-soft);border-color:var(--thought);color:#fff}
+
+  /* scenario detail */
+  .scn{border:1px solid var(--line);border-radius:20px;overflow:hidden;background:var(--surface)}
+  .scn-top{padding:18px 20px;border-bottom:1px solid var(--line)}
+  .scn-top .sit-label{font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--text-faint);margin-bottom:6px}
+  .scn-top .sit{font-family:'Cormorant Garamond',serif;font-size:1.35rem;line-height:1.25;color:var(--text)}
+  .loop{display:grid;grid-template-columns:1fr;gap:1px;background:var(--line)}
+  .loop-row{background:var(--ink-1);padding:15px 20px;display:flex;gap:14px;align-items:flex-start}
+  .loop-row .k{flex-shrink:0;width:74px;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600;padding-top:3px}
+  .loop-row .v{font-size:.95rem;color:var(--text)}
+  .k.t{color:var(--thought)} .k.e{color:var(--emotion)} .k.b{color:var(--behave)} .k.p{color:var(--body)}
+  .reframe{padding:20px;background:linear-gradient(180deg,rgba(119,208,214,.06),transparent)}
+  .reframe .rlabel{display:flex;align-items:center;gap:8px;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--thought);margin-bottom:10px;font-weight:600}
+  .reframe .rthought{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.3rem;line-height:1.3;color:#fff;margin-bottom:12px}
+  .reframe .rshift{font-size:.9rem;color:var(--text-dim)}
+  .reframe .rshift b{color:var(--behave);font-weight:500}
+
+  /* your turn form */
+  .field{margin-bottom:16px}
+  .field label{display:block;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:600;margin-bottom:7px}
+  .field label.t{color:var(--thought)} .field label.e{color:var(--emotion)} .field label.b{color:var(--behave)} .field label.s{color:var(--text-dim)} .field label.r{color:#fff}
+  .field textarea,.field input{
+    width:100%;font-family:inherit;font-size:.95rem;color:var(--text);
+    background:rgba(0,0,0,.22);border:1px solid var(--line);border-radius:12px;
+    padding:12px 14px;resize:vertical;transition:border-color .2s;
+  }
+  .field textarea:focus,.field input:focus{outline:none;border-color:rgba(255,255,255,.3)}
+  .field textarea::placeholder,.field input::placeholder{color:var(--text-faint)}
+  .field.reframe-field{background:linear-gradient(180deg,rgba(119,208,214,.05),transparent);border:1px solid var(--thought-soft);border-radius:14px;padding:16px;margin-top:22px}
+  .prompts{list-style:none;margin-top:6px}
+  .prompts li{font-size:.9rem;color:var(--text-dim);padding:7px 0 7px 20px;position:relative}
+  .prompts li::before{content:'';position:absolute;left:2px;top:15px;width:6px;height:6px;border-radius:50%;background:var(--thought);opacity:.7}
+
+  /* toolkit */
+  .acc{border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:10px;background:var(--surface)}
+  .acc-head{width:100%;text-align:left;background:none;border:none;font-family:inherit;color:var(--text);
+    padding:15px 18px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:.95rem}
+  .acc-head .name{font-weight:500}
+  .acc-head .plus{color:var(--text-faint);font-size:1.3rem;transition:transform .3s;flex-shrink:0}
+  .acc.open .plus{transform:rotate(45deg)}
+  .acc-body{max-height:0;overflow:hidden;transition:max-height .35s ease}
+  .acc-body .inner{padding:0 18px 16px;color:var(--text-dim);font-size:.9rem}
+  .acc-body .inner .egline{margin-top:8px;color:var(--text-faint);font-style:italic}
+
+  footer{text-align:center;margin-top:40px;color:var(--text-faint);font-size:.78rem;line-height:1.7}
+  footer .cormo{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1rem;color:var(--text-dim)}
+
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">Cognitive Behavioural Therapy</div>
+    <h1>The Cognitive <em>Triangle</em></h1>
+    <p class="sub">A situation doesn't dictate how you feel — your thoughts about it do. And thoughts, feelings and actions all pull on each other. Change one point, and the whole loop moves.</p>
+  </header>
+
+  <!-- ============ TRIANGLE STAGE ============ -->
+  <div class="stage">
+    <svg class="tri-svg" viewBox="0 0 400 400" role="img" aria-label="Interactive cognitive triangle">
+      <defs>
+        <radialGradient id="gT" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#77d0d6" stop-opacity=".55"/>
+          <stop offset="100%" stop-color="#77d0d6" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="gE" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#e79f86" stop-opacity=".55"/>
+          <stop offset="100%" stop-color="#e79f86" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="gB" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#c7bd7a" stop-opacity=".55"/>
+          <stop offset="100%" stop-color="#c7bd7a" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="gP" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#b79cd6" stop-opacity=".5"/>
+          <stop offset="100%" stop-color="#b79cd6" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+
+      <!-- edges -->
+      <line class="edge" x1="200" y1="86"  x2="86"  y2="300"/>
+      <line class="edge" x1="200" y1="86"  x2="314" y2="300"/>
+      <line class="edge" x1="86"  y1="300" x2="314" y2="300"/>
+      <line class="edge-flow" x1="200" y1="86"  x2="86"  y2="300" stroke="var(--thought)"/>
+      <line class="edge-flow" x1="314" y1="300" x2="200" y2="86"  stroke="var(--behave)"/>
+      <line class="edge-flow" x1="86"  y1="300" x2="314" y2="300" stroke="var(--emotion)"/>
+
+      <!-- centre / body node (hidden until toggled) -->
+      <g class="center-node center-hidden" id="bodyNode" tabindex="0" role="button" aria-label="Physical sensations">
+        <circle class="halo" cx="200" cy="228" r="40" fill="url(#gP)"/>
+        <circle class="core" cx="200" cy="228" r="26" fill="var(--body-soft)" stroke="var(--body)" stroke-width="1.5"/>
+        <text class="cap" x="200" y="226" text-anchor="middle" style="font-size:15px">Body</text>
+        <text class="capsub" x="200" y="240" text-anchor="middle">sensations</text>
+      </g>
+
+      <!-- Thoughts -->
+      <g class="node" id="nT" data-key="thought" tabindex="0" role="button" aria-label="Thoughts">
+        <circle class="halo" cx="200" cy="86" r="52" fill="url(#gT)"/>
+        <circle class="core" cx="200" cy="86" r="40" fill="var(--thought-soft)" stroke="var(--thought)" stroke-width="1.5"/>
+        <text class="cap" x="200" y="82" text-anchor="middle">Thoughts</text>
+        <text class="capsub" x="200" y="98" text-anchor="middle">what you tell yourself</text>
+      </g>
+      <!-- Emotions -->
+      <g class="node" id="nE" data-key="emotion" tabindex="0" role="button" aria-label="Emotions">
+        <circle class="halo" cx="86" cy="300" r="52" fill="url(#gE)"/>
+        <circle class="core" cx="86" cy="300" r="40" fill="var(--emotion-soft)" stroke="var(--emotion)" stroke-width="1.5"/>
+        <text class="cap" x="86" y="296" text-anchor="middle">Emotions</text>
+        <text class="capsub" x="86" y="312" text-anchor="middle">what you feel</text>
+      </g>
+      <!-- Behaviour -->
+      <g class="node" id="nB" data-key="behave" tabindex="0" role="button" aria-label="Behaviour">
+        <circle class="halo" cx="314" cy="300" r="52" fill="url(#gB)"/>
+        <circle class="core" cx="314" cy="300" r="40" fill="var(--behave-soft)" stroke="var(--behave)" stroke-width="1.5"/>
+        <text class="cap" x="314" y="296" text-anchor="middle">Behaviour</text>
+        <text class="capsub" x="314" y="312" text-anchor="middle">what you do</text>
+      </g>
+    </svg>
+
+    <div class="stage-foot">
+      <div class="legend">
+        <span class="legdot"><i style="background:var(--thought)"></i>Thoughts</span>
+        <span class="legdot"><i style="background:var(--emotion)"></i>Emotions</span>
+        <span class="legdot"><i style="background:var(--behave)"></i>Behaviour</span>
+      </div>
+      <button class="switch" id="bodyToggle" aria-pressed="false">
+        <span class="track"><span class="thumb"></span></span>
+        Add body
+      </button>
+    </div>
+  </div>
+
+  <!-- vertex meaning card -->
+  <div class="detail placeholder" id="detail">Tap a point of the triangle to see what lives there.</div>
+
+  <!-- ============ TABS ============ -->
+  <div class="tabs" role="tablist">
+    <button class="tab active" data-tab="scn" role="tab">Scenarios</button>
+    <button class="tab" data-tab="own" role="tab">Your turn</button>
+    <button class="tab" data-tab="kit" role="tab">Toolkit</button>
+  </div>
+
+  <!-- SCENARIOS -->
+  <section class="panel active" id="p-scn">
+    <div class="sec-title">See the loop in motion</div>
+    <div class="sec-note">Pick a situation. Watch how one thought sets off a whole chain — then how a fairer thought shifts it.</div>
+    <div class="chips" id="chips"></div>
+    <div id="scnBox"></div>
+  </section>
+
+  <!-- YOUR TURN -->
+  <section class="panel" id="p-own">
+    <div class="sec-title">Map your own loop</div>
+    <div class="sec-note">Nothing is saved — this is just a space to lay it out and see it clearly.</div>
+    <div class="field"><label class="s">The situation — what happened?</label><input type="text" placeholder="e.g. Someone didn't reply to my message"></div>
+    <div class="field"><label class="t">The thought — what did you tell yourself?</label><textarea rows="2" placeholder="e.g. They're annoyed with me. I've done something wrong."></textarea></div>
+    <div class="field"><label class="e">The emotion — what did you feel? (0–100%)</label><input type="text" placeholder="e.g. Anxious 80%, ashamed 60%"></div>
+    <div class="field"><label class="b">The behaviour — what did you do (or avoid)?</label><textarea rows="2" placeholder="e.g. Kept checking my phone, drafted three apology messages, sent none"></textarea></div>
+    <div class="field"><label class="s">The body — where did you feel it?</label><input type="text" placeholder="e.g. Tight chest, restless, couldn't settle"></div>
+    <div class="field reframe-field"><label class="r">The reframe — what's a fairer, more balanced thought?</label><textarea rows="2" placeholder="e.g. People get busy. One quiet hour isn't proof of anything. I can ask instead of assuming."></textarea></div>
+    <p class="sec-note" style="margin-top:14px">Stuck on the reframe? The <b style="color:var(--text-dim);font-weight:500">Toolkit</b> tab has questions to interrogate the thought with.</p>
+  </section>
+
+  <!-- TOOLKIT -->
+  <section class="panel" id="p-kit">
+    <div class="sec-title">Challenge a thought</div>
+    <div class="sec-note">A thought isn't a fact just because it's loud. Run it through these.</div>
+    <ul class="prompts" id="prompts"></ul>
+
+    <div class="sec-title" style="margin-top:26px">Thinking traps</div>
+    <div class="sec-note">The usual ways the mind bends things. Naming one takes half its power.</div>
+    <div id="distortions"></div>
+  </section>
+
+  <footer>
+    <p class="cormo">Thoughts are weather, not climate.</p>
+    <p style="margin-top:8px">A self-help tool, not a substitute for a therapist. If things feel heavy, talking to a professional or someone you trust is worth more than any worksheet.</p>
+  </footer>
+
+</div>
+
+<script>
+/* ---------- vertex meanings ---------- */
+const MEANING = {
+  thought:{name:'Thoughts',col:'var(--thought)',soft:'var(--thought-soft)',
+    desc:'The running commentary — interpretations, predictions, judgements, the "what this means" your mind supplies automatically. Often so fast you feel the emotion before you notice the thought that caused it.',
+    eg:'The skill is catching the thought <b>as a thought</b> — a guess your mind made — rather than reading it as the truth of the situation.'},
+  emotion:{name:'Emotions',col:'var(--emotion)',soft:'var(--emotion-soft)',
+    desc:'What you feel in response — anxious, low, ashamed, angry, calm. Emotions are real and valid, but they follow the thought. They\u2019re messengers, not verdicts.',
+    eg:'Feeling something strongly doesn\u2019t make the thought behind it accurate. "I feel like a failure" is a feeling, not evidence.'},
+  behave:{name:'Behaviour',col:'var(--behave)',soft:'var(--behave-soft)',
+    desc:'What you do because of the feeling — and crucially, what you avoid. Avoidance soothes in the moment but usually feeds the loop, quietly teaching the fear that it was right.',
+    eg:'Behaviour is the point you can most easily grab hold of. You can\u2019t always argue a feeling away, but you can choose the next action.'},
+  body:{name:'Body',col:'var(--body)',soft:'var(--body-soft)',
+    desc:'The physical layer — racing heart, tight chest, heavy limbs, restlessness. The body often rings the alarm first, and the mind then hunts for a reason, which loops back into thought.',
+    eg:'Slowing the body (breath, grounding) can loosen the whole loop from the bottom up when thoughts are too fast to catch.'}
+};
+
+/* ---------- scenarios ---------- */
+const SCN = [
+  {tag:'Unanswered message', sit:'You sent someone a message hours ago. Still nothing back.',
+   t:'They\u2019re annoyed with me. I\u2019ve said the wrong thing.', e:'Anxious, uneasy, a bit rejected',
+   b:'Re-read your message ten times, draft an apology, keep checking the phone', p:'Tight chest, can\u2019t settle',
+   r:'One quiet hour is not proof of anything. People get busy. I\u2019m reading a whole story into silence.',
+   shift:'You put the phone down and get on with something. <b>Later they reply — they were just driving.</b>'},
+
+  {tag:'A mistake at work', sit:'You spot an error in something you\u2019d already sent out.',
+   t:'I\u2019m useless. Everyone\u2019s going to see I can\u2019t do this.', e:'Shame, panic, dread',
+   b:'Freeze, avoid the inbox, over-apologise, replay it all night', p:'Hot face, stomach drop',
+   r:'A mistake is a thing I did, not a thing I am. Competent people make them and fix them.',
+   shift:'You send a calm correction. <b>It\u2019s handled in five minutes and no one thinks less of you.</b>'},
+
+  {tag:'"My past disqualifies me"', sit:'You feel a pull toward something meaningful — and immediately, a voice says you\u2019re not allowed it.',
+   t:'After everything I\u2019ve done and been, who am I to reach for something good?', e:'Unworthy, heavy, resigned',
+   b:'Talk yourself out of it before you start; stay small; don\u2019t try', p:'Sinking, tired',
+   r:'A past doesn\u2019t cancel a purpose. The people who understand pain best are often the ones who\u2019ve lived it.',
+   shift:'You let yourself take one small step toward it anyway. <b>Worth isn\u2019t earned back — it was never actually gone.</b>'},
+
+  {tag:'A wave of grief', sit:'Out of nowhere — a song, a smell, a date — and it hits you like it was yesterday.',
+   t:'I shouldn\u2019t still feel this. Something\u2019s wrong with me for not being over it.', e:'Grief, guilt for grieving',
+   b:'Push it down, distract hard, get cross at yourself for "not coping"', p:'Chest ache, throat tight, hollow',
+   r:'Grief isn\u2019t a problem to solve or a timeline to beat. It\u2019s love with nowhere to go — and it\u2019s allowed to visit.',
+   shift:'You let the wave come and pass instead of fighting it. <b>Feeling it fully is not going backwards.</b>'},
+
+  {tag:'Walking into a new room', sit:'You arrive somewhere new — a group, a community — and everyone seems to already belong.',
+   t:'They can tell I don\u2019t fit here. I\u2019m an outsider.', e:'Self-conscious, anxious, small',
+   b:'Hang by the wall, stay quiet, plan an early exit', p:'Stiff, watchful, warm-cheeked',
+   r:'Everyone was new once, and most people are too busy with their own nerves to be judging mine.',
+   shift:'You ask one person one question. <b>The "outsider" feeling was a prediction, not a fact.</b>'},
+
+  {tag:'"What if none of it\u2019s real?"', sit:'A doubt creeps in about something you\u2019ve come to believe or feel sure of.',
+   t:'What if I\u2019m fooling myself? What if I\u2019ve got it all wrong?', e:'Unsettled, exposed, shaky',
+   b:'Spiral into over-checking, seek constant reassurance, or reject the whole thing to escape the discomfort', p:'Restless, buzzy head',
+   r:'Doubt isn\u2019t the opposite of conviction — it\u2019s part of holding anything honestly. Sitting with a question is allowed.',
+   shift:'You let the doubt exist without it having to be resolved today. <b>Certainty isn\u2019t the price of meaning.</b>'},
+
+  {tag:'Partner seems distant', sit:'They\u2019re quiet and short with you this evening.',
+   t:'They\u2019re pulling away. I\u2019ve done something. This is going wrong.', e:'Anxious, hurt, defensive',
+   b:'Go cold back, pick a fight, or interrogate them', p:'Knotted stomach',
+   r:'Quiet has a hundred causes and most aren\u2019t about me. I can ask before I assume.',
+   shift:'You say "you seem a bit off — you okay?" <b>Turns out it was a rough day at work.</b>'},
+
+  {tag:'A twinge of pain', sit:'You notice an odd physical sensation you can\u2019t explain.',
+   t:'Something\u2019s seriously wrong with me.', e:'Fear, dread',
+   b:'Google symptoms for an hour, body-scan obsessively, or avoid thinking about it entirely', p:'The anxiety itself amplifies the sensation',
+   r:'Anxiety is very good at turning a twinge into a catastrophe. Noting it and giving it a few days is reasonable; so is a GP if it lingers.',
+   shift:'You note it calmly and carry on. <b>The panic fades once the spotlight is off it.</b>'},
+
+  {tag:'The task feels huge', sit:'A big project or job is sitting in front of you.',
+   t:'It\u2019s too much. I can\u2019t do all this. I\u2019ll never get through it.', e:'Overwhelmed, paralysed',
+   b:'Avoid it, scroll, do the tiny easy jobs instead, then panic as it looms', p:'Heavy, foggy, tense',
+   r:'I don\u2019t have to do "all this" — I have to do the next ten minutes of it.',
+   shift:'You start with one small piece. <b>Momentum does what willpower couldn\u2019t.</b>'},
+
+  {tag:'Someone criticised you', sit:'You get a piece of blunt feedback.',
+   t:'They think I\u2019m rubbish. This proves it.', e:'Deflated, defensive, ashamed',
+   b:'Ruminate for days, dismiss the person, or globalise it to "I\u2019m bad at everything"', p:'Flushed, tight',
+   r:'One critique is about one thing, not a verdict on all of me. There might even be something useful in it.',
+   shift:'You take the grain of truth and bin the rest. <b>Feedback stops being a threat.</b>'},
+
+  {tag:'The comparison scroll', sit:'You\u2019re on your phone and everyone else\u2019s life looks better than yours.',
+   t:'Everyone else has it figured out. I\u2019m behind.', e:'Envious, low, not-enough',
+   b:'Keep scrolling and feeling worse; measure your insides against their outsides', p:'Flat, drained',
+   r:'I\u2019m comparing my full messy reality to their edited highlight reel. That\u2019s not a fair fight.',
+   shift:'You put it down and do one real thing. <b>The "behind" feeling was manufactured.</b>'},
+
+  {tag:'3am, mind racing', sit:'You wake in the night and your brain switches straight on.',
+   t:'If I don\u2019t sleep I\u2019ll ruin tomorrow. Why can\u2019t I switch off?', e:'Frustrated, wired, anxious',
+   b:'Clock-watch, try to force sleep, wrestle every worried thought', p:'Alert, buzzing, hot',
+   r:'Rest is still rest, even without sleep. Fighting it keeps me awake more than the tiredness will hurt me.',
+   shift:'You stop trying to win and just let the body lie still. <b>Sleep tends to come once you stop chasing it.</b>'}
+];
+
+/* ---------- socratic prompts ---------- */
+const PROMPTS = [
+  'What\u2019s the actual evidence for this thought? And the evidence against it?',
+  'Is this a fact, or a feeling that\u2019s dressed up as one?',
+  'What would I say to a friend who told me this about themselves?',
+  'Is there another, kinder way to read this situation?',
+  'What\u2019s the worst case, the best case, and the most likely case?',
+  'Will this matter in a week? A year? Five years?',
+  'Am I taking responsibility for something that isn\u2019t fully in my control?',
+  'What thinking trap might I be falling into right now?',
+  'If this thought were true, what\u2019s the most helpful next step anyway?'
+];
+
+/* ---------- distortions ---------- */
+const DIST = [
+  {n:'All-or-nothing', d:'Seeing things in absolutes — perfect or a total failure, with no middle ground.', e:'"I slipped once, so the whole thing\u2019s ruined."'},
+  {n:'Catastrophising', d:'Leaping to the worst possible outcome and treating it as certain.', e:'"I made one error — I\u2019m going to lose everything."'},
+  {n:'Mind-reading', d:'Assuming you know what others are thinking, usually the worst.', e:'"They think I\u2019m an idiot."'},
+  {n:'Fortune-telling', d:'Predicting the future as if it\u2019s already fact.', e:'"This is definitely going to go wrong."'},
+  {n:'Emotional reasoning', d:'Taking a feeling as proof of reality. "I feel it, so it must be true."', e:'"I feel worthless, so I must be."'},
+  {n:'Labelling', d:'Pinning a whole identity on a single act.', e:'"I failed" becomes "I\u2019m a failure."'},
+  {n:'Should statements', d:'Rigid rules about how you or the world ought to be, breeding guilt and pressure.', e:'"I should be over this by now."'},
+  {n:'Mental filter', d:'Zooming in on one negative and screening out everything else.', e:'One critical comment erases ten good ones.'},
+  {n:'Discounting the positive', d:'Insisting good things "don\u2019t count".', e:'"They were only being nice."'},
+  {n:'Personalisation', d:'Taking the blame for things that aren\u2019t entirely (or at all) about you.', e:'"They\u2019re quiet — it must be my fault."'},
+  {n:'Overgeneralising', d:'One event becomes a never-ending pattern.', e:'"This always happens to me."'},
+  {n:'Magnifying / minimising', d:'Blowing up your flaws and shrinking your strengths.', e:'Own mistakes look huge; own wins look trivial.'}
+];
+
+/* ---------- build vertex detail ---------- */
+const detail = document.getElementById('detail');
+const nodes = document.querySelectorAll('.node, #bodyNode');
+function selectNode(key, el){
+  nodes.forEach(n=>n.classList.remove('on'));
+  if(el) el.classList.add('on');
+  const m = MEANING[key];
+  detail.classList.remove('placeholder');
+  detail.style.borderColor = m.col;
+  detail.innerHTML =
+    '<div class="dhead"><span class="chip" style="background:'+m.soft+';color:'+m.col+'">'+m.name+'</span></div>'+
+    '<p>'+m.desc+'</p><div class="eg">'+m.eg+'</div>';
+}
+document.querySelectorAll('.node').forEach(n=>{
+  const key=n.dataset.key;
+  const go=()=>selectNode(key,n);
+  n.addEventListener('click',go);
+  n.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}});
+});
+
+/* ---------- body toggle ---------- */
+const bodyToggle=document.getElementById('bodyToggle');
+const bodyNode=document.getElementById('bodyNode');
+let bodyOn=false;
+bodyToggle.addEventListener('click',()=>{
+  bodyOn=!bodyOn;
+  bodyToggle.classList.toggle('active',bodyOn);
+  bodyToggle.setAttribute('aria-pressed',bodyOn);
+  bodyNode.classList.toggle('center-hidden',!bodyOn);
+  if(bodyOn){
+    const go=()=>selectNode('body',bodyNode);
+    bodyNode.onclick=go;
+    bodyNode.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}};
+    selectNode('body',bodyNode);
+  }
+});
+
+/* ---------- tabs ---------- */
+document.querySelectorAll('.tab').forEach(t=>{
+  t.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById('p-'+t.dataset.tab).classList.add('active');
+  });
+});
+
+/* ---------- scenarios ---------- */
+const chips=document.getElementById('chips');
+const scnBox=document.getElementById('scnBox');
+SCN.forEach((s,i)=>{
+  const b=document.createElement('button');
+  b.className='chip-btn';b.textContent=s.tag;
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.chip-btn').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    renderScn(s);
+  });
+  chips.appendChild(b);
+  if(i===0){b.classList.add('active');renderScn(s);}
+});
+function renderScn(s){
+  scnBox.innerHTML=
+    '<div class="scn">'+
+      '<div class="scn-top"><div class="sit-label">The situation</div><div class="sit">'+s.sit+'</div></div>'+
+      '<div class="loop">'+
+        '<div class="loop-row"><div class="k t">Thought</div><div class="v">'+s.t+'</div></div>'+
+        '<div class="loop-row"><div class="k e">Emotion</div><div class="v">'+s.e+'</div></div>'+
+        '<div class="loop-row"><div class="k b">Behaviour</div><div class="v">'+s.b+'</div></div>'+
+        '<div class="loop-row"><div class="k p">Body</div><div class="v">'+s.p+'</div></div>'+
+      '</div>'+
+      '<div class="reframe">'+
+        '<div class="rlabel">The reframe</div>'+
+        '<div class="rthought">\u201C'+s.r+'\u201D</div>'+
+        '<div class="rshift">'+s.shift+'</div>'+
+      '</div>'+
+    '</div>';
+}
+
+/* ---------- prompts + distortions ---------- */
+const pl=document.getElementById('prompts');
+PROMPTS.forEach(p=>{const li=document.createElement('li');li.textContent=p;pl.appendChild(li);});
+
+const dbox=document.getElementById('distortions');
+DIST.forEach(d=>{
+  const wrap=document.createElement('div');wrap.className='acc';
+  wrap.innerHTML='<button class="acc-head"><span class="name">'+d.n+'</span><span class="plus">+</span></button>'+
+    '<div class="acc-body"><div class="inner">'+d.d+'<div class="egline">'+d.e+'</div></div></div>';
+  const head=wrap.querySelector('.acc-head');
+  const body=wrap.querySelector('.acc-body');
+  head.addEventListener('click',()=>{
+    const open=wrap.classList.toggle('open');
+    body.style.maxHeight=open?body.scrollHeight+'px':'0';
+  });
+  dbox.appendChild(wrap);
+});
+</script>
+</body>
+</html>
