@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<meta name="theme-color" content="#E8DFF1">
+<meta name="theme-color" content="#0a0612">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Kayley's World</title>
@@ -81,15 +81,10 @@
         <div class="nav-card-title">Daily Word</div>
         <div class="nav-card-desc">A little something</div>
       </div>
-      <div class="nav-card" onclick="window.location.href='wellness.html'">
+      <div class="nav-card tall" onclick="window.location.href='wellness.html'">
         <div class="nav-icon">◐</div>
         <div class="nav-card-title">Inner</div>
         <div class="nav-card-desc">Mood · sleep · diary</div>
-      </div>
-      <div class="nav-card" onclick="window.location.href='steve.html'">
-        <div class="nav-icon">👽</div>
-        <div class="nav-card-title">Wake Up With Steve</div>
-        <div class="nav-card-desc">Check in · routine · glow up</div>
       </div>
       <div class="nav-card tall" onclick="window.location.href='kayley-cbt-triangle.html'">
         <div class="nav-icon">△</div>
@@ -102,7 +97,6 @@
 
 </div><!-- /app -->
 
-<!-- Bottom nav -->
 <div class="bottom-nav">
   <button class="nav-btn active" onclick="window.location.href='index.html'">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9.5L12 3l9 6.5V21H3z"/><path d="M9 21V12h6v9"/></svg>
@@ -134,8 +128,6 @@
 
 <script src="shared.js"></script>
 <script>
-// Landing-specific init
-
 async function init(){
   await loadFromCloud();
   updateStreak();

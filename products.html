@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<meta name="theme-color" content="#E8DFF1">
+<meta name="theme-color" content="#0a0612">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Shelf — Kayley's World</title>
@@ -92,7 +92,7 @@
     </div>
     <div class="field"><label class="field-label">Notes</label><input class="field-input" id="pNotes" type="text" placeholder="anything to remember..."></div>
     <div class="modal-actions">
-      <button class="btn-secondary" id="deleteBtn" onclick="deleteCurrentProduct()" style="color:#C97B7B;border-color:#E8C4C4">Remove</button>
+      <button class="btn-secondary" id="deleteBtn" onclick="deleteCurrentProduct()" style="color:var(--red);border-color:rgba(251,113,133,0.3)">Remove</button>
       <button class="btn-primary" onclick="saveProduct()">Save</button>
     </div>
   </div>
@@ -129,7 +129,6 @@
 
 <script src="shared.js"></script>
 <script>
-
 async function init(){
   await loadFromCloud();
   renderProducts();

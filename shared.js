@@ -1477,34 +1477,52 @@ async function sbDelete(id){
 }
 async function sbUpsertWellness(data){
   if(!sb)return;
+  saveLocal();
   try{await sb.from('kayley_wellness').upsert(data,{onConflict:'entry_date'})}catch(e){console.warn(e)}
 }
 async function sbSaveJournal(date,text){
   if(!sb)return;
+  saveLocal();
   try{await sb.from('kayley_journal').upsert({entry_date:date,text},{onConflict:'entry_date'})}catch(e){console.warn(e)}
 }
 async function sbSetting(key,val){
   if(!sb)return;
+  saveLocal();
   try{await sb.from('kayley_settings').upsert({key,value:val},{onConflict:'key'})}catch(e){console.warn(e)}
 }
 
 async function loadFromCloud(){
-  if(!sb){loadLocal();return}
+  // CACHE-FIRST: render instantly from localStorage, sync cloud in background
+  loadLocal();
+  if(!sb)return;
+  syncFromCloud(); // no await — background
+}
+
+function withTimeout(promise,ms=4000){
+  return Promise.race([promise,new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),ms))]);
+}
+
+async function syncFromCloud(){
   try{
-    // Products
-    const {data:prods}=await sb.from('kayley_products').select('*').order('product_id');
+    const [prodsR,wellR,jourR,setR,hiR]=await withTimeout(Promise.allSettled([
+      sb.from('kayley_products').select('*').order('product_id'),
+      (()=>{const weekAgo=new Date();weekAgo.setDate(weekAgo.getDate()-6);
+        return sb.from('kayley_wellness').select('*').gte('entry_date',weekAgo.toISOString().split('T')[0]);})(),
+      (()=>{const monthAgo=new Date();monthAgo.setDate(monthAgo.getDate()-30);
+        return sb.from('kayley_journal').select('*').gte('entry_date',monthAgo.toISOString().split('T')[0]).order('entry_date',{ascending:false});})(),
+      sb.from('kayley_settings').select('*'),
+      sb.from('kayley_highlights').select('*').order('week_key',{ascending:false})
+    ]),6000);
+
+    const prods=prodsR.status==='fulfilled'?prodsR.value.data:null;
     if(prods&&prods.length>0){
       state.products=prods.map(p=>({id:p.product_id,name:p.name,cat:p.category,store:p.store,price:p.price,stock:p.stock,notes:p.notes}));
-    } else {
-      // First load — seed defaults
+    } else if(prods&&prods.length===0&&(!state.products||state.products.length===0)){
       state.products=DEFAULT_PRODUCTS.map((p,i)=>({...p,id:i+1,stock:p.stock||'full'}));
-      // Push to cloud in background
       seedCloud();
     }
 
-    // Wellness — last 7 days
-    const weekAgo=new Date();weekAgo.setDate(weekAgo.getDate()-6);
-    const {data:wellness}=await sb.from('kayley_wellness').select('*').gte('entry_date',weekAgo.toISOString().split('T')[0]);
+    const wellness=wellR.status==='fulfilled'?wellR.value.data:null;
     if(wellness){
       state.weekMoods=wellness.filter(w=>w.mood);
       const t=wellness.find(w=>w.entry_date===todayKey());
@@ -1514,19 +1532,15 @@ async function loadFromCloud(){
       }
     }
 
-    // Journal — last 30 days
-    const monthAgo=new Date();monthAgo.setDate(monthAgo.getDate()-30);
-    const {data:journal}=await sb.from('kayley_journal').select('*').gte('entry_date',monthAgo.toISOString().split('T')[0]).order('entry_date',{ascending:false});
+    const journal=jourR.status==='fulfilled'?jourR.value.data:null;
     if(journal)state.journalEntries=journal;
 
-    // Settings
-    const {data:settings}=await sb.from('kayley_settings').select('*');
+    const settings=setR.status==='fulfilled'?setR.value.data:null;
     if(settings){
       const pinSetting=settings.find(s=>s.key==='pin');
       if(pinSetting&&pinSetting.value)state.pin=pinSetting.value;
       const streakSetting=settings.find(s=>s.key==='streak');
-      if(streakSetting)state.streak=Number(streakSetting.value)||0;
-      // Load reflections (any setting key starting with reflection_)
+      if(streakSetting)state.streak=Math.max(state.streak||0,Number(streakSetting.value)||0);
       settings.forEach(s=>{
         if(s.key&&s.key.startsWith('reflection_')&&s.value){
           state.reflections[s.key.replace('reflection_','')]=s.value;
@@ -1534,16 +1548,18 @@ async function loadFromCloud(){
       });
     }
 
-    // Highlights
-    try{
-      const {data:highlights}=await sb.from('kayley_highlights').select('*').order('week_key',{ascending:false});
-      if(highlights)state.highlights=highlights;
-    }catch(e){console.warn('highlights table not ready',e)}
+    const highlights=hiR.status==='fulfilled'?hiR.value.data:null;
+    if(highlights)state.highlights=highlights;
 
     saveLocal();
+    // Re-render whatever page we're on with fresh data
+    if(typeof renderLanding==='function'&&$('landing'))renderLanding();
+    if(typeof renderSkincare==='function'&&$('skincare'))renderSkincare();
+    if(typeof renderProducts==='function'&&$('productsList'))renderProducts();
+    if(typeof renderScripture==='function'&&$('verseCard'))renderScripture();
+    if(typeof renderWellness==='function'&&$('wellness'))renderWellness();
   }catch(e){
-    console.warn('cloud load failed, using local',e);
-    loadLocal();
+    console.warn('cloud sync failed, staying on local cache',e);
   }
 }
 
@@ -1564,6 +1580,9 @@ function saveLocal(){
       sleepData:state.sleepData,
       streak:state.streak,
       reflections:state.reflections,
+      journalEntries:state.journalEntries,
+      weekMoods:state.weekMoods,
+      highlights:state.highlights,
       lastSeen:todayKey()
     }));
   }catch(e){}
@@ -1573,12 +1592,15 @@ function loadLocal(){
     const raw=localStorage.getItem('kw_state');
     if(raw){
       const s=JSON.parse(raw);
-      state.products=s.products||DEFAULT_PRODUCTS.map((p,i)=>({...p,id:i+1,stock:p.stock||'full'}));
+      state.products=s.products&&s.products.length?s.products:DEFAULT_PRODUCTS.map((p,i)=>({...p,id:i+1,stock:p.stock||'full'}));
       state.pin=s.pin||null;
-      state.todayMood=s.todayMood||null;
+      state.todayMood=s.lastSeen===todayKey()?(s.todayMood||null):null;
       state.sleepData=s.sleepData||{};
       state.streak=s.streak||0;
       state.reflections=s.reflections||{};
+      state.journalEntries=s.journalEntries||[];
+      state.weekMoods=s.weekMoods||[];
+      state.highlights=s.highlights||[];
     } else {
       state.products=DEFAULT_PRODUCTS.map((p,i)=>({...p,id:i+1,stock:p.stock||'full'}));
     }
