@@ -232,3 +232,18 @@ em{font-style:italic;}
 
 .scroll-x{-webkit-overflow-scrolling:touch;}
 ::-webkit-scrollbar{display:none;}
+
+/* ── product shelf ── */
+.cat-chip{white-space:nowrap;background:var(--glass);border:1px solid var(--glass-b);color:var(--ink-dim);padding:9px 16px;border-radius:100px;font-size:13px;cursor:pointer;flex-shrink:0;}
+.cat-chip.active{background:linear-gradient(135deg,var(--violet),var(--rose));color:#fff;border-color:transparent;}
+.cat-group{margin-bottom:22px;}
+.cat-header{display:flex;justify-content:space-between;align-items:baseline;padding:0 2px;margin-bottom:10px;}
+.cat-name{font-family:'Fraunces',serif;font-size:17px;font-weight:600;color:#fff;}
+.cat-count{font-size:11px;color:var(--ink-faint);}
+.product-card{display:flex;align-items:center;gap:14px;background:#150e24;border:1px solid var(--glass-b);border-radius:16px;padding:14px 16px;margin-bottom:8px;cursor:pointer;transition:.2s;}
+.product-card:active{transform:scale(0.98);background:var(--glass-2);}
+.stock-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+.product-info{flex:1;min-width:0;}
+.product-name{color:#fff;font-size:14.5px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.product-meta-row{color:var(--ink-faint);font-size:12px;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.empty{text-align:center;color:var(--ink-faint);padding:60px 20px;font-family:'Fraunces',serif;font-style:italic;}
