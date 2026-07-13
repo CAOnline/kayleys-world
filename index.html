@@ -52,6 +52,13 @@
         <div class="duo-desc"><span id="statProducts">—</span> products in your collection</div>
         <div class="duo-arrow">→</div>
       </div>
+      <div class="duo-card duo-verse" onclick="window.location.href='scripture.html'">
+        <div class="duo-glow"></div>
+        <div class="duo-icon">𓆗</div>
+        <div class="duo-title">The Word</div>
+        <div class="duo-desc" id="verseRefHome">today's verse · CE course · notes</div>
+        <div class="duo-arrow">→</div>
+      </div>
     </div>
 
     <div class="landing-foot stagger">
@@ -95,6 +102,9 @@ function renderLanding(){
   $('ritualMeta').textContent = ritualMeta;
 
   $('dateLine').textContent = d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});
+
+  const todaysVerse = VERSES[dayOfYear() % VERSES.length];
+  if(todaysVerse && $('verseRefHome')) $('verseRefHome').textContent = 'Today: ' + todaysVerse.ref;
 }
 
 init();

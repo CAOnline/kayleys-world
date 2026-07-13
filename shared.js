@@ -21,6 +21,8 @@ const state = {
   weekMoods:[],
   sleepData:{},
   journalEntries:[],
+  ceNotes:{},
+  studyNotes:[],
   streak:0,
   scriptureFilter:'all',
   scriptureIndex:null,
@@ -196,151 +198,68 @@ const MOTIVATIONS = [
 
 // ============== SCRIPTURE LIBRARY ==============
 const VERSES = [
-  {
-    ref:"Psalm 46:10",
-    trans:"kjv",
-    text:"Be still, and know that I am God: I will be exalted among the heathen, I will be exalted in the earth.",
-    context:"Written during a time of national upheaval. The psalmist speaks to a people surrounded by chaos — wars, shaking mountains, roaring waters — and offers them a single command: stillness.",
-    meaning:"To 'be still' here is not passivity. The Hebrew word implies cease striving, let your hands fall, stop trying to control. It is a deliberate surrender — not weakness, but trust.",
-    application:"When the day feels too loud, the to-do list too long, your skin too reactive, your heart too tired — pause. The God who holds galaxies also holds you. You don't have to fix everything today.",
-    prompt:"Where in your life right now are you striving when stillness is what's being asked of you?"
-  },
-  {
-    ref:"Jeremiah 29:11",
-    trans:"modern",
-    text:"For I know the plans I have for you, declares the Lord, plans to prosper you and not to harm you, plans to give you hope and a future.",
-    context:"Written to Israelites in exile in Babylon — a people displaced, anxious, uncertain whether they had any future at all. Jeremiah delivers this letter from God to people who felt forgotten.",
-    meaning:"God's plans rarely match our timeline. The Israelites would remain in exile for 70 more years. The promise wasn't immediate rescue — it was assured purpose. He knows. He sees. The plan is good even when the chapter you're in is hard.",
-    application:"You are not a mistake. You are not behind. The waiting is part of the plan, not a delay in it. Trust the chapter you're in is preparing you for the one you can't see yet.",
-    prompt:"What part of your life feels like 'exile' right now — and what might God be preparing in you through it?"
-  },
-  {
-    ref:"Genesis 5:24",
-    trans:"kjv",
-    text:"And Enoch walked with God: and he was not; for God took him.",
-    context:"Tucked into a list of genealogies, this single verse stands out. Among generations who 'lived and died,' Enoch alone is described differently. He walked. And then — he was simply taken.",
-    meaning:"To 'walk with God' is a pattern, not a moment. It's daily, ordinary closeness. Enoch's intimacy with God was so real that death didn't fit the rhythm of his life. He didn't die — he was translated, taken up while still walking.",
-    application:"You don't need a dramatic spiritual life to be close to God. Just walk. One day at a time. Talk to Him while you do your skincare, while you commute, while you wash dishes. The walk is the point.",
-    prompt:"What does walking with God look like for you in this season — not in a perfect future, but in this very ordinary today?"
-  },
-  {
-    ref:"1 Enoch 1:2",
-    trans:"enoch",
-    text:"And he took up his parable and said — Enoch, a righteous man, whose eyes were opened by God, saw the vision of the Holy One in the heavens, which the angels showed me.",
-    context:"The Book of Enoch (1 Enoch) is an ancient Jewish text — quoted in the New Testament book of Jude. Though not in the Protestant canon, it was widely read by early Christians and is canonical in Ethiopian Orthodox tradition.",
-    meaning:"Enoch is described as a righteous man whose eyes were opened — he sees what most cannot. The text frames spiritual sight as a gift, something granted, not earned. The angels are the messengers; Enoch is the witness.",
-    application:"There are seasons where God opens your eyes to things others don't see. Don't dismiss the small visions, the gut nudges, the quiet knowings. They might be the very things you're meant to carry forward.",
-    prompt:"What has God shown you recently that you've been tempted to dismiss as coincidence or imagination?"
-  },
-  {
-    ref:"Proverbs 3:5-6",
-    trans:"kjv",
-    text:"Trust in the Lord with all thine heart; and lean not unto thine own understanding. In all thy ways acknowledge him, and he shall direct thy paths.",
-    context:"Proverbs is wisdom literature — written largely by Solomon to his son. This passage sits in a chapter teaching a young man how to live a good and steady life.",
-    meaning:"'Lean not unto thine own understanding' isn't a dismissal of intelligence — it's a warning against self-reliance. Our understanding is partial. God's is complete. Acknowledge Him in everything, and the path becomes clear.",
-    application:"You don't have to have it figured out. Surrender the timeline, the outcome, the how. Direction comes when you stop demanding to see the whole map.",
-    prompt:"What decision are you trying to figure out right now where you need to lean less on your own understanding?"
-  },
-  {
-    ref:"Isaiah 58:11",
-    trans:"modern",
-    text:"The Lord will guide you continually, and satisfy your soul in drought, and make strong your bones; and you shall be like a watered garden, like a spring of water, whose waters do not fail.",
-    context:"Isaiah is speaking to a people who had been performing religion without justice — fasting while oppressing the poor. God promises that genuine devotion (caring for the broken) leads to deep, sustaining life.",
-    meaning:"Even in drought — emotional, spiritual, financial, relational — God promises continual guidance and inner satisfaction. A 'watered garden' is fed from underground; the source isn't visible, but it never fails.",
-    application:"When you feel dry, look beneath. The spring is still flowing even when the surface looks parched. Care for others. Show up. The water will rise.",
-    prompt:"Where do you feel spiritually or emotionally dry right now? What 'underground spring' might still be feeding you?"
-  },
-  {
-    ref:"Psalm 23:1-3",
-    trans:"kjv",
-    text:"The Lord is my shepherd; I shall not want. He maketh me to lie down in green pastures: he leadeth me beside the still waters. He restoreth my soul.",
-    context:"Written by David — a former shepherd himself. He understood intimately what it took to keep a flock alive: finding water, fending off predators, leading them through dangerous terrain.",
-    meaning:"The shepherd doesn't drive the sheep — he leads. He doesn't shame them into the green pastures — he makes them lie down. There is a tenderness here. A patience. A rest that's commanded, not optional.",
-    application:"You are not behind. You are being led. If you feel exhausted, maybe today is a 'lie down in green pastures' kind of day — and rest is obedience, not laziness.",
-    prompt:"What does your soul need restoring from? Can you give it permission to rest today?"
-  },
-  {
-    ref:"1 Peter 5:7",
-    trans:"modern",
-    text:"Cast all your anxiety on him because he cares for you.",
-    context:"Peter writes to scattered, persecuted Christians — believers facing real fear, loss, displacement. This isn't wishful thinking; it's a survival instruction.",
-    meaning:"The Greek word for 'cast' is forceful — to hurl, to throw with intention. Anxiety isn't just felt, it's carried. Peter says: don't carry it. Throw it. He cares.",
-    application:"Pick one anxiety today. Name it specifically. Then physically — out loud or in writing — give it to Him. Don't pick it back up an hour later. Practice the casting.",
-    prompt:"What anxiety have you been carrying that you need to actively cast onto Him today?"
-  },
-  {
-    ref:"Psalm 30:5",
-    trans:"kjv",
-    text:"For his anger endureth but a moment; in his favour is life: weeping may endure for a night, but joy cometh in the morning.",
-    context:"David writes this after recovering from serious illness — a song of dedication and gratitude. The psalm holds the full arc of grief and restoration.",
-    meaning:"The 'night' here isn't always literal. It's the season of weeping, of unanswered prayers, of feeling far from God. But mornings come. Always. Joy isn't absent — it's coming.",
-    application:"If today is a night for you, hold on. Mornings are not earned by doing more. They arrive. Your job is to keep breathing through the dark.",
-    prompt:"What 'night' are you in right now, and what would believing morning is coming change about how you face today?"
-  },
-  {
-    ref:"1 John 4:4",
-    trans:"kjv",
-    text:"Greater is he that is in you, than he that is in the world.",
-    context:"John writes to early Christians being deceived by false teachers. He reminds them that the Spirit of God within them is more powerful than any spirit of deception working in the world.",
-    meaning:"You are not weaker than what's coming against you. The accuser, the doubt, the fear, the comparison — none of it has the final word. The One in you outranks the one out there.",
-    application:"When the lies feel loud — that you're not enough, not loved, not progressing — remember whose voice carries more weight. The Greater One is in you. Walk like it.",
-    prompt:"What lie about yourself have you been agreeing with that the Greater One in you would push back against?"
-  },
-  {
-    ref:"Philippians 4:6-7",
-    trans:"modern",
-    text:"Do not be anxious about anything, but in every situation, by prayer and petition, with thanksgiving, present your requests to God. And the peace of God, which transcends all understanding, will guard your hearts and minds.",
-    context:"Paul writes from prison — a man genuinely entitled to anxiety. Yet he speaks of peace as something present and available even there.",
-    meaning:"The formula isn't magic — pray, ask, give thanks, then peace guards you. The Greek word for 'guard' is military: to garrison, to stand watch. Peace doesn't wait until problems resolve. It posts up before they do.",
-    application:"Anxiety lies about what you can control. Prayer reframes. Thanksgiving rewires. Try it as practice today: name one anxiety, ask specifically, then thank Him for three things — and watch what guards your mind.",
-    prompt:"What three things — small or big — can you genuinely give thanks for today, even in the middle of what's hard?"
-  },
-  {
-    ref:"1 Enoch 39:6",
-    trans:"enoch",
-    text:"In those days mine eyes saw the dwelling of the elect and the dwelling of the righteous, where the holy and elect ones rest. And there mine eyes saw their dwellings with His righteous angels.",
-    context:"This passage from 1 Enoch describes a vision of the heavenly realms — the resting place of the righteous. The book is heavy with apocalyptic imagery and a vivid spiritual cosmology.",
-    meaning:"There is rest prepared for the righteous. Not earned by perfection, but prepared by grace. The dwelling exists. The angels are already there. Your weariness is not the final word.",
-    application:"When the day demands more than you have, remember: there is a rest prepared. The exhaustion is temporary. Show up tired if you must. Just keep showing up.",
-    prompt:"What does 'rest prepared for the righteous' mean for you in a culture that worships hustle?"
-  },
-  {
-    ref:"Romans 8:28",
-    trans:"modern",
-    text:"And we know that in all things God works for the good of those who love him, who have been called according to his purpose.",
-    context:"Paul writes to Roman Christians during a tense political climate. This verse follows a section about creation groaning and the Spirit interceding when we don't know what to pray.",
-    meaning:"It does NOT say all things are good — that would be a lie. It says God WORKS in all things for good. The pain isn't reframed as positive; it's woven into a larger purpose you may not yet see.",
-    application:"You don't have to pretend the hard thing is fine. You can grieve. You can be angry. AND — you can trust that none of it is wasted. Both can be true at once.",
-    prompt:"What painful thing in your past can you now see God worked good through, even though it was real pain?"
-  },
-  {
-    ref:"Lamentations 3:22-23",
-    trans:"kjv",
-    text:"It is of the Lord's mercies that we are not consumed, because his compassions fail not. They are new every morning: great is thy faithfulness.",
-    context:"Lamentations is a book of grief — written after the destruction of Jerusalem. The prophet Jeremiah weeps through five chapters. And yet here, in the middle of devastation, this song of mercy.",
-    meaning:"His mercies are NEW every morning. Not recycled. Not earned. Brand new, custom-made for the day you wake into. Yesterday's failures don't reduce today's mercy.",
-    application:"Whatever you carried yesterday — the missed routine, the harsh words, the comfort eating, the spiritual drift — does not deplete today's mercy. There is fresh grace waiting. Receive it.",
-    prompt:"What from yesterday do you need to release in order to receive the mercy that is new this morning?"
-  },
-  {
-    ref:"Matthew 11:28-29",
-    trans:"modern",
-    text:"Come to me, all you who are weary and burdened, and I will give you rest. Take my yoke upon you and learn from me, for I am gentle and humble in heart, and you will find rest for your souls.",
-    context:"Jesus speaks these words after harshly rebuking unrepentant cities. The contrast is striking: stern with the proud, tender with the tired.",
-    meaning:"He doesn't ask you to be less weary before you come. The invitation is for the weary. The yoke — usually a symbol of burden — is offered as the path TO rest. His way is lighter than the way you've been carrying it alone.",
-    application:"Stop trying to earn the rest by finishing the list. Come tired. Come overwhelmed. He's not waiting for the version of you that has it together.",
-    prompt:"What burden have you been carrying alone that He's actually inviting you to bring to Him?"
-  },
-  {
-    ref:"Psalm 139:14",
-    trans:"kjv",
-    text:"I will praise thee; for I am fearfully and wonderfully made: marvellous are thy works; and that my soul knoweth right well.",
-    context:"David writes one of the most intimate psalms — a meditation on being fully known by God. This verse comes after marveling at how God formed him in the womb.",
-    meaning:"'Fearfully' means with reverence and awe. You weren't an accident. You weren't manufactured. You were crafted with deliberate, awe-inspiring care. Every freckle, every scar, every tendency.",
-    application:"The skin you criticise was knit. The body you rush past was formed. The personality you apologise for was designed. You are not a problem to be solved — you are a marvel to be marvelled at.",
-    prompt:"What part of yourself have you been treating as a flaw that you might receive as fearfully and wonderfully made?"
-  },
+{ref:"Psalm 46:10",trans:"kjv",text:"Be still, and know that I am God: I will be exalted among the heathen, I will be exalted in the earth.",context:"Written during national upheaval — wars, shaking mountains, roaring waters — and the psalmist offers a single command: stillness.",meaning:"To 'be still' is not passivity. The Hebrew implies cease striving, let your hands fall, stop trying to control. Deliberate surrender — not weakness, but trust.",application:"When the day feels too loud and your heart too tired — pause. The God who holds galaxies also holds you.",prompt:"Where in your life are you striving hardest right now?"},
+{ref:"Mark 1:1",trans:"modern",text:"The beginning of the good news about Jesus the Messiah, the Son of God.",context:"Mark opens his Gospel with a thunderclap — no genealogy, no birth story, straight to the claim: this is good news, and Jesus is the Son of God.",meaning:"Mark calls his whole account 'gospel' — good news, not good advice. Something that has happened, not something you must do.",application:"Today, let faith be news you receive rather than a performance you deliver.",prompt:"What would change if you treated faith as news rather than a to-do list?"},
+{ref:"Mark 2:17",trans:"modern",text:"It is not the healthy who need a doctor, but those who are ill. I have not come to call the righteous, but sinners.",context:"Jesus is eating with tax collectors and outcasts, scandalising the religious elite. This is his answer to their disgust.",meaning:"Jesus positions himself as a doctor — meaning the qualification for coming to him is not being well, but admitting you're not.",application:"You don't have to tidy yourself up before you pray. Come as the patient, not the physician.",prompt:"What part of you have you been hiding, thinking it disqualifies you?"},
+{ref:"Mark 4:39",trans:"kjv",text:"And he arose, and rebuked the wind, and said unto the sea, Peace, be still. And the wind ceased, and there was a great calm.",context:"A furious squall on Galilee, seasoned fishermen terrified, and Jesus asleep on a cushion. They wake him, and he speaks to weather like it's a misbehaving child.",meaning:"Mark wants you to ask the disciples' question: 'Who is this? Even the wind and waves obey him.' Authority over chaos itself.",application:"Whatever storm is loud today — speak his name into it. The one who silenced Galilee has not lost his voice.",prompt:"What storm do you need to invite him into rather than ride out alone?"},
+{ref:"Mark 8:29",trans:"modern",text:"'But what about you?' he asked. 'Who do you say I am?' Peter answered, 'You are the Messiah.'",context:"The hinge of Mark's whole Gospel. Halfway through, Jesus stops asking what the crowds say and makes it personal.",meaning:"Everyone must answer this question themselves. Second-hand opinions about Jesus don't count — Jesus asks 'who do YOU say I am?'",application:"Today, answer it fresh. Not what church says, not what family says — what do you say?",prompt:"Who do you say Jesus is — honestly, today?"},
+{ref:"Mark 8:36",trans:"kjv",text:"For what shall it profit a man, if he shall gain the whole world, and lose his own soul?",context:"Jesus has just told the crowd that following him means denying self and taking up a cross. Then he does the maths.",meaning:"The most searching cost-benefit analysis ever posed. Every gain in the world's column can be outweighed by one loss in the soul's.",application:"Check what you're trading your hours for today. Some wins are losses in disguise.",prompt:"What are you gaining right now — and what is it costing you?"},
+{ref:"Mark 10:45",trans:"modern",text:"For even the Son of Man did not come to be served, but to serve, and to give his life as a ransom for many.",context:"James and John have just asked for thrones. Jesus flips the whole idea of greatness on its head — and states his mission in one line.",meaning:"'Ransom' is a rescue price. Jesus declares his death is not tragedy but purpose — a deliberate payment to set people free.",application:"Greatness today looks like serving someone who can't repay you.",prompt:"Who could you serve today with no expectation of return?"},
+{ref:"Mark 12:30-31",trans:"modern",text:"Love the Lord your God with all your heart and with all your soul and with all your mind and with all your strength. Love your neighbour as yourself.",context:"Asked to pick the greatest of 613 commandments, Jesus gives two that contain all the rest.",meaning:"All of faith distilled: total love upward, honest love outward. Notice it assumes you also treat yourself with care — you can't pour from an empty vessel.",application:"Loving your neighbour as yourself includes not speaking to yourself in ways you'd never speak to a friend.",prompt:"Which of the two loves needs attention today — upward, outward, or the quiet third one, inward?"},
+{ref:"Mark 15:39",trans:"modern",text:"And when the centurion, who stood there in front of Jesus, saw how he died, he said, 'Surely this man was the Son of God!'",context:"A hardened Roman executioner, who had watched hundreds die, watches this death — and becomes the first human in Mark to declare it fully.",meaning:"Mark's Gospel opens with the claim 'Son of God' and closes with a pagan soldier agreeing at the foot of the cross. The cross is the proof, not the defeat.",application:"When faith feels shaky, go stand where the centurion stood. Look at the cross and draw your conclusion again.",prompt:"What does the cross say to you, personally, today?"},
+{ref:"Mark 16:6",trans:"modern",text:"Don't be alarmed. You are looking for Jesus the Nazarene, who was crucified. He has risen! He is not here.",context:"Women arrive at dawn to anoint a corpse and find an empty tomb and an angel with the most important sentence in history.",meaning:"Christianity stands or falls here. Not a philosophy that survived its founder — a founder who survived his execution.",application:"Whatever feels dead in your life — hope, a dream, a relationship with God — resurrection is his speciality.",prompt:"What have you written off as dead that God might not be finished with?"},
+{ref:"Isaiah 41:10",trans:"kjv",text:"Fear thou not; for I am with thee: be not dismayed; for I am thy God: I will strengthen thee; yea, I will help thee; yea, I will uphold thee with the right hand of my righteousness.",context:"Spoken to a nation in exile, far from home, certain they'd been forgotten.",meaning:"Five promises stacked in one verse: presence, identity, strength, help, upholding. Fear is answered not with arguments but with company.",application:"You are not asked to be fearless alone. You're promised company inside the fear.",prompt:"What would today look like if you truly believed you weren't facing it alone?"},
+{ref:"Zephaniah 3:17",trans:"modern",text:"The LORD your God is with you, the Mighty Warrior who saves. He will take great delight in you; in his love he will no longer rebuke you, but will rejoice over you with singing.",context:"Buried in one of the shortest, sternest prophetic books — a sudden burst of tenderness.",meaning:"God doesn't merely tolerate you. He delights, quiets, and sings. The warrior image and the lullaby image in the same breath.",application:"Sit with this one: God sings over you. Let that be louder than the inner critic today.",prompt:"When did you last let yourself feel delighted in, rather than merely tolerated?"},
+{ref:"Matthew 11:28",trans:"kjv",text:"Come unto me, all ye that labour and are heavy laden, and I will give you rest.",context:"Jesus speaking to people crushed by religious burden — endless rules stacked on tired shoulders.",meaning:"The invitation has one qualification: being tired. Not being good, sorted, or certain. Just weary.",application:"Rest is not a reward for finishing everything. It's an invitation that stands open right now.",prompt:"What burden are you carrying that was never yours to carry?"},
+{ref:"John 8:12",trans:"modern",text:"I am the light of the world. Whoever follows me will never walk in darkness, but will have the light of life.",context:"Spoken at the temple during the Festival of Tabernacles, as giant lamps lit up Jerusalem — Jesus points at them and says: that's me.",meaning:"Light doesn't argue with darkness. It just outshines it. Following isn't about perfect steps, but direction of travel.",application:"You don't need the whole path lit — just the next step.",prompt:"What's the one next step the light is showing you?"},
+{ref:"John 10:10",trans:"kjv",text:"The thief cometh not, but for to steal, and to kill, and to destroy: I am come that they might have life, and that they might have it more abundantly.",context:"Jesus contrasts himself with everything that drains and diminishes.",meaning:"Two agendas in one verse — one that subtracts from your life, one that multiplies it. Abundance here means fullness, not luxury.",application:"Audit today by this verse: which voices and habits steal life, and which multiply it?",prompt:"What in your daily rhythm gives life — and what steals it?"},
+{ref:"John 14:27",trans:"kjv",text:"Peace I leave with you, my peace I give unto you: not as the world giveth, give I unto you. Let not your heart be troubled, neither let it be afraid.",context:"The night before the cross. Jesus, hours from betrayal, is comforting them.",meaning:"His peace isn't circumstantial — he offers it on the worst night of his life. World-peace depends on conditions; his doesn't.",application:"Peace independent of circumstances is possible. Breathe it in before the day makes its demands.",prompt:"Where are you waiting for circumstances to change before you allow yourself peace?"},
+{ref:"Romans 8:1",trans:"modern",text:"Therefore, there is now no condemnation for those who are in Christ Jesus.",context:"Paul's mid-letter crescendo, after seven chapters wrestling with sin and failure.",meaning:"'No condemnation' is a courtroom verdict, already delivered. The case is closed even when the inner prosecutor keeps talking.",application:"When the inner critic reopens the case today, remind it the verdict is in.",prompt:"What old verdict against yourself are you still serving time for?"},
+{ref:"Romans 8:28",trans:"kjv",text:"And we know that all things work together for good to them that love God, to them who are the called according to his purpose.",context:"Written by a man who had been shipwrecked, beaten, and imprisoned — not naive optimism.",meaning:"Not everything is good. But nothing is wasted. God's economy recycles even wreckage into purpose.",application:"The chapter you're in isn't the whole story. Wait for the weaving.",prompt:"Looking back, what hard thing turned out to carry hidden good?"},
+{ref:"Romans 12:2",trans:"modern",text:"Do not conform to the pattern of this world, but be transformed by the renewing of your mind.",context:"Paul pivots from theology to daily living — starting with the mind.",meaning:"Transformation runs through thought patterns. What you feed the mind shapes the life — renewal is a practice, not a moment.",application:"Notice one recurring thought today and ask: is this a pattern I want to keep?",prompt:"What thought pattern needs renewing most right now?"},
+{ref:"1 Corinthians 13:4-5",trans:"modern",text:"Love is patient, love is kind. It does not envy, it does not boast, it is not proud. It does not dishonour others, it is not self-seeking.",context:"Written to a church in conflict, dropped like a plumb line into their arguments.",meaning:"Every clause is behavioural, not emotional. Love here is a way of acting, available even on days you don't feel it.",application:"Pick one clause and practise it deliberately on one person today.",prompt:"Which clause is hardest for you — and with whom?"},
+{ref:"2 Corinthians 12:9",trans:"kjv",text:"My grace is sufficient for thee: for my strength is made perfect in weakness.",context:"Paul begged three times for a painful 'thorn' to be removed. This was the answer — not removal, but sufficiency.",meaning:"God's power doesn't wait for you to be strong. Weakness is not the obstacle to grace; it's the venue.",application:"The thing you're most ashamed of struggling with may be exactly where grace wants to work.",prompt:"What weakness might you stop fighting and start offering?"},
+{ref:"Galatians 2:20",trans:"kjv",text:"I am crucified with Christ: nevertheless I live; yet not I, but Christ liveth in me.",context:"Paul describing the exchange at the heart of faith — an old self ended, a new life begun.",meaning:"Identity is no longer self-built. The exhausting project of constructing yourself is replaced by receiving a life.",application:"You don't have to invent yourself today. You're allowed to simply live loved.",prompt:"What part of your self-image are you most tired of maintaining?"},
+{ref:"Ephesians 2:8-9",trans:"kjv",text:"For by grace are ye saved through faith; and that not of yourselves: it is the gift of God: not of works, lest any man should boast.",context:"Paul dismantling the idea that anyone earns their way to God.",meaning:"Gift, not wage. The whole structure of earning collapses — which is terrifying to pride and glorious to exhaustion.",application:"Today, practise receiving without immediately trying to repay.",prompt:"Why is receiving freely harder for you than earning?"},
+{ref:"Philippians 4:6-7",trans:"modern",text:"Do not be anxious about anything, but in every situation, by prayer and petition, with thanksgiving, present your requests to God. And the peace of God, which transcends all understanding, will guard your hearts and your minds.",context:"Written from a prison cell — Paul isn't theorising about anxiety from a comfortable distance.",meaning:"The verse gives a mechanism, not a scolding: anxiety is rerouted through prayer with thanksgiving, and peace stands guard like a sentry.",application:"Next anxious spiral: name it, pray it, add one genuine thank-you, and let the sentry take the door.",prompt:"What's one anxiety you could convert into a prayer right now?"},
+{ref:"Philippians 4:13",trans:"kjv",text:"I can do all things through Christ which strengtheneth me.",context:"The 'all things' in context is contentment — Paul had learned to be steady in plenty and in hunger.",meaning:"Less a superhero slogan, more a secret of endurance: strength arrives for whatever state you're actually in.",application:"Strength for today's actual circumstances is promised — not for imaginary ones.",prompt:"What situation needs endurance-strength rather than escape?"},
+{ref:"Colossians 3:12",trans:"modern",text:"Therefore, as God's chosen people, holy and dearly loved, clothe yourselves with compassion, kindness, humility, gentleness and patience.",context:"Paul uses a getting-dressed metaphor — character as clothing you deliberately put on.",meaning:"Notice the order: identity first ('chosen, holy, dearly loved'), behaviour second. You dress from who you are, not to become it.",application:"As you do your morning ritual, mentally 'put on' one of the five garments for the day.",prompt:"Which garment does today require — compassion, kindness, humility, gentleness or patience?"},
+{ref:"Hebrews 4:16",trans:"kjv",text:"Let us therefore come boldly unto the throne of grace, that we may obtain mercy, and find grace to help in time of need.",context:"Written to believers tempted to shrink back, reminding them the throne room door is open.",meaning:"Boldly — not grovelling, not sneaking. The throne is named for grace, not judgement, and its supply is timed to need.",application:"Approach today's prayers like a welcomed child, not a nervous applicant.",prompt:"What have you been too hesitant to actually ask for?"},
+{ref:"Hebrews 12:1-2",trans:"modern",text:"Let us throw off everything that hinders and the sin that so easily entangles. And let us run with perseverance the race marked out for us, fixing our eyes on Jesus.",context:"After a whole chapter listing heroes of faith — you're pictured running with a stadium of witnesses cheering.",meaning:"The race is 'marked out for us' — your lane, not someone else's. And the technique is eye-line: you drift toward whatever you stare at.",application:"Comparison is running in someone else's lane. Run yours today.",prompt:"Whose lane have you been staring at instead of your own?"},
+{ref:"James 1:5",trans:"modern",text:"If any of you lacks wisdom, you should ask God, who gives generously to all without finding fault, and it will be given to you.",context:"James writing to scattered, pressured believers making hard decisions.",meaning:"'Without finding fault' — God doesn't sigh at your questions. Wisdom is promised to the asker, not the already-wise.",application:"That decision you're chewing on? Ask. Out loud. Before you doom-scroll for answers.",prompt:"What decision needs wisdom rather than more information?"},
+{ref:"1 Peter 5:7",trans:"kjv",text:"Casting all your care upon him; for he careth for you.",context:"Peter — who knew about failure and restoration — writing to suffering churches.",meaning:"'Casting' is a violent, deliberate throw, like heaving a load off a cart. And the reason is startlingly tender: he cares about you.",application:"Anxiety isn't managed by gripping tighter. Throw it. Properly.",prompt:"What care are you still holding that was meant to be thrown?"},
+{ref:"1 John 1:9",trans:"kjv",text:"If we confess our sins, he is faithful and just to forgive us our sins, and to cleanse us from all unrighteousness.",context:"John writing so believers wouldn't live in either denial or despair about failure.",meaning:"Confession isn't informing God of something he missed — it's agreeing with him so the wound can be cleaned. Faithful and just: forgiveness is his character, not his mood.",application:"Whatever's sitting heavy on your conscience: say it, receive the cleansing, walk lighter.",prompt:"What do you need to finally say out loud to God?"},
+{ref:"Proverbs 3:5-6",trans:"kjv",text:"Trust in the LORD with all thine heart; and lean not unto thine own understanding. In all thy ways acknowledge him, and he shall direct thy paths.",context:"A father's advice to a child, distilling a lifetime of wisdom.",meaning:"Your understanding is a real tool but a poor foundation. Leaning is about where you put your full weight.",application:"Make today's decisions with your mind but rest your weight on something steadier than your own analysis.",prompt:"Where is leaning on your own understanding exhausting you?"},
+{ref:"Psalm 23:1-3",trans:"kjv",text:"The LORD is my shepherd; I shall not want. He maketh me to lie down in green pastures: he leadeth me beside the still waters. He restoreth my soul.",context:"David, once a shepherd himself, describing God with the job he knew best.",meaning:"Sheep don't lie down while anxious — the shepherd 'maketh' rest possible by removing threats. Restoration is on the itinerary.",application:"Rest is not laziness; it's shepherded. Let yourself be led to still waters today.",prompt:"What would 'soul restoration' actually look like for you this week?"},
+{ref:"Psalm 34:18",trans:"modern",text:"The LORD is close to the broken-hearted and saves those who are crushed in spirit.",context:"David wrote this while fleeing for his life, pretending madness to survive.",meaning:"God's geography: nearest at the lowest points. Brokenness doesn't repel him — it draws him.",application:"On the days you feel furthest from okay, you are not furthest from God.",prompt:"Can you let God be close to the broken part instead of only the presentable part?"},
+{ref:"Psalm 121:1-2",trans:"kjv",text:"I will lift up mine eyes unto the hills, from whence cometh my help. My help cometh from the LORD, which made heaven and earth.",context:"A pilgrim song, sung while walking dangerous mountain roads to Jerusalem.",meaning:"The question 'where does help come from' gets a maker-of-everything answer. Help with cosmic credentials.",application:"Lift your eyes today — literally. Look up from the phone, the desk, the worry.",prompt:"Where have you been looking for help lately?"},
+{ref:"Psalm 139:13-14",trans:"kjv",text:"For thou hast possessed my reins: thou hast covered me in my mother's womb. I will praise thee; for I am fearfully and wonderfully made.",context:"David marvelling that God's knowledge of him precedes his own existence.",meaning:"You were crafted, not assembled. 'Fearfully and wonderfully' — with awe and wonder, deliberately.",application:"Tonight in the mirror, mid-routine: fearfully and wonderfully made. Say it like you mean it.",prompt:"What would change if you treated your body as crafted rather than criticised?"},
+{ref:"Lamentations 3:22-23",trans:"kjv",text:"It is of the LORD's mercies that we are not consumed, because his compassions fail not. They are new every morning: great is thy faithfulness.",context:"Written in the smoking ruins of Jerusalem — hope declared from inside catastrophe.",meaning:"Mercy operates on a daily delivery schedule. Yesterday's failures don't carry into today's account.",application:"Every morning routine is a small liturgy of this: new day, new mercy, fresh start.",prompt:"What from yesterday do you need to leave in yesterday?"},
+{ref:"Jeremiah 29:11",trans:"modern",text:"'For I know the plans I have for you,' declares the LORD, 'plans to prosper you and not to harm you, plans to give you hope and a future.'",context:"Spoken to exiles facing seventy years in Babylon — a long-game promise, not a quick fix.",meaning:"The promise wasn't instant rescue but purposeful presence through the long middle. Hope with a horizon.",application:"You can endure a long chapter when you trust the author.",prompt:"What long season are you in — and can you trust there's a plan inside it?"},
+{ref:"Micah 6:8",trans:"modern",text:"He has shown you, O mortal, what is good. And what does the LORD require of you? To act justly and to love mercy and to walk humbly with your God.",context:"Micah answers the anxious question 'what does God actually want from me?' with startling simplicity.",meaning:"Not more sacrifice, more performance, more religious production. Three verbs: act, love, walk.",application:"Faith today can be this simple: one just act, one merciful response, one humble step.",prompt:"Which of the three verbs is your growth edge?"},
+{ref:"Habakkuk 3:17-18",trans:"modern",text:"Though the fig-tree does not bud and there are no grapes on the vines... yet I will rejoice in the LORD, I will be joyful in God my Saviour.",context:"A prophet choosing joy while describing total economic collapse — every crop failed, every pen empty.",meaning:"'Though... yet' — the grammar of defiant joy. Joy anchored in God survives the failure of everything else.",application:"Joy isn't dishonest about hard circumstances. It just refuses to let them have the last word.",prompt:"What's your 'though' right now — and can you find the 'yet'?"},
+{ref:"Isaiah 40:31",trans:"kjv",text:"But they that wait upon the LORD shall renew their strength; they shall mount up with wings as eagles; they shall run, and not be weary; and they shall walk, and not faint.",context:"Spoken to an exhausted, exiled people who felt God had forgotten them.",meaning:"Notice the descent: soaring, running, walking. Sometimes the miracle isn't flying — it's not fainting. Strength for each pace of life.",application:"Some seasons are walking seasons. Not fainting is a victory.",prompt:"Which pace are you in — soaring, running, or just walking without fainting?"},
+{ref:"Isaiah 43:2",trans:"modern",text:"When you pass through the waters, I will be with you; and when you pass through the rivers, they will not sweep over you. When you walk through the fire, you will not be burned.",context:"God's promise to a people who had known both flood and fire, literally and figuratively.",meaning:"Notice: 'when', not 'if'. And 'through', not 'around'. The promise is company and passage, not exemption.",application:"You're not promised a detour around hard things — you're promised through, accompanied.",prompt:"What are you currently passing through — and where is the evidence you're not alone in it?"},
+{ref:"Deuteronomy 31:8",trans:"modern",text:"The LORD himself goes before you and will be with you; he will never leave you nor forsake you. Do not be afraid; do not be discouraged.",context:"Moses handing over to Joshua before the biggest challenge of his life.",meaning:"'Goes before you' — God is already in your tomorrow, arranging things, before you arrive.",application:"The future you're anxious about is already occupied territory — by him.",prompt:"What upcoming thing could you reframe as 'already gone before'?"},
+{ref:"Joshua 1:9",trans:"kjv",text:"Be strong and of a good courage; be not afraid, neither be thou dismayed: for the LORD thy God is with thee whithersoever thou goest.",context:"God's commissioning speech to Joshua, repeated three times in one chapter because he clearly needed it.",meaning:"Courage is commanded, which means it's a choice available even when the feeling isn't. And it's grounded in company, not competence.",application:"Courage isn't the absence of fear — it's fear that has said its prayers.",prompt:"Where do you need commanded courage rather than waiting for felt courage?"},
+{ref:"1 Enoch 1:8",trans:"enoch",text:"But with the righteous He will make peace, and will protect the elect, and mercy shall be upon them. And they shall all belong to God, and they shall be prospered, and they shall all be blessed.",context:"From the opening vision of the Book of Enoch — the ancient text quoted in Jude, treasured at Qumran, preserved by the Ethiopian church.",meaning:"Amid Enoch's dramatic visions of judgement, this promise: peace, protection, mercy and belonging for those aligned with God.",application:"Whatever the world's chaos, the trajectory for those who belong to God bends toward peace.",prompt:"What does 'belonging to God' mean to you in practical, daily terms?"},
+{ref:"1 Enoch 5:7",trans:"enoch",text:"But for the elect there shall be light and joy and peace, and they shall inherit the earth.",context:"Enoch contrasts the fate of the faithless with a threefold promise — a line Jesus echoes in the Beatitudes: 'the meek shall inherit the earth'.",meaning:"Light, joy, peace, inheritance. The ancient hope wasn't escape from the world but its renewal — and a place in it.",application:"Live today as someone with an inheritance, not someone scrambling for scraps.",prompt:"Which do you need most today — light, joy, or peace?"},
+{ref:"1 Enoch 104:2",trans:"enoch",text:"Be hopeful; for aforetime ye were put to shame through ill and affliction; but now ye shall shine as the lights of heaven, ye shall shine and ye shall be seen.",context:"Enoch's word to the righteous who suffered unseen — a promise of reversal and radiance.",meaning:"Shame swapped for shining. What was hidden and hurt becomes luminous and visible. Daniel 12:3 carries the same image.",application:"Past shame does not get to write your future. You were made to shine and be seen.",prompt:"What old shame is ready to be traded for light?"},
+{ref:"Matthew 5:14-16",trans:"modern",text:"You are the light of the world. A town built on a hill cannot be hidden... let your light shine before others, that they may see your good deeds and glorify your Father in heaven.",context:"From the Sermon on the Mount — Jesus tells ordinary fishermen and farmers what they now are.",meaning:"Not 'try to become light' — you ARE light. The only instruction is placement: don't hide it.",application:"Shining today might be as small as genuine kindness at work. Small lights still defeat darkness.",prompt:"Where are you currently hiding light that's meant to be visible?"},
+{ref:"Matthew 6:34",trans:"modern",text:"Therefore do not worry about tomorrow, for tomorrow will worry about itself. Each day has enough trouble of its own.",context:"Jesus closing his teaching on anxiety with disarming practicality.",meaning:"Grace is issued in daily rations, like manna. Borrowing tomorrow's troubles means facing them without tomorrow's grace.",application:"Just today. Handle just today. Tomorrow's version of you will have tomorrow's strength.",prompt:"What tomorrow-problem are you trying to solve with today's limited rations?"},
+{ref:"Matthew 7:7",trans:"kjv",text:"Ask, and it shall be given you; seek, and ye shall find; knock, and it shall be opened unto you.",context:"Jesus teaching on prayer with three escalating verbs — asking, seeking, knocking.",meaning:"Persistence is invited, not resented. The verbs are present continuous: keep asking, keep seeking, keep knocking.",application:"That prayer you gave up on? Knock again.",prompt:"What did you stop asking for that you should resume?"},
+{ref:"John 15:5",trans:"modern",text:"I am the vine; you are the branches. If you remain in me and I in you, you will bear much fruit; apart from me you can do nothing.",context:"Jesus's last extended teaching before the cross, using the vineyard outside Jerusalem as a living illustration.",meaning:"Fruit is the byproduct of connection, not effort. Branches don't strain to produce grapes — they stay attached.",application:"Today's priority isn't producing more — it's staying connected. The fruit follows.",prompt:"What does 'remaining' practically look like in your week?"},
+{ref:"John 16:33",trans:"modern",text:"I have told you these things, so that in me you may have peace. In this world you will have trouble. But take heart! I have overcome the world.",context:"Jesus's final sentence to his disciples before praying and walking to his arrest.",meaning:"Brutal honesty and blazing hope in one breath: trouble is guaranteed, and so is his victory over it.",application:"Expect trouble without being surprised by it; expect victory without earning it.",prompt:"How does 'he has overcome' change how you face this week's trouble?"},
+{ref:"Psalm 27:1",trans:"kjv",text:"The LORD is my light and my salvation; whom shall I fear? the LORD is the strength of my life; of whom shall I be afraid?",context:"David writing surrounded by literal enemies, armies encamped against him.",meaning:"Two rhetorical questions that answer themselves. Fear shrinks when set beside the size of the protector.",application:"Name today's fear, then set it next to 'the strength of my life' and compare sizes.",prompt:"Whom — or what — shall you fear? Actually list it, then answer it."},
+{ref:"Psalm 118:24",trans:"kjv",text:"This is the day which the LORD hath made; we will rejoice and be glad in it.",context:"From a processional psalm sung entering the temple — the same psalm Jesus quoted about the rejected stone.",meaning:"Today is made, given, deliberate. Rejoicing is a decision made before checking the day's contents.",application:"Gladness as a choice, first thing, before the day earns it.",prompt:"Can you rejoice in the day itself, before knowing how it goes?"},
+{ref:"Ecclesiastes 3:11",trans:"modern",text:"He has made everything beautiful in its time. He has also set eternity in the human heart.",context:"The Teacher, after surveying life's seasons, concludes with this quiet stunner.",meaning:"Two claims: timing matters to beauty, and your longing for 'more than this' is factory-installed, not a malfunction.",application:"The ache for meaning isn't a problem to fix — it's a compass to follow.",prompt:"Where does the 'eternity in your heart' ache most these days?"},
+{ref:"2 Timothy 1:7",trans:"kjv",text:"For God hath not given us the spirit of fear; but of power, and of love, and of a sound mind.",context:"Paul's final letter, written from death row to a timid young pastor he loved like a son.",meaning:"Fear's origin is disowned — it's not from God. What is: power, love, and a sound (disciplined, calm) mind.",application:"When anxiety claims to be realistic, check the source. The sound mind is your inheritance.",prompt:"Which gift do you need to claim today — power, love, or the sound mind?"},
+{ref:"Revelation 21:4",trans:"kjv",text:"And God shall wipe away all tears from their eyes; and there shall be no more death, neither sorrow, nor crying, neither shall there be any more pain: for the former things are passed away.",context:"The Bible's closing vision — not clouds and harps, but a renewed earth and a God close enough to touch faces.",meaning:"The wiping of tears is intimate, parental, individual. History ends not in destruction but in comfort.",application:"Every current grief has an expiry date. Hope is not naive — it's calendared.",prompt:"What tear are you most looking forward to having wiped away?"},
+{ref:"Numbers 6:24-26",trans:"kjv",text:"The LORD bless thee, and keep thee: the LORD make his face shine upon thee, and be gracious unto thee: the LORD lift up his countenance upon thee, and give thee peace.",context:"The blessing God commanded the priests to speak over the people — some of the oldest words in the Bible, found on silver scrolls older than the Dead Sea Scrolls.",meaning:"God's face 'shining' on you is the Hebrew image of a delighted parent looking at a beloved child.",application:"Receive this over yourself tonight, name inserted: 'The LORD bless you, Kayley, and keep you...'",prompt:"What would it feel like to live a whole day under a shining face rather than a suspicious one?"},
+{ref:"Galatians 5:22-23",trans:"modern",text:"But the fruit of the Spirit is love, joy, peace, forbearance, kindness, goodness, faithfulness, gentleness and self-control.",context:"Paul contrasting what grows naturally from God's Spirit versus what grows from self-effort.",meaning:"Fruit, singular — one cluster, nine flavours. And fruit grows; it isn't manufactured. Conditions, not straining.",application:"Pick one of the nine and water it deliberately today.",prompt:"Which of the nine is most in season for you — and which needs watering?"},
+{ref:"Psalm 51:10",trans:"kjv",text:"Create in me a clean heart, O God; and renew a right spirit within me.",context:"David's prayer after his worst failure was exposed — the prayer of a man with nothing left to hide.",meaning:"'Create' is the same word as Genesis 1 — making something from nothing. David asks for new creation, not renovation.",application:"No failure is beyond the God who creates from nothing. Fresh hearts are his speciality.",prompt:"What would you ask God to create brand new in you?"}
 ];
+
 
 // ============== HELPERS ==============
 function $(id){return document.getElementById(id)}
@@ -1545,6 +1464,12 @@ async function syncFromCloud(){
         if(s.key&&s.key.startsWith('reflection_')&&s.value){
           state.reflections[s.key.replace('reflection_','')]=s.value;
         }
+        if(s.key&&s.key.startsWith('ce_notes_')&&s.value){
+          state.ceNotes[s.key.replace('ce_notes_','')]=s.value;
+        }
+        if(s.key==='study_notes'&&s.value){
+          try{state.studyNotes=JSON.parse(s.value)}catch(e){}
+        }
       });
     }
 
@@ -1581,6 +1506,8 @@ function saveLocal(){
       streak:state.streak,
       reflections:state.reflections,
       journalEntries:state.journalEntries,
+      ceNotes:state.ceNotes,
+      studyNotes:state.studyNotes,
       weekMoods:state.weekMoods,
       highlights:state.highlights,
       lastSeen:todayKey()
@@ -1599,6 +1526,8 @@ function loadLocal(){
       state.streak=s.streak||0;
       state.reflections=s.reflections||{};
       state.journalEntries=s.journalEntries||[];
+      state.ceNotes=s.ceNotes||{};
+      state.studyNotes=s.studyNotes||[];
       state.weekMoods=s.weekMoods||[];
       state.highlights=s.highlights||[];
     } else {
@@ -1698,4 +1627,54 @@ function renderCheckResults(missing, low){
 
 function closeCheckModal(){
   document.getElementById('checkModal')?.classList.remove('show');
+}
+
+
+// ============== CHRISTIANITY EXPLORED + STUDY NOTES ==============
+function saveCENote(session){
+  const el=document.getElementById('ceNote_'+session);
+  if(!el)return;
+  state.ceNotes[session]=el.value;
+  saveLocal();
+  sbSetting('ce_notes_'+session,el.value);
+  toast('Session '+session+' notes saved ✓');
+}
+
+function addStudyNote(){
+  const titleEl=document.getElementById('studyNoteTitle');
+  const bodyEl=document.getElementById('studyNoteBody');
+  if(!bodyEl||!bodyEl.value.trim())return;
+  state.studyNotes.unshift({
+    id:Date.now(),
+    date:new Date().toISOString().split('T')[0],
+    title:(titleEl&&titleEl.value.trim())||'Bible study',
+    body:bodyEl.value.trim()
+  });
+  if(titleEl)titleEl.value='';
+  bodyEl.value='';
+  saveLocal();
+  sbSetting('study_notes',JSON.stringify(state.studyNotes));
+  renderStudyNotes();
+  toast('Note saved ✓');
+}
+
+function deleteStudyNote(id){
+  state.studyNotes=state.studyNotes.filter(n=>n.id!==id);
+  saveLocal();
+  sbSetting('study_notes',JSON.stringify(state.studyNotes));
+  renderStudyNotes();
+}
+
+function renderStudyNotes(){
+  const c=document.getElementById('studyNotesList');
+  if(!c)return;
+  if(!state.studyNotes.length){
+    c.innerHTML='<div class="empty" style="padding:24px 10px">No notes yet — your first study note will live here.</div>';
+    return;
+  }
+  c.innerHTML=state.studyNotes.map(n=>`<div class="past-entry">
+    <div class="past-entry-date">${new Date(n.date).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})} — ${n.title}</div>
+    <div style="font-size:13px;color:var(--ink-dim);line-height:1.5;white-space:pre-wrap">${n.body}</div>
+    <div style="margin-top:8px"><span class="edit-link" onclick="deleteStudyNote(${n.id})">delete</span></div>
+  </div>`).join('');
 }

@@ -9,7 +9,7 @@
 <title>Scripture — Kayley's World</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&family=Outfit:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link rel="stylesheet" href="shared.css">
 </head>
@@ -27,59 +27,100 @@
 <div class="page active" id="scripture">
   <div class="page-header">
     <div class="page-title-stack">
-      <div class="eyebrow">Today's Verse</div>
+      <div class="eyebrow">Word & Study</div>
       <h2 class="page-title">Scripture<br><em>& Study</em></h2>
     </div>
   </div>
 
   <div class="scripture-page">
-    <div class="trans-toggle">
-      <button class="trans-btn active" data-trans="all" onclick="setTrans('all')">All</button>
-      <button class="trans-btn" data-trans="kjv" onclick="setTrans('kjv')">KJV</button>
-      <button class="trans-btn" data-trans="modern" onclick="setTrans('modern')">Modern</button>
-      <button class="trans-btn" data-trans="enoch" onclick="setTrans('enoch')">Enoch</button>
+
+    <div class="well-tabs">
+      <button class="well-tab active" data-tab="verse" onclick="setScriptureTab('verse')">Daily Verse</button>
+      <button class="well-tab" data-tab="ce" onclick="setScriptureTab('ce')">CE Course</button>
+      <button class="well-tab" data-tab="notes" onclick="setScriptureTab('notes')">My Notes</button>
     </div>
 
-    <div class="verse-card" id="verseCard">
-      <div class="verse-illumination">✦</div>
-      <div class="verse-ref" id="verseRef"></div>
-      <div class="verse-text" id="verseText"></div>
-      <div class="verse-translation" id="verseTrans"></div>
-    </div>
-
-    <div class="study-card">
-      <div class="study-eyebrow"><span>𓆗</span><span>Study notes</span></div>
-      <div class="study-section">
-        <div class="study-label">Context</div>
-        <div class="study-body" id="studyContext"></div>
+    <!-- TAB: Daily verse -->
+    <div class="well-tab-content active" id="tab-verse">
+      <div class="trans-toggle">
+        <button class="trans-btn active" data-trans="all" onclick="setTrans('all')">All</button>
+        <button class="trans-btn" data-trans="kjv" onclick="setTrans('kjv')">KJV</button>
+        <button class="trans-btn" data-trans="modern" onclick="setTrans('modern')">Modern</button>
+        <button class="trans-btn" data-trans="enoch" onclick="setTrans('enoch')">Enoch</button>
       </div>
-      <div class="study-section">
-        <div class="study-label">What it means</div>
-        <div class="study-body" id="studyMeaning"></div>
+
+      <div class="verse-card" id="verseCard">
+        <div class="verse-illumination">✦</div>
+        <div class="verse-ref" id="verseRef"></div>
+        <div class="verse-text" id="verseText"></div>
+        <div class="verse-translation" id="verseTrans"></div>
       </div>
-      <div class="study-section">
-        <div class="study-label">For today</div>
-        <div class="study-body study-italic" id="studyApplication"></div>
+
+      <div class="study-card">
+        <div class="study-eyebrow"><span>𓆗</span><span>Study notes</span></div>
+        <div class="study-section">
+          <div class="study-label">Context</div>
+          <div class="study-body" id="studyContext"></div>
+        </div>
+        <div class="study-section">
+          <div class="study-label">What it means</div>
+          <div class="study-body" id="studyMeaning"></div>
+        </div>
+        <div class="study-section">
+          <div class="study-label">For today</div>
+          <div class="study-body study-italic" id="studyApplication"></div>
+        </div>
+      </div>
+
+      <div class="reflection-card">
+        <div class="study-eyebrow"><span>✿</span><span>Reflect</span></div>
+        <div class="reflection-prompt" id="reflectionPrompt"></div>
+        <textarea class="reflection-input" id="reflectionText" placeholder="write what comes to mind..."></textarea>
+        <button class="btn-primary" onclick="saveReflection()">Save reflection</button>
+      </div>
+
+      <div class="moti-actions" style="margin-top:14px">
+        <button class="moti-btn" onclick="prevVerse()">← Previous</button>
+        <button class="moti-btn" onclick="nextVerse()">Next →</button>
       </div>
     </div>
 
-    <div class="reflection-card">
-      <div class="study-eyebrow"><span>✿</span><span>Reflect</span></div>
-      <div class="reflection-prompt" id="reflectionPrompt"></div>
-      <textarea class="reflection-input" id="reflectionText" placeholder="write what comes to mind..."></textarea>
-      <button class="btn-primary" onclick="saveReflection()">Save reflection</button>
+    <!-- TAB: Christianity Explored -->
+    <div class="well-tab-content" id="tab-ce">
+
+      <div class="ce-intro-card">
+        <div class="ce-badge">7 sessions · Mark's Gospel</div>
+        <div class="ce-intro-title">Christianity Explored</div>
+        <div class="ce-intro-sub">Mark asks three big questions: Who is Jesus? Why did he come? What does it mean to follow him? Each session below has the passages, the key idea, and space for your notes from the course.</div>
+        <div class="ce-links">
+          <a class="ce-link" href="https://www.christianityexplored.org/courses/christianity-explored/" target="_blank">Official course site ↗</a>
+          <a class="ce-link" href="https://www.christianityexplored.org/Groups/334457/CE_ORG/Read_Marks_Gospel/Read_Marks_Gospel.aspx" target="_blank">Read Mark's Gospel ↗</a>
+          <a class="ce-link" href="https://www.biblegateway.com/passage/?search=Mark+1&version=NIVUK" target="_blank">Mark on BibleGateway ↗</a>
+        </div>
+      </div>
+
+      <div id="ceSessions"></div>
+
     </div>
 
-    <div class="moti-actions" style="margin-top:14px">
-      <button class="moti-btn" onclick="prevVerse()">← Previous</button>
-      <button class="moti-btn" onclick="nextVerse()">Next →</button>
+    <!-- TAB: My notes -->
+    <div class="well-tab-content" id="tab-notes">
+      <div class="reflection-card">
+        <div class="study-eyebrow"><span>✎</span><span>New study note</span></div>
+        <input class="field-input" id="studyNoteTitle" type="text" placeholder="title (e.g. Sunday sermon, CityGates study)" style="margin-bottom:10px">
+        <textarea class="reflection-input" id="studyNoteBody" placeholder="what stood out, questions to ask, verses mentioned..."></textarea>
+        <button class="btn-primary" onclick="addStudyNote()">Save note</button>
+      </div>
+      <div class="study-eyebrow" style="margin:18px 0 10px"><span>❧</span><span>Past notes</span></div>
+      <div id="studyNotesList"></div>
     </div>
+
   </div>
 </div>
 
 </div><!-- /app -->
 
-<div class="bottom-nav">
+<div class="bottom-nav bottom-nav-duo">
   <button class="nav-btn" onclick="window.location.href='index.html'">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9.5L12 3l9 6.5V21H3z"/><path d="M9 21V12h6v9"/></svg>
     <span class="nav-label">Home</span>
@@ -92,23 +133,73 @@
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 5h18l-2 14H5z"/><path d="M9 5V3h6v2"/></svg>
     <span class="nav-label">Shelf</span>
   </button>
-  <button class="nav-btn" onclick="window.location.href='motivation.html'">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2l2.4 7.6H22l-6.2 4.5 2.4 7.6L12 17.2 5.8 21.7l2.4-7.6L2 9.6h7.6z"/></svg>
-    <span class="nav-label">Word</span>
-  </button>
   <button class="nav-btn active" onclick="window.location.href='scripture.html'">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 4v16a2 2 0 0 0 2 2h14V2H6a2 2 0 0 0-2 2z"/><path d="M8 6h8M8 10h8M8 14h5"/></svg>
     <span class="nav-label">Verse</span>
-  </button>
-  <button class="nav-btn" onclick="window.location.href='wellness.html'">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>
-    <span class="nav-label">Inner</span>
   </button>
 </div>
 
 <div class="toast" id="toast"></div>
 <script src="shared.js"></script>
 <script>
+const CE_SESSIONS = [
+  {n:1,title:"Good News",passage:"Mark 1:1-13",key:"Mark 1:1",
+   idea:"Mark opens with a claim, not a suggestion: this is good NEWS about Jesus, the Son of God. Not good advice to follow — an announcement of something that happened.",
+   q:"If Christianity is news rather than advice, what difference does that make?"},
+  {n:2,title:"Identity — Who is Jesus?",passage:"Mark 4:35-41, Mark 2:1-12",key:"Mark 4:41",
+   idea:"Jesus commands storms, forgives sins, and heals with a word. His authority is matched by his compassion. The disciples' terrified question is the one Mark wants us to answer: 'Who is this?'",
+   q:"Does the way Jesus uses his power make him someone you could trust?"},
+  {n:3,title:"Sin — Why did he come?",passage:"Mark 7:1-23",key:"Mark 7:21-22",
+   idea:"Jesus locates humanity's real problem not out there but in here — the heart. Religion polishes the outside; Jesus came because the inside needs rescue.",
+   q:"How do you react to Jesus's diagnosis that the problem is the human heart — including ours?"},
+  {n:4,title:"The Cross",passage:"Mark 15:16-39",key:"Mark 15:34",
+   idea:"At the cross, Jesus takes the separation from God that sin deserves — so we don't have to. The centurion, watching him die, is the first person in Mark to fully see it: 'Surely this man was the Son of God.'",
+   q:"Why did Jesus have to die — and what does it mean that he chose to?"},
+  {n:5,title:"Resurrection",passage:"Mark 16:1-8",key:"Mark 16:6",
+   idea:"The tomb is empty. Christianity stands or falls here — not a philosophy that outlived its founder, but a founder who outlived his execution. Death has been beaten.",
+   q:"If the resurrection really happened, what follows from that for you?"},
+  {n:6,title:"Grace",passage:"Mark 10:13-31",key:"Mark 10:27",
+   idea:"The rich young man tries to earn eternal life and walks away sad. Entry to the kingdom is impossible to earn — 'but not with God; all things are possible with God.' It's a gift received like a child, not a wage.",
+   q:"What's the difference between religion (earning) and grace (receiving)? Which are you living?"},
+  {n:7,title:"What now? — Come and die",passage:"Mark 8:34-38",key:"Mark 8:34",
+   idea:"Following Jesus costs everything and is worth more: 'whoever loses their life for me and for the gospel will save it.' The final session asks for a response — consider, keep exploring, or follow.",
+   q:"What's your honest response at the end of the course — and what's the next step?"}
+];
+
+let scriptureTab='verse';
+function setScriptureTab(t){
+  scriptureTab=t;
+  document.querySelectorAll('.well-tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===t));
+  document.querySelectorAll('.well-tab-content').forEach(c=>c.classList.toggle('active',c.id==='tab-'+t));
+  if(t==='ce')renderCE();
+  if(t==='notes')renderStudyNotes();
+}
+
+function renderCE(){
+  const c=$('ceSessions');
+  c.innerHTML=CE_SESSIONS.map(s=>{
+    const saved=state.ceNotes[s.n]||'';
+    const hasNotes=saved.trim().length>0;
+    return `<div class="ce-session">
+      <div class="ce-session-head" onclick="this.parentElement.classList.toggle('open')">
+        <div class="ce-session-num">${s.n}</div>
+        <div class="ce-session-titles">
+          <div class="ce-session-title">${s.title}</div>
+          <div class="ce-session-passage">${s.passage}${hasNotes?' · <span style="color:var(--gold)">notes ✓</span>':''}</div>
+        </div>
+        <div class="ce-chevron">▾</div>
+      </div>
+      <div class="ce-session-body">
+        <div class="ce-idea">${s.idea}</div>
+        <div class="ce-keyverse">Key verse: <strong>${s.key}</strong> · <a class="ce-link-inline" href="https://www.biblegateway.com/passage/?search=${encodeURIComponent(s.passage)}&version=NIVUK" target="_blank">read passage ↗</a></div>
+        <div class="ce-question">"${s.q}"</div>
+        <textarea class="reflection-input" id="ceNote_${s.n}" placeholder="your notes from this session...">${saved}</textarea>
+        <button class="btn-primary" onclick="saveCENote(${s.n})">Save session ${s.n} notes</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
 async function init(){
   await loadFromCloud();
   renderScripture();
