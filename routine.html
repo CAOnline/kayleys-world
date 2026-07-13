@@ -81,6 +81,20 @@
 
 </div><!-- /app -->
 
+<!-- Swap picker modal -->
+<div class="modal-overlay" id="swapModal" onclick="if(event.target===this)closeSwapModal()">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="swapModalTitle">Use your own</div>
+    <div class="modal-sub" id="swapModalSub">From your shelf</div>
+    <div id="swapModalBody"></div>
+    <div class="modal-actions" style="margin-top:16px">
+      <button class="btn-secondary" onclick="window.location.href='products.html'">Add to shelf</button>
+      <button class="btn-primary" onclick="closeSwapModal()">Close</button>
+    </div>
+  </div>
+</div>
+
 <!-- Shelf check modal -->
 <div class="modal-overlay" id="checkModal" onclick="if(event.target===this)closeCheckModal()">
   <div class="modal">

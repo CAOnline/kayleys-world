@@ -23,6 +23,8 @@ const state = {
   journalEntries:[],
   ceNotes:{},
   studyNotes:[],
+  routineSwaps:{},
+  swapTarget:null,
   streak:0,
   scriptureFilter:'all',
   scriptureIndex:null,
@@ -699,8 +701,25 @@ function renderRoutine(){
   outputSteps(steps);
 }
 
+function slotKey(title){
+  return (state.time+'_'+title).toLowerCase().replace(/[^a-z0-9]+/g,'_');
+}
+
+// Map each routine step title to the shelf category it draws from
+const STEP_CATEGORY={
+  'cleanse':'cleansers','second cleanse':'cleansers','remove the day':'cleansers',
+  'hypochlorous mist':'toners','energising mist':'toners','tone':'toners','skip toner — retinol night':'toners',
+  'serums':'serums','glow serums':'serums','treat & calm':'serums','ha buffer':'serums','retinol':'serums',
+  'spot treat':'serums','spot patch':'serums','treatment mask':'masks','after mask':'serums',
+  'eye care':'eyes','moisturise':'moisturisers','moisturise & seal':'moisturisers','after mask ':'moisturisers',
+  'spf — non-negotiable':'sunscreen','prime':'body','lips':'lips','lip care':'lips',
+  'led therapy':'tools','lymphatic drainage':'tools','energising mist ':'toners'
+};
+
 function outputSteps(steps){
   const html=steps.map((s,i)=>{
+    const key=slotKey(s.title);
+    const swap=state.routineSwaps[key];
     let toolGuideHTML='';
     if(s.toolGuide){
       toolGuideHTML=`<div class="tool-guide">
@@ -710,6 +729,27 @@ function outputSteps(steps){
         <div class="tool-pill"><strong>Massage</strong>Circulation, any day</div>
       </div>`;
     }
+
+    // If Kayley swapped this slot to her own product, show hers as the lead line
+    let productLines;
+    if(swap){
+      productLines=`<div class="product-line product-line-swapped">
+          <div class="product-bullet" style="background:var(--gold)"></div>
+          <div style="flex:1">
+            <strong>${swap.name} <span class="your-pick">your pick</span></strong>
+            ${swap.note?`<div class="product-meta">${swap.note}</div>`:''}
+            <div class="swap-orig">was: ${swap.origName}</div>
+          </div>
+          <button class="swap-reset" onclick="resetSwap('${key}')" title="restore default">↺</button>
+        </div>`;
+    } else {
+      productLines=s.products.map((p,pi)=>`<div class="product-line">
+          <div class="product-bullet"></div>
+          <div style="flex:1"><strong>${p.p}</strong>${p.m?`<div class="product-meta">${p.m}</div>`:''}</div>
+          ${pi===0?`<button class="swap-btn" onclick="openSwap('${key}','${s.title.replace(/'/g,"")}', '${(s.products[0].p).replace(/'/g,"")}')" title="use my own">swap</button>`:''}
+        </div>`).join('');
+    }
+
     return `<div class="step-card stagger" style="animation-delay:${i*0.05}s">
       <div class="step-head">
         <div class="step-num-block">
@@ -719,16 +759,69 @@ function outputSteps(steps){
         <div class="step-icon">${s.icon}</div>
       </div>
       <div class="step-products">
-        ${s.products.map(p=>`<div class="product-line">
-          <div class="product-bullet"></div>
-          <div><strong>${p.p}</strong>${p.m?`<div class="product-meta">${p.m}</div>`:''}</div>
-        </div>`).join('')}
+        ${productLines}
       </div>
       ${toolGuideHTML}
       ${s.note?`<div class="step-note">${s.note}</div>`:''}
     </div>`;
   }).join('');
   $('routine').innerHTML=html;
+}
+
+// ── Swap picker ──
+function openSwap(key,title,origName){
+  state.swapTarget={key,title,origName};
+  const cat=STEP_CATEGORY[title.toLowerCase()]||null;
+  let pool=state.products.filter(p=>p.stock!=='empty');
+  if(cat)pool=pool.filter(p=>p.cat===cat);
+  if(pool.length===0)pool=state.products.filter(p=>p.stock!=='empty'); // fall back to whole shelf
+
+  const modal=document.getElementById('swapModal');
+  const body=document.getElementById('swapModalBody');
+  if(!modal||!body)return;
+  document.getElementById('swapModalTitle').textContent='Use your own for "'+title+'"';
+  document.getElementById('swapModalSub').textContent=cat?('From your '+(CATEGORY_LABELS[cat]||cat)):'From your shelf';
+
+  if(pool.length===0){
+    body.innerHTML='<div class="empty" style="padding:30px 10px">Nothing on your shelf for this step yet. Add products on the Shelf page first.</div>';
+  } else {
+    body.innerHTML=pool.map(p=>`<div class="swap-option" onclick="applySwap(${p.id})">
+      <div class="stock-dot stock-${p.stock||'full'}"></div>
+      <div style="flex:1">
+        <div class="swap-option-name">${p.name}</div>
+        <div class="swap-option-meta">${[CATEGORY_LABELS[p.cat]||p.cat,p.store].filter(Boolean).join(' · ')}</div>
+      </div>
+    </div>`).join('');
+  }
+  modal.classList.add('show');
+}
+
+function applySwap(productId){
+  const p=state.products.find(x=>x.id===productId);
+  if(!p||!state.swapTarget)return;
+  state.routineSwaps[state.swapTarget.key]={
+    name:p.name,
+    note:p.notes||'',
+    origName:state.swapTarget.origName
+  };
+  saveLocal();
+  sbSetting('routine_swaps',JSON.stringify(state.routineSwaps));
+  closeSwapModal();
+  renderSkincare();
+  toast('Swapped to '+p.name+' ✓');
+}
+
+function resetSwap(key){
+  delete state.routineSwaps[key];
+  saveLocal();
+  sbSetting('routine_swaps',JSON.stringify(state.routineSwaps));
+  renderSkincare();
+  toast('Default restored');
+}
+
+function closeSwapModal(){
+  document.getElementById('swapModal')?.classList.remove('show');
+  state.swapTarget=null;
 }
 
 // ============== PRODUCTS ==============
@@ -1470,6 +1563,9 @@ async function syncFromCloud(){
         if(s.key==='study_notes'&&s.value){
           try{state.studyNotes=JSON.parse(s.value)}catch(e){}
         }
+        if(s.key==='routine_swaps'&&s.value){
+          try{state.routineSwaps=JSON.parse(s.value)}catch(e){}
+        }
       });
     }
 
@@ -1508,6 +1604,7 @@ function saveLocal(){
       journalEntries:state.journalEntries,
       ceNotes:state.ceNotes,
       studyNotes:state.studyNotes,
+      routineSwaps:state.routineSwaps,
       weekMoods:state.weekMoods,
       highlights:state.highlights,
       lastSeen:todayKey()
@@ -1528,6 +1625,7 @@ function loadLocal(){
       state.journalEntries=s.journalEntries||[];
       state.ceNotes=s.ceNotes||{};
       state.studyNotes=s.studyNotes||[];
+      state.routineSwaps=s.routineSwaps||{};
       state.weekMoods=s.weekMoods||[];
       state.highlights=s.highlights||[];
     } else {

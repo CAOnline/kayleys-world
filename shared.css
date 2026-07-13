@@ -351,3 +351,16 @@ em{font-style:italic;}
 .divine-btn:active .divine-inner{transform:scale(0.98);}
 @keyframes divineShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
 @keyframes divinePulse{0%,100%{transform:scale(1);filter:drop-shadow(0 0 6px rgba(251,191,36,0.4))}50%{transform:scale(1.12);filter:drop-shadow(0 0 14px rgba(251,191,36,0.9))}}
+
+/* ── routine product swaps ── */
+.product-line{align-items:center;}
+.swap-btn{background:rgba(255,255,255,0.06);border:1px solid var(--glass-b);color:var(--ink-dim);font-family:'Outfit',sans-serif;font-size:11px;padding:6px 12px;border-radius:100px;cursor:pointer;flex-shrink:0;transition:.2s;}
+.swap-btn:active{transform:scale(0.94);background:var(--glass-2);}
+.your-pick{display:inline-block;font-family:'Outfit',sans-serif;font-size:9px;font-weight:600;letter-spacing:0.5px;text-transform:uppercase;color:#120b20;background:var(--gold);padding:2px 7px;border-radius:100px;margin-left:8px;vertical-align:middle;}
+.swap-orig{font-size:11px;color:var(--ink-faint);font-style:italic;margin-top:3px;}
+.swap-reset{background:none;border:1px solid var(--glass-b);color:var(--gold);width:32px;height:32px;border-radius:50%;font-size:15px;cursor:pointer;flex-shrink:0;}
+.swap-reset:active{transform:scale(0.9);}
+.swap-option{display:flex;align-items:center;gap:12px;background:rgba(0,0,0,0.2);border:1px solid var(--glass-b);border-radius:14px;padding:13px 14px;margin-bottom:8px;cursor:pointer;transition:.2s;}
+.swap-option:active{transform:scale(0.98);background:var(--glass-2);}
+.swap-option-name{color:#fff;font-size:14px;font-weight:500;}
+.swap-option-meta{font-size:12px;color:var(--ink-faint);margin-top:2px;}
