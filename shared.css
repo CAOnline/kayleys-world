@@ -327,3 +327,27 @@ em{font-style:italic;}
 .ce-keyverse strong{color:var(--gold);}
 .ce-question{font-family:'Fraunces',serif;font-style:italic;font-size:14px;color:var(--ink);border-left:2px solid var(--rose);padding-left:12px;margin-bottom:14px;line-height:1.5;}
 .duo-verse .duo-glow{background:var(--gold);}
+
+/* ── divine button ── */
+.divine-btn{position:relative;width:100%;border:none;background:none;padding:0;cursor:pointer;border-radius:24px;overflow:visible;-webkit-tap-highlight-color:transparent;}
+.divine-halo{position:absolute;inset:-2px;border-radius:26px;z-index:0;
+  background:linear-gradient(120deg,var(--gold),var(--rose),var(--violet-hot),var(--gold));
+  background-size:300% 300%;animation:divineShift 6s ease infinite;
+  filter:blur(6px);opacity:0.75;}
+.divine-btn::before{content:'';position:absolute;inset:-2px;border-radius:26px;z-index:1;
+  background:linear-gradient(120deg,var(--gold),var(--rose),var(--violet-hot),var(--gold));
+  background-size:300% 300%;animation:divineShift 6s ease infinite;}
+.divine-inner{position:relative;z-index:2;display:flex;align-items:center;gap:16px;
+  background:#120b20;border-radius:24px;margin:2px;padding:22px 22px;text-align:left;}
+.divine-icon{font-size:26px;flex-shrink:0;animation:divinePulse 3s ease-in-out infinite;
+  filter:drop-shadow(0 0 8px rgba(251,191,36,0.6));}
+.divine-text{flex:1;display:flex;flex-direction:column;gap:3px;min-width:0;}
+.divine-title{font-family:'Fraunces',serif;font-size:24px;font-weight:600;font-style:italic;
+  background:linear-gradient(120deg,#fff,var(--gold),var(--rose));background-size:200% 200%;
+  animation:divineShift 6s ease infinite;
+  -webkit-background-clip:text;background-clip:text;color:transparent;}
+.divine-sub{font-size:12px;color:var(--ink-dim);font-family:'Outfit',sans-serif;font-weight:300;}
+.divine-arrow{font-size:20px;color:var(--gold);flex-shrink:0;}
+.divine-btn:active .divine-inner{transform:scale(0.98);}
+@keyframes divineShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+@keyframes divinePulse{0%,100%{transform:scale(1);filter:drop-shadow(0 0 6px rgba(251,191,36,0.4))}50%{transform:scale(1.12);filter:drop-shadow(0 0 14px rgba(251,191,36,0.9))}}
