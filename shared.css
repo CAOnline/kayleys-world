@@ -263,3 +263,42 @@ em{font-style:italic;}
 .past-entry{background:rgba(0,0,0,0.15);border:1px solid var(--glass-b);border-radius:14px;padding:12px 14px;margin-bottom:8px;}
 .past-entry-date{font-size:11px;color:var(--gold);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;}
 .past-entry-preview{font-size:13px;color:var(--ink-dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+
+/* ── stripped-back landing ── */
+.landing-centered{min-height:calc(100dvh - 40px);display:flex;flex-direction:column;justify-content:center;padding-bottom:40px;}
+.greeting-mark{font-family:'Fraunces',serif;font-style:italic;font-size:15px;color:var(--gold);margin-bottom:14px;letter-spacing:0.5px;}
+.hero-title-big{font-size:clamp(56px,15vw,88px);}
+.duo-nav{display:flex;flex-direction:column;gap:16px;margin-top:40px;}
+.duo-card{position:relative;background:var(--glass);border:1px solid var(--glass-b);border-radius:28px;padding:28px 24px;backdrop-filter:blur(24px);cursor:pointer;overflow:hidden;transition:transform .25s ease,border-color .25s ease;min-height:130px;display:flex;flex-direction:column;justify-content:center;gap:5px;}
+.duo-card:active{transform:scale(0.97);}
+.duo-glow{position:absolute;top:-40%;right:-20%;width:220px;height:220px;border-radius:50%;filter:blur(60px);opacity:0.35;pointer-events:none;}
+.duo-ritual .duo-glow{background:var(--violet);}
+.duo-shelf .duo-glow{background:var(--rose);}
+.duo-icon{font-size:26px;}
+.duo-title{font-family:'Fraunces',serif;font-size:28px;font-weight:600;font-style:italic;
+  background:linear-gradient(135deg,#fff,var(--rose));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.duo-desc{font-size:13px;color:var(--ink-dim);font-weight:300;}
+.duo-arrow{position:absolute;right:24px;top:50%;transform:translateY(-50%);font-size:22px;color:var(--ink-faint);}
+.landing-foot{margin-top:36px;text-align:center;}
+.date-line{font-size:12px;color:var(--ink-faint);letter-spacing:2px;text-transform:uppercase;}
+
+/* ── shelf check ── */
+.check-shelf-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;
+  background:linear-gradient(135deg,rgba(139,92,246,0.18),rgba(244,114,182,0.18));
+  border:1px solid var(--violet-hot);color:#fff;padding:16px;border-radius:16px;
+  font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;cursor:pointer;
+  margin:6px 0 20px;transition:.2s;}
+.check-shelf-btn:active{transform:scale(0.98);}
+.check-shelf-icon{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,var(--violet),var(--rose));font-size:12px;}
+.check-all-good{text-align:center;padding:24px 10px;}
+.check-icon{width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,var(--violet),var(--rose));display:flex;align-items:center;justify-content:center;font-size:24px;color:#fff;margin:0 auto 14px;}
+.check-title{font-family:'Fraunces',serif;font-size:20px;font-weight:600;margin-bottom:6px;}
+.check-sub{font-size:13px;color:var(--ink-dim);line-height:1.5;}
+.check-section-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:16px 0 10px;}
+.check-row{display:flex;gap:12px;align-items:flex-start;background:rgba(0,0,0,0.2);border:1px solid var(--glass-b);border-radius:14px;padding:12px 14px;margin-bottom:8px;}
+.check-row .stock-dot{margin-top:5px;}
+.check-row-text strong{color:#fff;font-size:14px;display:block;}
+.check-row-sub{font-size:12px;color:var(--ink-faint);margin-top:2px;}
+
+/* two-item nav spacing */
+.bottom-nav-duo{justify-content:space-evenly;}

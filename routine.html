@@ -6,10 +6,10 @@
 <meta name="theme-color" content="#0a0612">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>Ritual — Kayley's World</title>
+<title>The Ritual — Kayley's World</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&family=Outfit:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link rel="stylesheet" href="shared.css">
 </head>
@@ -70,13 +70,32 @@
       </div>
     </div>
 
+    <button class="check-shelf-btn" onclick="checkRoutineAgainstShelf()">
+      <span class="check-shelf-icon">✓</span>
+      <span>Check my shelf for this routine</span>
+    </button>
+
     <div id="routine"></div>
   </div>
 </div>
 
 </div><!-- /app -->
 
-<div class="bottom-nav">
+<!-- Shelf check modal -->
+<div class="modal-overlay" id="checkModal" onclick="if(event.target===this)closeCheckModal()">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Shelf check</div>
+    <div class="modal-sub">Today's routine vs what you actually have</div>
+    <div id="checkModalBody"></div>
+    <div class="modal-actions" style="margin-top:18px">
+      <button class="btn-secondary" onclick="window.location.href='products.html'">Open shelf</button>
+      <button class="btn-primary" onclick="closeCheckModal()">Done</button>
+    </div>
+  </div>
+</div>
+
+<div class="bottom-nav bottom-nav-duo">
   <button class="nav-btn" onclick="window.location.href='index.html'">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9.5L12 3l9 6.5V21H3z"/><path d="M9 21V12h6v9"/></svg>
     <span class="nav-label">Home</span>
@@ -88,18 +107,6 @@
   <button class="nav-btn" onclick="window.location.href='products.html'">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 5h18l-2 14H5z"/><path d="M9 5V3h6v2"/></svg>
     <span class="nav-label">Shelf</span>
-  </button>
-  <button class="nav-btn" onclick="window.location.href='motivation.html'">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2l2.4 7.6H22l-6.2 4.5 2.4 7.6L12 17.2 5.8 21.7l2.4-7.6L2 9.6h7.6z"/></svg>
-    <span class="nav-label">Word</span>
-  </button>
-  <button class="nav-btn" onclick="window.location.href='scripture.html'">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 4v16a2 2 0 0 0 2 2h14V2H6a2 2 0 0 0-2 2z"/><path d="M8 6h8M8 10h8M8 14h5"/></svg>
-    <span class="nav-label">Verse</span>
-  </button>
-  <button class="nav-btn" onclick="window.location.href='wellness.html'">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>
-    <span class="nav-label">Inner</span>
   </button>
 </div>
 
@@ -113,7 +120,7 @@ async function init(){
   setTimeout(()=>{
     $('loader').classList.add('hide');
     setTimeout(()=>$('loader').remove(),700);
-  },800);
+  },700);
 }
 init();
 </script>

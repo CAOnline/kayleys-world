@@ -6,10 +6,11 @@
 <meta name="theme-color" content="#0a0612">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Kayley's World">
 <title>Kayley's World</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&family=Outfit:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link rel="stylesheet" href="shared.css">
 </head>
@@ -28,101 +29,39 @@
 <div class="app">
 
 <div class="page active" id="landing">
-  <div class="landing">
-    <div class="landing-header stagger">
-      <div class="date-stack">
-        <div class="date-day" id="dateDay">Monday</div>
-        <div class="date-num" id="dateNum">04</div>
-        <div class="date-month" id="dateMonth">May 2026</div>
-      </div>
-      <div class="streak-pill">
-        <span style="font-size:13px">✦</span>
-        <span class="streak-num" id="streakNum">0</span>
-        <span class="streak-label">Day Streak</span>
-      </div>
-    </div>
+  <div class="landing landing-centered">
 
     <div class="hero-block stagger">
       <div class="greeting-mark" id="greeting">good morning, sunshine</div>
-      <div class="hero-eyebrow eyebrow">A Ritual For You</div>
-      <h1 class="hero-title">Kayley's<br><span class="it">World</span></h1>
+      <h1 class="hero-title hero-title-big">Kayley's<br><span class="it">World</span></h1>
       <div class="hero-sub" id="todaysVibe">Soft mornings, slow rituals — your skin, your sanctuary.</div>
     </div>
 
-    <div class="quick-stats stagger">
-      <div class="stat" onclick="window.location.href='routine.html'">
-        <div class="stat-num" id="statRoutine">AM</div>
-        <div class="stat-label">Now</div>
+    <div class="duo-nav stagger">
+      <div class="duo-card duo-ritual" onclick="window.location.href='routine.html'">
+        <div class="duo-glow"></div>
+        <div class="duo-icon">✿</div>
+        <div class="duo-title">The Ritual</div>
+        <div class="duo-desc" id="ritualMeta">— loading —</div>
+        <div class="duo-arrow">→</div>
       </div>
-      <div class="stat" onclick="window.location.href='products.html'">
-        <div class="stat-num" id="statProducts">—</div>
-        <div class="stat-label">Products</div>
-      </div>
-      <div class="stat" onclick="window.location.href='wellness.html'">
-        <div class="stat-num" id="statMood">—</div>
-        <div class="stat-label">Today's Mood</div>
+      <div class="duo-card duo-shelf" onclick="window.location.href='products.html'">
+        <div class="duo-glow"></div>
+        <div class="duo-icon">✨</div>
+        <div class="duo-title">The Shelf</div>
+        <div class="duo-desc"><span id="statProducts">—</span> products in your collection</div>
+        <div class="duo-arrow">→</div>
       </div>
     </div>
 
-    <div class="hero-nav stagger">
-      <div class="nav-card tall" onclick="window.location.href='routine.html'">
-        <div class="nav-icon">✿</div>
-        <div class="nav-card-title">Today's Ritual</div>
-        <div class="nav-card-desc">Step by step, just for today's skin</div>
-        <div class="nav-card-meta" id="ritualMeta">— loading —</div>
-      </div>
-      <div class="nav-card" onclick="window.location.href='scripture.html'">
-        <div class="nav-icon">𓆗</div>
-        <div class="nav-card-title">Scripture</div>
-        <div class="nav-card-desc" id="verseRefHome">today's verse</div>
-      </div>
-      <div class="nav-card" onclick="window.location.href='motivation.html'">
-        <div class="nav-icon">✦</div>
-        <div class="nav-card-title">Daily Word</div>
-        <div class="nav-card-desc">A little something</div>
-      </div>
-      <div class="nav-card tall" onclick="window.location.href='wellness.html'">
-        <div class="nav-icon">◐</div>
-        <div class="nav-card-title">Inner</div>
-        <div class="nav-card-desc">Mood · sleep · diary</div>
-      </div>
-      <div class="nav-card tall" onclick="window.location.href='cognitive-triangle.html'">
-        <div class="nav-icon">△</div>
-        <div class="nav-card-title">CBT Triangle</div>
-        <div class="nav-card-desc">Thoughts · feelings · behaviours</div>
-      </div>
+    <div class="landing-foot stagger">
+      <div class="date-line" id="dateLine">Monday 13 July</div>
     </div>
+
   </div>
 </div>
 
 </div><!-- /app -->
-
-<div class="bottom-nav">
-  <button class="nav-btn active" onclick="window.location.href='index.html'">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9.5L12 3l9 6.5V21H3z"/><path d="M9 21V12h6v9"/></svg>
-    <span class="nav-label">Home</span>
-  </button>
-  <button class="nav-btn" onclick="window.location.href='routine.html'">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2C8 2 6 6 6 9c0 6 6 13 6 13s6-7 6-13c0-3-2-7-6-7z"/></svg>
-    <span class="nav-label">Ritual</span>
-  </button>
-  <button class="nav-btn" onclick="window.location.href='products.html'">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 5h18l-2 14H5z"/><path d="M9 5V3h6v2"/></svg>
-    <span class="nav-label">Shelf</span>
-  </button>
-  <button class="nav-btn" onclick="window.location.href='motivation.html'">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2l2.4 7.6H22l-6.2 4.5 2.4 7.6L12 17.2 5.8 21.7l2.4-7.6L2 9.6h7.6z"/></svg>
-    <span class="nav-label">Word</span>
-  </button>
-  <button class="nav-btn" onclick="window.location.href='scripture.html'">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 4v16a2 2 0 0 0 2 2h14V2H6a2 2 0 0 0-2 2z"/><path d="M8 6h8M8 10h8M8 14h5"/></svg>
-    <span class="nav-label">Verse</span>
-  </button>
-  <button class="nav-btn" onclick="window.location.href='wellness.html'">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>
-    <span class="nav-label">Inner</span>
-  </button>
-</div>
 
 <div class="toast" id="toast"></div>
 
@@ -130,22 +69,15 @@
 <script>
 async function init(){
   await loadFromCloud();
-  updateStreak();
   renderLanding();
   setTimeout(()=>{
     $('loader').classList.add('hide');
     setTimeout(()=>$('loader').remove(),700);
-  },800);
+  },700);
 }
 
 function renderLanding(){
   const d = new Date();
-  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-  $('dateDay').textContent = days[d.getDay()];
-  $('dateNum').textContent = String(d.getDate()).padStart(2,'0');
-  $('dateMonth').textContent = `${months[d.getMonth()]} ${d.getFullYear()}`;
-
   const hour = d.getHours();
   let greeting = 'good morning, sunshine';
   let vibe = 'Soft mornings, slow rituals — your skin, your sanctuary.';
@@ -155,17 +87,14 @@ function renderLanding(){
   $('greeting').textContent = greeting;
   $('todaysVibe').textContent = vibe;
 
-  $('statRoutine').textContent = hour < 12 ? 'AM' : 'PM';
   $('statProducts').textContent = state.products.length || '—';
-  $('statMood').textContent = state.todayMood ? ['😔','😕','😐','🙂','✨'][state.todayMood-1] : '—';
 
-  const ritualMeta = isRetinolNight() ? 'tonight is a retinol night' : (isMaskFriendlyNight() ? 'mask-friendly evening' : 'gentle evening ahead');
-  $('ritualMeta').textContent = `— ${ritualMeta}`;
+  const ritualMeta = hour < 12
+    ? 'Morning routine ready'
+    : (isRetinolNight() ? 'Tonight is a retinol night' : (isMaskFriendlyNight() ? 'Mask-friendly evening' : 'Gentle evening ahead'));
+  $('ritualMeta').textContent = ritualMeta;
 
-  const todaysVerse = VERSES[dayOfYear() % VERSES.length];
-  if(todaysVerse && $('verseRefHome')) $('verseRefHome').textContent = todaysVerse.ref;
-
-  $('streakNum').textContent = state.streak;
+  $('dateLine').textContent = d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});
 }
 
 init();

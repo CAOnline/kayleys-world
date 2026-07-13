@@ -1625,3 +1625,77 @@ function updateStreak(){
 // ============== INIT ==============
 // Each page handles its own init() — shared.js does not auto-run one.
 
+
+// ============== ROUTINE vs SHELF CHECK ==============
+function checkRoutineAgainstShelf(){
+  const lines = document.querySelectorAll('#routine .product-line strong');
+  const needed = Array.from(lines).map(el=>el.textContent.trim()).filter(t=>
+    !t.toLowerCase().includes('splash of water') &&
+    !t.toLowerCase().startsWith('or ') &&
+    !t.toLowerCase().includes('acts as your buffer')
+  );
+
+  const shelfNames = state.products.map(p=>p.name.toLowerCase());
+
+  function normalize(s){
+    return s.toLowerCase()
+      .replace(/\(.*?\)/g,'')
+      .replace(/[^a-z0-9\s]/g,'')
+      .split(/\s+/)
+      .filter(w=>w.length>2 && !['the','and','for','with','your'].includes(w));
+  }
+
+  const missing=[];
+  const low=[];
+  needed.forEach(name=>{
+    const words = normalize(name);
+    const match = state.products.find(p=>{
+      const pWords = normalize(p.name);
+      const overlap = words.filter(w=>pWords.some(pw=>pw.includes(w)||w.includes(pw)));
+      return overlap.length >= Math.min(2, words.length) || pWords.some(pw=>name.toLowerCase().includes(pw)&&pw.length>3);
+    });
+    if(!match){
+      if(!missing.includes(name)) missing.push(name);
+    } else if(match.stock==='empty'||match.stock==='low'){
+      if(!low.find(l=>l.name===name)) low.push({name,stock:match.stock,productName:match.name});
+    }
+  });
+
+  renderCheckResults(missing, low);
+}
+
+function renderCheckResults(missing, low){
+  const modal = document.getElementById('checkModal');
+  const body = document.getElementById('checkModalBody');
+  if(!modal||!body) return;
+
+  if(missing.length===0 && low.length===0){
+    body.innerHTML = `<div class="check-all-good">
+      <div class="check-icon">✓</div>
+      <div class="check-title">You're fully stocked</div>
+      <div class="check-sub">Everything in today's routine is on your shelf and ready to go.</div>
+    </div>`;
+  } else {
+    let html = '';
+    if(low.length){
+      html += `<div class="check-section-label">Running low</div>`;
+      html += low.map(l=>`<div class="check-row check-row-low">
+        <div class="stock-dot stock-${l.stock}"></div>
+        <div class="check-row-text"><strong>${l.productName}</strong><div class="check-row-sub">used tonight — ${l.stock==='empty'?'empty, needs replacing':'getting low'}</div></div>
+      </div>`).join('');
+    }
+    if(missing.length){
+      html += `<div class="check-section-label">Not on your shelf</div>`;
+      html += missing.map(m=>`<div class="check-row check-row-missing">
+        <div class="stock-dot" style="background:var(--red)"></div>
+        <div class="check-row-text"><strong>${m}</strong><div class="check-row-sub">add it to your shelf, or the routine will skip it</div></div>
+      </div>`).join('');
+    }
+    body.innerHTML = html;
+  }
+  modal.classList.add('show');
+}
+
+function closeCheckModal(){
+  document.getElementById('checkModal')?.classList.remove('show');
+}
