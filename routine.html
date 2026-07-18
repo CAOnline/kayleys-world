@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#0a0612">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<link rel="stylesheet" href="shared.css">
+<link rel="stylesheet" href="shared.css?v=3">
 </head>
 <body>
 <div class="aurora"></div>
@@ -33,6 +33,22 @@
   </div>
 
   <div class="flow-container">
+    <section class="routine-overview" aria-labelledby="routineOverviewTitle">
+      <div class="routine-overview-top">
+        <div>
+          <div class="routine-overview-kicker">Made for today</div>
+          <h3 class="routine-overview-title" id="routineOverviewTitle">Your skin, your pace.</h3>
+        </div>
+        <div class="routine-progress-ring" id="routineProgressRing" aria-label="Routine progress">0%</div>
+      </div>
+      <div class="routine-mode" aria-label="Routine display mode">
+        <button data-mode="essentials" onclick="setRoutineMode('essentials')"><span>Quick</span><small>the essentials</small></button>
+        <button data-mode="full" onclick="setRoutineMode('full')"><span>Full ritual</span><small>every step</small></button>
+        <button data-mode="focus" onclick="setRoutineMode('focus')"><span>Focus</span><small>one at a time</small></button>
+      </div>
+      <div id="routineProgress" class="routine-progress-copy"></div>
+    </section>
+
     <div class="week-strip" id="weekStrip"></div>
 
     <div class="time-toggle">
@@ -42,32 +58,14 @@
 
     <div id="smartHint"></div>
 
-    <div class="section-eyebrow">How is skin feeling?</div>
-    <div class="mood-grid" id="moodGrid">
-      <div class="mood-pill" data-mood="normal" onclick="setMood('normal')">
-        <div class="mood-icon">◯</div>
-        <div><div class="mood-name">Calm</div><div class="mood-desc">Normal day</div></div>
-      </div>
-      <div class="mood-pill" data-mood="oily" onclick="setMood('oily')">
-        <div class="mood-icon">◑</div>
-        <div><div class="mood-name">Oily</div><div class="mood-desc">Shiny / congested</div></div>
-      </div>
-      <div class="mood-pill" data-mood="breakout" onclick="setMood('breakout')">
-        <div class="mood-icon">✦</div>
-        <div><div class="mood-name">Breakout</div><div class="mood-desc">Spots active</div></div>
-      </div>
-      <div class="mood-pill" data-mood="sensitive" onclick="setMood('sensitive')">
-        <div class="mood-icon">❀</div>
-        <div><div class="mood-name">Sensitive</div><div class="mood-desc">Reactive day</div></div>
-      </div>
-      <div class="mood-pill" data-mood="dull" onclick="setMood('dull')">
-        <div class="mood-icon">✺</div>
-        <div><div class="mood-name">Dull</div><div class="mood-desc">Glow boost</div></div>
-      </div>
-      <div class="mood-pill" data-mood="mask" onclick="setMood('mask')">
-        <div class="mood-icon">⌘</div>
-        <div><div class="mood-name">Mask Day</div><div class="mood-desc">Treat yourself</div></div>
-      </div>
+    <div class="section-eyebrow routine-feeling-label">How is your skin feeling?</div>
+    <div class="mood-grid mood-strip" id="moodGrid">
+      <button class="mood-pill" data-mood="normal" onclick="setMood('normal')"><span class="mood-icon">◯</span><span class="mood-name">Calm</span></button>
+      <button class="mood-pill" data-mood="oily" onclick="setMood('oily')"><span class="mood-icon">◑</span><span class="mood-name">Oily</span></button>
+      <button class="mood-pill" data-mood="breakout" onclick="setMood('breakout')"><span class="mood-icon">✦</span><span class="mood-name">Breakout</span></button>
+      <button class="mood-pill" data-mood="sensitive" onclick="setMood('sensitive')"><span class="mood-icon">❀</span><span class="mood-name">Sensitive</span></button>
+      <button class="mood-pill" data-mood="dull" onclick="setMood('dull')"><span class="mood-icon">✺</span><span class="mood-name">Dull</span></button>
+      <button class="mood-pill" data-mood="mask" onclick="setMood('mask')"><span class="mood-icon">⌘</span><span class="mood-name">Mask</span></button>
     </div>
 
     <button class="check-shelf-btn" onclick="checkRoutineAgainstShelf()">
@@ -109,28 +107,28 @@
   </div>
 </div>
 
-<div class="bottom-nav bottom-nav-duo">
+<nav class="bottom-nav bottom-nav-core" aria-label="Primary navigation">
   <button class="nav-btn" onclick="window.location.href='index.html'">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9.5L12 3l9 6.5V21H3z"/><path d="M9 21V12h6v9"/></svg>
     <span class="nav-label">Home</span>
   </button>
-  <button class="nav-btn active" onclick="window.location.href='routine.html'">
+  <button class="nav-btn active" aria-current="page" onclick="window.location.href='routine.html'">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2C8 2 6 6 6 9c0 6 6 13 6 13s6-7 6-13c0-3-2-7-6-7z"/></svg>
-    <span class="nav-label">Ritual</span>
+    <span class="nav-label">Routine</span>
   </button>
   <button class="nav-btn" onclick="window.location.href='products.html'">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 5h18l-2 14H5z"/><path d="M9 5V3h6v2"/></svg>
-    <span class="nav-label">Shelf</span>
+    <span class="nav-label">Products</span>
   </button>
   <button class="nav-btn" onclick="window.location.href='scripture.html'">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 4v16a2 2 0 0 0 2 2h14V2H6a2 2 0 0 0-2 2z"/><path d="M8 6h8M8 10h8M8 14h5"/></svg>
-    <span class="nav-label">Verse</span>
+    <span class="nav-label">Scripture</span>
   </button>
-</div>
+</nav>
 
 <div class="toast" id="toast"></div>
 
-<script src="shared.js"></script>
+<script src="shared.js?v=3"></script>
 <script>
 async function init(){
   await loadFromCloud();

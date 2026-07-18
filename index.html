@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#0a0612">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<link rel="stylesheet" href="shared.css">
+<link rel="stylesheet" href="shared.css?v=3">
 </head>
 <body>
 
@@ -29,54 +29,93 @@
 <div class="app">
 
 <div class="page active" id="landing">
-  <div class="landing landing-centered">
-
-    <div class="hero-block stagger">
-      <div class="greeting-mark" id="greeting">good morning, sunshine</div>
-      <h1 class="hero-title hero-title-big">Kayley's<br><span class="it">World</span></h1>
-      <div class="hero-sub" id="todaysVibe">Soft mornings, slow rituals — your skin, your sanctuary.</div>
-    </div>
-
-    <div class="duo-nav stagger">
-      <div class="duo-card duo-ritual" onclick="window.location.href='routine.html'">
-        <div class="duo-glow"></div>
-        <div class="duo-icon">✿</div>
-        <div class="duo-title">The Ritual</div>
-        <div class="duo-desc" id="ritualMeta">— loading —</div>
-        <div class="duo-arrow">→</div>
+  <div class="landing landing-joy">
+    <section class="joy-hero" aria-labelledby="homeTitle">
+      <img class="joy-hero-image" src="hero.webp?v=3" alt="" aria-hidden="true">
+      <div class="joy-hero-wash"></div>
+      <div class="joy-spark joy-spark-one" aria-hidden="true">✦</div>
+      <div class="joy-spark joy-spark-two" aria-hidden="true">✧</div>
+      <div class="joy-spark joy-spark-three" aria-hidden="true">✦</div>
+      <div class="joy-hero-content">
+        <div class="joy-date" id="dateLine">Monday 13 July</div>
+        <div class="joy-greeting" id="greeting">good morning, sunshine</div>
+        <h1 class="joy-title" id="homeTitle">Kayley’s<br><em>World</em></h1>
+        <p class="joy-sub" id="todaysVibe">Soft mornings, slow rituals — your skin, your sanctuary.</p>
       </div>
-      <div class="duo-card duo-shelf" onclick="window.location.href='products.html'">
-        <div class="duo-glow"></div>
-        <div class="duo-icon">✨</div>
-        <div class="duo-title">The Shelf</div>
-        <div class="duo-desc"><span id="statProducts">—</span> products in your collection</div>
-        <div class="duo-arrow">→</div>
+    </section>
+
+    <section class="daily-affirmation daily-affirmation-hero" aria-labelledby="affirmationHeading">
+      <div class="affirmation-topline">
+        <h2 class="affirmation-kicker" id="affirmationHeading">Your words for today</h2>
+        <span class="affirmation-star" aria-hidden="true">✦</span>
       </div>
-      <button class="divine-btn" onclick="window.location.href='scripture.html'">
-        <span class="divine-halo"></span>
-        <span class="divine-inner">
-          <span class="divine-icon">𓆗</span>
-          <span class="divine-text">
-            <span class="divine-title">The Word</span>
-            <span class="divine-sub" id="verseRefHome">today's verse · CE course · notes</span>
-          </span>
-          <span class="divine-arrow">→</span>
+      <p class="affirmation-text" id="dailyAffirmation" aria-live="polite">You are allowed to meet today gently.</p>
+      <button class="affirmation-more" type="button" onclick="showAnotherAffirmation()">another for me <span aria-hidden="true">↻</span></button>
+    </section>
+
+    <section class="home-launches" aria-label="Kayley’s spaces">
+      <button class="home-launch home-launch-ritual" onclick="window.location.href='routine.html'">
+        <span class="home-launch-orb" aria-hidden="true"></span>
+        <span class="home-launch-icon" aria-hidden="true">✿</span>
+        <span class="home-launch-copy">
+          <span class="home-launch-kicker">Start here</span>
+          <span class="home-launch-title">Today’s Ritual</span>
+          <span class="home-launch-desc" id="ritualMeta">Your routine is getting ready</span>
         </span>
+        <span class="home-launch-action">Begin <span aria-hidden="true">→</span></span>
       </button>
-    </div>
 
-    <div class="landing-foot stagger">
-      <div class="date-line" id="dateLine">Monday 13 July</div>
-    </div>
+      <div class="home-launch-grid">
+        <button class="home-launch home-launch-small home-launch-shelf" onclick="window.location.href='products.html'">
+          <span class="home-launch-icon" aria-hidden="true">◇</span>
+          <span class="home-launch-copy">
+            <span class="home-launch-kicker">Your collection</span>
+            <span class="home-launch-title">The Shelf</span>
+            <span class="home-launch-desc"><span id="statProducts">—</span> products</span>
+          </span>
+          <span class="home-launch-arrow" aria-hidden="true">↗</span>
+        </button>
+        <button class="home-launch home-launch-small home-launch-word" onclick="window.location.href='scripture.html'">
+          <span class="home-launch-icon" aria-hidden="true">✦</span>
+          <span class="home-launch-copy">
+            <span class="home-launch-kicker">A word for today</span>
+            <span class="home-launch-title">Scripture</span>
+            <span class="home-launch-desc" id="verseRefHome">Today’s verse</span>
+          </span>
+          <span class="home-launch-arrow" aria-hidden="true">↗</span>
+        </button>
+      </div>
+    </section>
 
+    <p class="home-signoff">Made for your pace, your glow and your day. <span aria-hidden="true">♡</span></p>
   </div>
 </div>
 
 </div><!-- /app -->
 
+<nav class="bottom-nav bottom-nav-core" aria-label="Primary navigation">
+  <button class="nav-btn active" aria-current="page" onclick="window.location.href='index.html'">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9.5L12 3l9 6.5V21H3z"/><path d="M9 21V12h6v9"/></svg>
+    <span class="nav-label">Home</span>
+  </button>
+  <button class="nav-btn" onclick="window.location.href='routine.html'">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2C8 2 6 6 6 9c0 6 6 13 6 13s6-7 6-13c0-3-2-7-6-7z"/></svg>
+    <span class="nav-label">Routine</span>
+  </button>
+  <button class="nav-btn" onclick="window.location.href='products.html'">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 5h18l-2 14H5z"/><path d="M9 5V3h6v2"/></svg>
+    <span class="nav-label">Products</span>
+  </button>
+  <button class="nav-btn" onclick="window.location.href='scripture.html'">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 4v16a2 2 0 0 0 2 2h14V2H6a2 2 0 0 0-2 2z"/><path d="M8 6h8M8 10h8M8 14h5"/></svg>
+    <span class="nav-label">Scripture</span>
+  </button>
+</nav>
+
 <div class="toast" id="toast"></div>
 
-<script src="shared.js"></script>
+<script src="daily-verses.js?v=3"></script>
+<script src="shared.js?v=3"></script>
 <script>
 async function init(){
   await loadFromCloud();
@@ -90,11 +129,11 @@ async function init(){
 function renderLanding(){
   const d = new Date();
   const hour = d.getHours();
-  let greeting = 'good morning, sunshine';
-  let vibe = 'Soft mornings, slow rituals — your skin, your sanctuary.';
-  if(hour>=12&&hour<17){greeting='hello, lovely';vibe='Afternoon glow check — sip water, breathe in.'}
-  else if(hour>=17&&hour<21){greeting='good evening, beautiful';vibe='Evening rituals, soft lights, gentle hands.'}
-  else if(hour>=21||hour<5){greeting='wind down, dreamer';vibe='Wash the day away. Tomorrow holds promises.'}
+  let greeting = 'good morning, beautiful';
+  let vibe = 'Today has good things in it — let’s find them.';
+  if(hour>=12&&hour<17){greeting='hello, lovely';vibe='A little glow, a little grace — one lovely thing at a time.'}
+  else if(hour>=17&&hour<21){greeting='good evening, beautiful';vibe='Soft light, clean skin, quiet heart. You made it through.'}
+  else if(hour>=21||hour<5){greeting='rest now, lovely';vibe='Nothing else to prove tonight. Let the day be done.'}
   $('greeting').textContent = greeting;
   $('todaysVibe').textContent = vibe;
 
@@ -107,8 +146,9 @@ function renderLanding(){
 
   $('dateLine').textContent = d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});
 
-  const todaysVerse = VERSES[dayOfYear() % VERSES.length];
+  const todaysVerse = getDailyVerse();
   if(todaysVerse && $('verseRefHome')) $('verseRefHome').textContent = 'Today: ' + todaysVerse.ref;
+  renderDailyAffirmation();
 }
 
 init();
