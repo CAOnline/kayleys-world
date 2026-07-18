@@ -24,6 +24,11 @@ const state = {
   ceNotes:{},
   studyNotes:[],
   routineSwaps:{},
+  routineMode:'full',
+  routineDone:{},
+  routineFocusStep:0,
+  productView:'all',
+  collapsedCategories:{},
   swapTarget:null,
   streak:0,
   scriptureFilter:'all',
@@ -199,7 +204,7 @@ const MOTIVATIONS = [
 ];
 
 // ============== SCRIPTURE LIBRARY ==============
-const VERSES = [
+const STUDY_VERSES = [
 {ref:"Psalm 46:10",trans:"kjv",text:"Be still, and know that I am God: I will be exalted among the heathen, I will be exalted in the earth.",context:"Written during national upheaval — wars, shaking mountains, roaring waters — and the psalmist offers a single command: stillness.",meaning:"To 'be still' is not passivity. The Hebrew implies cease striving, let your hands fall, stop trying to control. Deliberate surrender — not weakness, but trust.",application:"When the day feels too loud and your heart too tired — pause. The God who holds galaxies also holds you.",prompt:"Where in your life are you striving hardest right now?"},
 {ref:"Mark 1:1",trans:"modern",text:"The beginning of the good news about Jesus the Messiah, the Son of God.",context:"Mark opens his Gospel with a thunderclap — no genealogy, no birth story, straight to the claim: this is good news, and Jesus is the Son of God.",meaning:"Mark calls his whole account 'gospel' — good news, not good advice. Something that has happened, not something you must do.",application:"Today, let faith be news you receive rather than a performance you deliver.",prompt:"What would change if you treated faith as news rather than a to-do list?"},
 {ref:"Mark 2:17",trans:"modern",text:"It is not the healthy who need a doctor, but those who are ill. I have not come to call the righteous, but sinners.",context:"Jesus is eating with tax collectors and outcasts, scandalising the religious elite. This is his answer to their disgust.",meaning:"Jesus positions himself as a doctor — meaning the qualification for coming to him is not being well, but admitting you're not.",application:"You don't have to tidy yourself up before you pray. Come as the patient, not the physician.",prompt:"What part of you have you been hiding, thinking it disqualifies you?"},
@@ -262,6 +267,108 @@ const VERSES = [
 {ref:"Psalm 51:10",trans:"kjv",text:"Create in me a clean heart, O God; and renew a right spirit within me.",context:"David's prayer after his worst failure was exposed — the prayer of a man with nothing left to hide.",meaning:"'Create' is the same word as Genesis 1 — making something from nothing. David asks for new creation, not renovation.",application:"No failure is beyond the God who creates from nothing. Fresh hearts are his speciality.",prompt:"What would you ask God to create brand new in you?"}
 ];
 
+const VERSE_THEME_NOTES = {
+  peace:{
+    context:'A daily reading chosen around stillness, rest and the peace God offers.',
+    meaning:'Biblical peace is not pretending everything is easy. It is steadiness and wholeness held inside what is real.',
+    application:'Read this once more, slowly. Let your shoulders drop and take one unhurried breath.',
+    prompt:'Where could you allow a little more peace into today?'
+  },
+  courage:{
+    context:'A daily reading chosen around courage: moving with God even when the next step feels uncertain.',
+    meaning:'Courage does not require fear to disappear. It grows when fear is met by presence, trust and a next step.',
+    application:'You do not have to solve the whole day. Name one brave, gentle step you can take.',
+    prompt:'What would courage look like in one small action today?'
+  },
+  presence:{
+    context:'A daily reading chosen as a reminder that God is near and you do not have to carry today alone.',
+    meaning:'Scripture repeatedly answers uncertainty with presence: not a promise of an easy path, but company on it.',
+    application:'Pause before the next thing and remember: you are not entering it alone.',
+    prompt:'Where do you most need to notice God with you today?'
+  },
+  love:{
+    context:'A daily reading chosen around love, compassion and the way God meets people with tenderness.',
+    meaning:'Biblical love is active and grounded. It makes room for truth, care, boundaries and belonging.',
+    application:'Receive the kindness in this verse before deciding what you need to give anyone else.',
+    prompt:'What would it mean to include yourself in today’s kindness?'
+  },
+  hope:{
+    context:'A daily reading chosen around hope: the possibility that the present moment is not the whole story.',
+    meaning:'Hope is not denial. It looks honestly at today while leaving room for renewal, change and God’s unfinished work.',
+    application:'Keep one small window open for good today. You do not have to know exactly how it will arrive.',
+    prompt:'What are you willing to remain hopeful about?'
+  },
+  guidance:{
+    context:'A daily reading chosen around wisdom, discernment and light for the road ahead.',
+    meaning:'Guidance is often enough light for the next faithful step, rather than a map of the entire future.',
+    application:'Let today become smaller: ask what the wisest next step is, then begin there.',
+    prompt:'What decision needs patience or wisdom today?'
+  },
+  strength:{
+    context:'A daily reading chosen around shelter, help and strength that does not have to be manufactured alone.',
+    meaning:'Scripture often describes strength as something received: refuge to enter, help to accept and ground to stand on.',
+    application:'You may lean today. Strength is not the same as carrying everything without support.',
+    prompt:'Where could you let yourself be supported today?'
+  },
+  joy:{
+    context:'A daily reading chosen around gratitude, delight and the kind of joy that can coexist with an ordinary day.',
+    meaning:'Joy in Scripture is deeper than constant happiness. It notices goodness and gives it room to be felt.',
+    application:'Look for one small thing worth enjoying without rushing past it.',
+    prompt:'What small piece of goodness can you notice today?'
+  },
+  grace:{
+    context:'A daily reading chosen around grace, mercy and the freedom of being met with compassion.',
+    meaning:'Grace is gift before achievement. It makes space for honesty, forgiveness and a new beginning.',
+    application:'Speak to yourself today in the tone you would use with someone you deeply love.',
+    prompt:'What would change if you received grace instead of demanding perfection?'
+  },
+  identity:{
+    context:'A daily reading chosen around identity, belonging and the worth God has already given you.',
+    meaning:'Your deepest identity is received, not earned through productivity, appearance or other people’s approval.',
+    application:'Let this verse name you more loudly than the inner critic does today.',
+    prompt:'Which truth about who you are do you need to keep close today?'
+  },
+  faith:{
+    context:'A daily reading chosen around trust: bringing your honest self to God and staying open to what comes next.',
+    meaning:'Faith is not the absence of questions. It is the decision to keep turning toward God within them.',
+    application:'You can bring both trust and uncertainty to prayer today. Neither needs to be hidden.',
+    prompt:'What would an honest act of trust look like today?'
+  },
+  light:{
+    context:'A daily reading chosen around truth, light and the hope that darkness does not have the final word.',
+    meaning:'Light in Scripture reveals, guides and restores. Even a small light changes the shape of a dark room.',
+    application:'You only need enough light for the next step. Let that be enough for now.',
+    prompt:'What feels a little clearer when you sit with this verse?'
+  }
+};
+
+function normaliseVerseRef(ref=''){
+  return ref.toLowerCase().replace(/[^a-z0-9]/g,'');
+}
+
+function hydrateDailyVerse(verse){
+  const notes=VERSE_THEME_NOTES[verse.theme]||VERSE_THEME_NOTES.hope;
+  const study=STUDY_VERSES.find(item=>normaliseVerseRef(item.ref)===normaliseVerseRef(verse.ref));
+  return {
+    ...notes,
+    ...verse,
+    trans:'web',
+    ...(study?{
+      context:study.context,
+      meaning:study.meaning,
+      application:study.application,
+      prompt:study.prompt
+    }:{})
+  };
+}
+
+const DAILY_WEB_VERSES=(typeof DAILY_VERSE_LIBRARY==='undefined'?[]:DAILY_VERSE_LIBRARY).map(hydrateDailyVerse);
+const VERSES=[...DAILY_WEB_VERSES];
+const dailyRefs=new Set(VERSES.map(verse=>normaliseVerseRef(verse.ref)));
+STUDY_VERSES.forEach(verse=>{
+  if(!dailyRefs.has(normaliseVerseRef(verse.ref)))VERSES.push(verse);
+});
+
 
 // ============== HELPERS ==============
 function $(id){return document.getElementById(id)}
@@ -279,10 +386,120 @@ function todayKey(){
   const d=new Date();
   return d.toISOString().split('T')[0];
 }
-function dayOfYear(){
-  const d=new Date();
+function dayOfYear(d=new Date()){
   const start=new Date(d.getFullYear(),0,0);
   return Math.floor((d-start)/86400000);
+}
+
+function gcd(a,b){
+  while(b)[a,b]=[b,a%b];
+  return Math.abs(a);
+}
+
+function dailyStep(length){
+  const preferred=[97,89,83,79,73,71,67,61,59,53,47,43,41,37,31,29,23,19,17,13,11,7,5,3];
+  return preferred.find(step=>step<length&&gcd(step,length)===1)||1;
+}
+
+function getDailyVerse(date=new Date(),list=VERSES){
+  if(!list.length)return null;
+  const index=positiveModulo(absoluteDay(date)*dailyStep(list.length),list.length);
+  return list[index];
+}
+
+const AFFIRMATION_OPENINGS = [
+  'I am allowed to begin this day softly.',
+  'I do not have to rush my becoming.',
+  'Today, I can meet myself with kindness.',
+  'I can move at the pace my mind and body need.',
+  'I am here, I am learning, and I am enough.',
+  'A quiet beginning is still a brave beginning.',
+  'I can be gentle with myself and serious about my needs.',
+  'Today does not require a perfect version of me.',
+  'I am worthy before I achieve a single thing.',
+  'I can take up space without making myself smaller.',
+  'My way of moving through the world is valid.',
+  'I can begin again without turning yesterday into a verdict.',
+  'I am permitted to choose calm over urgency.',
+  'There is room in this day for the real me.',
+  'I can trust myself one honest choice at a time.',
+  'I deserve the same patience I so freely give to others.',
+  'God meets me here, not in some perfected future version of me.'
+];
+
+const AFFIRMATION_TRUTHS = [
+  'My needs are valid and my voice deserves room.',
+  'Different does not mean deficient; I experience the world in my own valuable way.',
+  'Rest supports me; it does not diminish me.',
+  'My sensitivity carries wisdom as well as weight.',
+  'I can ask for clarity instead of blaming myself for not knowing.',
+  'I am not difficult for needing honesty, gentleness or space.',
+  'My worth is not measured by speed, output or comparison.',
+  'A boundary can be an act of love for everyone involved.',
+  'I can change my mind when new understanding arrives.',
+  'The things I notice deeply are part of my strength.',
+  'I am allowed to enjoy what brings me safely alive.',
+  'I do not have to earn care by reaching breaking point first.',
+  'My feelings can be real without having to run the whole day.',
+  'I can pause, recalibrate and continue without shame.',
+  'Being supported does not make me less capable.',
+  'I am more than any hard moment moving through me.',
+  'Small progress still changes the direction of my life.',
+  'I can be both a work in progress and deeply worthy now.',
+  'God’s love is not waiting for me to become easier to love.'
+];
+
+const AFFIRMATION_CLOSINGS = [
+  'One kind, honest step is enough for today.',
+  'I can ask for clarity, space or help without apology.',
+  'I am not behind; I am living my actual life.',
+  'I can protect my peace and still remain open to joy.',
+  'Today I will notice what helps, and let that count.',
+  'I can return to myself whenever the day gets noisy.',
+  'I will make room for one thing that feels nourishing.',
+  'My next step can be small and still be meaningful.',
+  'I can release what is not mine to carry.',
+  'I choose progress that does not abandon me along the way.',
+  'I am allowed to stop before empty becomes exhausted.',
+  'There is no prize for making today harder than it needs to be.',
+  'I can hold hope without forcing an outcome.',
+  'I will speak to myself like someone worth protecting.',
+  'I can let good moments be good without waiting for the catch.',
+  'I am learning the shape of a life that fits me.',
+  'I will honour the energy I have, not punish the energy I lack.',
+  'I can choose what is true over what fear predicts.',
+  'I am allowed to be proud of how far I have come.',
+  'I will leave room for grace in the unfinished parts.',
+  'I can do today with care, not force.',
+  'I am held, loved and never required to face everything at once.',
+  'For this moment, breathing and being here are enough.'
+];
+
+function absoluteDay(date=new Date()){
+  return Math.floor(Date.UTC(date.getFullYear(),date.getMonth(),date.getDate())/86400000);
+}
+
+function positiveModulo(value,length){
+  return ((value%length)+length)%length;
+}
+
+function getDailyAffirmation(offset=0,date=new Date()){
+  const seed=absoluteDay(date)+(offset*97);
+  const opening=AFFIRMATION_OPENINGS[positiveModulo(seed,AFFIRMATION_OPENINGS.length)];
+  const truth=AFFIRMATION_TRUTHS[positiveModulo(seed*5+7,AFFIRMATION_TRUTHS.length)];
+  const closing=AFFIRMATION_CLOSINGS[positiveModulo(seed*11+3,AFFIRMATION_CLOSINGS.length)];
+  return `${opening} ${truth} ${closing}`;
+}
+
+let affirmationOffset=0;
+function renderDailyAffirmation(){
+  const target=$('dailyAffirmation');
+  if(target)target.textContent=getDailyAffirmation(affirmationOffset);
+}
+
+function showAnotherAffirmation(){
+  affirmationOffset+=1;
+  renderDailyAffirmation();
 }
 
 // ============== NAVIGATION ==============
@@ -303,6 +520,7 @@ function go(page){
 
 // ============== LANDING ==============
 function renderLanding(){
+  if(!$('landing'))return;
   const d=new Date();
   const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
   const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -311,11 +529,11 @@ function renderLanding(){
   $('dateMonth').textContent=`${months[d.getMonth()]} ${d.getFullYear()}`;
 
   const hour=d.getHours();
-  let greeting='good morning, sunshine';
-  let vibe='Soft mornings, slow rituals — your skin, your sanctuary.';
-  if(hour>=12&&hour<17){greeting='hello, lovely';vibe='Afternoon glow check — sip water, breathe in.'}
-  else if(hour>=17&&hour<21){greeting='good evening, beautiful';vibe='Evening rituals, soft lights, gentle hands.'}
-  else if(hour>=21||hour<5){greeting='wind down, dreamer';vibe='Wash the day away. Tomorrow holds promises.'}
+  let greeting='good morning, beautiful';
+  let vibe='Today has good things in it — let’s find them.';
+  if(hour>=12&&hour<17){greeting='hello, lovely';vibe='A little glow, a little grace — one lovely thing at a time.'}
+  else if(hour>=17&&hour<21){greeting='good evening, beautiful';vibe='Soft light, clean skin, quiet heart. You made it through.'}
+  else if(hour>=21||hour<5){greeting='rest now, lovely';vibe='Nothing else to prove tonight. Let the day be done.'}
   $('greeting').textContent=greeting;
   $('todaysVibe').textContent=vibe;
 
@@ -326,8 +544,9 @@ function renderLanding(){
   const ritualMeta=isRetinolNight()?'tonight is a retinol night':(isMaskFriendlyNight()?'mask-friendly evening':'gentle evening ahead');
   $('ritualMeta').textContent=`— ${ritualMeta}`;
   // Today's verse ref on landing
-  const todaysVerse=VERSES[dayOfYear()%VERSES.length];
+  const todaysVerse=getDailyVerse();
   if(todaysVerse&&$('verseRefHome'))$('verseRefHome').textContent=todaysVerse.ref;
+  renderDailyAffirmation();
 
   $('streakNum').textContent=state.streak;
 }
@@ -341,6 +560,9 @@ function renderSkincare(){
   });
   document.querySelectorAll('.time-toggle button').forEach(b=>{
     b.classList.toggle('active',b.dataset.time===state.time);
+  });
+  document.querySelectorAll('.routine-mode button').forEach(b=>{
+    b.classList.toggle('active',b.dataset.mode===state.routineMode);
   });
   renderRoutine();
 }
@@ -385,6 +607,12 @@ function renderSmartHint(){
 
 function setTime(t){state.time=t;renderSkincare()}
 function setMood(m){state.mood=m;renderSkincare()}
+function setRoutineMode(mode){
+  state.routineMode=mode;
+  state.routineFocusStep=0;
+  saveLocal();
+  renderSkincare();
+}
 
 function renderRoutine(){
   const isAM=state.time==='am';
@@ -465,7 +693,7 @@ function renderRoutine(){
       serumProducts.push({p:"The Ordinary Niacinamide 10%",m:"after HA — oil control & calm, not with Vit C"});
     } else if(m==='breakout'){
       serumProducts.push({p:"The Ordinary Niacinamide 10%",m:"after HA — calms inflammation"});
-    } else if(m==='calm'){
+    } else if(m==='normal'){
       serumProducts.push({p:"The Ordinary Niacinamide",m:"after HA, before moisturiser"});
     }
     // Sensitive gets HA only (no extra actives)
@@ -705,6 +933,30 @@ function slotKey(title){
   return (state.time+'_'+title).toLowerCase().replace(/[^a-z0-9]+/g,'_');
 }
 
+function routineDoneKey(title){
+  return `${todayKey()}_${state.time}_${title}`.toLowerCase().replace(/[^a-z0-9]+/g,'_');
+}
+
+function essentialRoutineSteps(steps){
+  const am=['cleanse','serums','moisturise','spf — non-negotiable'];
+  const pm=['remove the day','second cleanse','ha buffer','retinol','serums','glow serums','treat & calm','after mask','moisturise & seal'];
+  const allowed=state.time==='am'?am:pm;
+  return steps.filter(step=>allowed.includes(step.title.toLowerCase()));
+}
+
+function toggleRoutineStep(doneKey){
+  const next=!state.routineDone[doneKey];
+  state.routineDone[doneKey]=next;
+  if(next&&state.routineMode==='focus')state.routineFocusStep+=1;
+  saveLocal();
+  renderRoutine();
+}
+
+function moveRoutineFocus(direction,total){
+  state.routineFocusStep=Math.max(0,Math.min(total-1,state.routineFocusStep+direction));
+  renderRoutine();
+}
+
 // Map each routine step title to the shelf category it draws from
 const STEP_CATEGORY={
   'cleanse':'cleansers','second cleanse':'cleansers','remove the day':'cleansers',
@@ -717,8 +969,30 @@ const STEP_CATEGORY={
 };
 
 function outputSteps(steps){
-  const html=steps.map((s,i)=>{
+  const activeSteps=state.routineMode==='essentials'?essentialRoutineSteps(steps):steps;
+  if(state.routineFocusStep>=activeSteps.length)state.routineFocusStep=Math.max(0,activeSteps.length-1);
+  const visibleSteps=state.routineMode==='focus'?[activeSteps[state.routineFocusStep]].filter(Boolean):activeSteps;
+  const doneCount=activeSteps.filter(step=>state.routineDone[routineDoneKey(step.title)]).length;
+  const percent=activeSteps.length?Math.round((doneCount/activeSteps.length)*100):0;
+  const ring=$('routineProgressRing');
+  if(ring){
+    ring.textContent=`${percent}%`;
+    ring.style.setProperty('--progress',`${percent*3.6}deg`);
+    ring.setAttribute('aria-label',`${doneCount} of ${activeSteps.length} routine steps complete`);
+  }
+  if($('routineProgress')){
+    const modeLabel=state.routineMode==='essentials'?'quick essentials':state.routineMode==='focus'?'one calm step at a time':'your full ritual';
+    $('routineProgress').innerHTML=percent===100
+      ? `<strong>Beautifully done.</strong> Your ${state.time==='am'?'morning':'evening'} ritual is complete. ✦`
+      : `<strong>${doneCount} of ${activeSteps.length}</strong> complete · ${modeLabel}`;
+  }
+  document.querySelectorAll('.routine-mode button').forEach(b=>b.classList.toggle('active',b.dataset.mode===state.routineMode));
+
+  const html=visibleSteps.map((s,visibleIndex)=>{
+    const i=state.routineMode==='focus'?state.routineFocusStep:activeSteps.indexOf(s);
     const key=slotKey(s.title);
+    const doneKey=routineDoneKey(s.title);
+    const isDone=Boolean(state.routineDone[doneKey]);
     const swap=state.routineSwaps[key];
     let toolGuideHTML='';
     if(s.toolGuide){
@@ -750,22 +1024,28 @@ function outputSteps(steps){
         </div>`).join('');
     }
 
-    return `<div class="step-card stagger" style="animation-delay:${i*0.05}s">
+    return `<article class="step-card stagger ${isDone?'completed':''}" style="animation-delay:${visibleIndex*0.05}s">
       <div class="step-head">
         <div class="step-num-block">
           <div class="step-num">${String(i+1).padStart(2,'0')}</div>
           <div class="step-title">${s.title}</div>
         </div>
-        <div class="step-icon">${s.icon}</div>
+        <button class="routine-check" onclick="toggleRoutineStep('${doneKey}')" aria-label="${isDone?'Mark '+s.title+' not complete':'Mark '+s.title+' complete'}" aria-pressed="${isDone}">${isDone?'✓':s.icon}</button>
       </div>
       <div class="step-products">
         ${productLines}
       </div>
       ${toolGuideHTML}
       ${s.note?`<div class="step-note">${s.note}</div>`:''}
-    </div>`;
+      ${isDone?`<div class="step-complete-label">complete — lovely work</div>`:''}
+    </article>`;
   }).join('');
-  $('routine').innerHTML=html;
+  const focusNav=state.routineMode==='focus'&&activeSteps.length>1?`<div class="focus-navigation">
+    <button onclick="moveRoutineFocus(-1,${activeSteps.length})" ${state.routineFocusStep===0?'disabled':''}>← Back</button>
+    <span>${state.routineFocusStep+1} of ${activeSteps.length}</span>
+    <button onclick="moveRoutineFocus(1,${activeSteps.length})" ${state.routineFocusStep===activeSteps.length-1?'disabled':''}>Next →</button>
+  </div>`:'';
+  $('routine').innerHTML=html+focusNav;
 }
 
 // ── Swap picker ──
@@ -832,15 +1112,27 @@ const CATEGORY_LABELS={
 };
 
 function renderProducts(){
+  const stockCounts={full:0,good:0,low:0,empty:0};
+  state.products.forEach(product=>{stockCounts[product.stock||'full']=(stockCounts[product.stock||'full']||0)+1});
+  if($('shelfSummary')){
+    $('shelfSummary').innerHTML=`
+      <button class="shelf-stat shelf-stat-total" onclick="setProductView('all')"><strong>${state.products.length}</strong><span>on your shelf</span></button>
+      <button class="shelf-stat shelf-stat-low" onclick="setProductView('low')"><strong>${stockCounts.low}</strong><span>running low</span></button>
+      <button class="shelf-stat shelf-stat-empty" onclick="setProductView('empty')"><strong>${stockCounts.empty}</strong><span>to restock</span></button>`;
+  }
+  document.querySelectorAll('.shelf-views button').forEach(button=>button.classList.toggle('active',button.dataset.view===state.productView));
+
   // Render category chips
   const cats=['all',...new Set(state.products.map(p=>p.cat))];
   $('catChips').innerHTML=cats.map(c=>{
     const label=c==='all'?'All':CATEGORY_LABELS[c]||c;
-    return `<div class="cat-chip ${state.filteredCategory===c?'active':''}" onclick="filterCat('${c}')">${label}</div>`;
+    return `<button class="cat-chip ${state.filteredCategory===c?'active':''}" onclick="filterCat('${c}')">${label}</button>`;
   }).join('');
 
   // Filter products
-  let filtered=state.products;
+  let filtered=[...state.products];
+  if(state.productView==='low')filtered=filtered.filter(p=>(p.stock||'full')==='low');
+  if(state.productView==='empty')filtered=filtered.filter(p=>(p.stock||'full')==='empty');
   if(state.filteredCategory!=='all'){
     filtered=filtered.filter(p=>p.cat===state.filteredCategory);
   }
@@ -848,6 +1140,8 @@ function renderProducts(){
     const q=state.searchQuery.toLowerCase();
     filtered=filtered.filter(p=>p.name.toLowerCase().includes(q)||(p.notes||'').toLowerCase().includes(q));
   }
+  const stockOrder={empty:0,low:1,good:2,full:3};
+  filtered.sort((a,b)=>(stockOrder[a.stock||'full']-stockOrder[b.stock||'full'])||a.name.localeCompare(b.name));
 
   // Group by category
   const groups={};
@@ -859,28 +1153,52 @@ function renderProducts(){
   }
 
   $('productsList').innerHTML=Object.entries(groups).map(([cat,prods])=>{
-    return `<div class="cat-group">
-      <div class="cat-header">
-        <div class="cat-name">${CATEGORY_LABELS[cat]||cat}</div>
-        <div class="cat-count">${prods.length} ${prods.length===1?'item':'items'}</div>
-      </div>
-      ${prods.map(p=>{
+    const collapsed=Boolean(state.collapsedCategories[cat]);
+    return `<section class="cat-group ${collapsed?'collapsed':''}">
+      <button class="cat-header" onclick="toggleCategory('${cat}')" aria-expanded="${!collapsed}">
+        <span class="cat-name">${CATEGORY_LABELS[cat]||cat}</span>
+        <span class="cat-header-end"><span class="cat-count">${prods.length} ${prods.length===1?'item':'items'}</span><span class="cat-chevron">⌄</span></span>
+      </button>
+      <div class="cat-products">${prods.map(p=>{
         const stock=p.stock||'full';
-        const meta=[p.store,p.price].filter(Boolean).join(' · ')||p.notes||'tap to add details';
-        return `<div class="product-card" onclick="editProduct(${p.id})">
-          <div class="stock-dot stock-${stock}"></div>
+        const stockLabel={full:'Full',good:'Good',low:'Low',empty:'Empty'}[stock];
+        const meta=[p.store,p.price].filter(Boolean).join(' · ')||CATEGORY_LABELS[p.cat]||'Product';
+        return `<article class="product-card" role="button" tabindex="0" onclick="editProduct(${p.id})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();editProduct(${p.id})}">
+          <div class="product-symbol product-symbol-${stock}" aria-hidden="true">${stock==='empty'?'!':stock==='low'?'↓':'✦'}</div>
           <div class="product-info">
             <div class="product-name">${p.name}</div>
             <div class="product-meta-row">${meta}</div>
+            ${p.notes?`<div class="product-note-preview">${p.notes}</div>`:''}
           </div>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--ink-faint);flex-shrink:0"><path d="M9 6l6 6-6 6"/></svg>
-        </div>`;
-      }).join('')}
-    </div>`;
+          <button class="stock-badge stock-badge-${stock}" onclick="quickCycleStock(event,${p.id})" aria-label="${p.name} stock is ${stockLabel}. Tap to change.">${stockLabel}</button>
+        </article>`;
+      }).join('')}</div>
+    </section>`;
   }).join('');
 }
 
 function filterCat(c){state.filteredCategory=c;renderProducts()}
+function setProductView(view){
+  state.productView=view;
+  saveLocal();
+  renderProducts();
+}
+function toggleCategory(category){
+  state.collapsedCategories[category]=!state.collapsedCategories[category];
+  saveLocal();
+  renderProducts();
+}
+async function quickCycleStock(event,id){
+  event.stopPropagation();
+  const product=state.products.find(item=>item.id===id);
+  if(!product)return;
+  const cycle=['full','good','low','empty'];
+  product.stock=cycle[(cycle.indexOf(product.stock||'full')+1)%cycle.length];
+  saveLocal();
+  renderProducts();
+  const updated=await sbUpdate(product);
+  toast(updated===false?'Saved on this device':'Stock updated');
+}
 $('searchInput')?.addEventListener('input',e=>{state.searchQuery=e.target.value;renderProducts()});
 
 function editProduct(id){
@@ -996,6 +1314,11 @@ function getFilteredVerses(){
   return VERSES.filter(v=>v.trans===state.scriptureFilter);
 }
 
+function dailyIndexForList(list){
+  const daily=getDailyVerse(new Date(),list);
+  return Math.max(0,list.indexOf(daily));
+}
+
 function renderScripture(){
   const list=getFilteredVerses();
   if(list.length===0){
@@ -1005,12 +1328,12 @@ function renderScripture(){
   }
   // Stay on current verse if visible, else default to today's verse
   if(state.scriptureIndex===null||state.scriptureIndex>=list.length){
-    state.scriptureIndex=dayOfYear()%list.length;
+    state.scriptureIndex=dailyIndexForList(list);
   }
   const v=list[state.scriptureIndex];
   $('verseRef').textContent=v.ref;
   $('verseText').textContent=v.text;
-  const transLabels={kjv:'King James Version',modern:'Modern Translation',enoch:'Book of Enoch'};
+  const transLabels={web:'World English Bible · British Edition',kjv:'King James Version',modern:'Modern Translation',enoch:'Book of Enoch'};
   $('verseTrans').textContent=transLabels[v.trans]||'';
   $('studyContext').textContent=v.context;
   $('studyMeaning').textContent=v.meaning;
@@ -1025,12 +1348,20 @@ function renderScripture(){
   // Load saved reflection for this verse
   const saved=state.reflections[v.ref]||'';
   if($('reflectionText'))$('reflectionText').value=saved;
+  if($('verseLibraryCount'))$('verseLibraryCount').textContent=`${VERSES.length} hand-picked readings`;
 }
 
 function setTrans(t){
   state.scriptureFilter=t;
   state.scriptureIndex=null;  // reset to today's index in new filter
   renderScripture();
+}
+
+function showTodaysVerse(){
+  state.scriptureFilter='all';
+  state.scriptureIndex=null;
+  renderScripture();
+  $('verseCard')?.scrollIntoView({behavior:'smooth',block:'center'});
 }
 
 function nextVerse(){
@@ -1516,14 +1847,9 @@ function withTimeout(promise,ms=4000){
 
 async function syncFromCloud(){
   try{
-    const [prodsR,wellR,jourR,setR,hiR]=await withTimeout(Promise.allSettled([
+    const [prodsR,setR]=await withTimeout(Promise.allSettled([
       sb.from('kayley_products').select('*').order('product_id'),
-      (()=>{const weekAgo=new Date();weekAgo.setDate(weekAgo.getDate()-6);
-        return sb.from('kayley_wellness').select('*').gte('entry_date',weekAgo.toISOString().split('T')[0]);})(),
-      (()=>{const monthAgo=new Date();monthAgo.setDate(monthAgo.getDate()-30);
-        return sb.from('kayley_journal').select('*').gte('entry_date',monthAgo.toISOString().split('T')[0]).order('entry_date',{ascending:false});})(),
-      sb.from('kayley_settings').select('*'),
-      sb.from('kayley_highlights').select('*').order('week_key',{ascending:false})
+      sb.from('kayley_settings').select('*')
     ]),6000);
 
     const prods=prodsR.status==='fulfilled'?prodsR.value.data:null;
@@ -1533,19 +1859,6 @@ async function syncFromCloud(){
       state.products=DEFAULT_PRODUCTS.map((p,i)=>({...p,id:i+1,stock:p.stock||'full'}));
       seedCloud();
     }
-
-    const wellness=wellR.status==='fulfilled'?wellR.value.data:null;
-    if(wellness){
-      state.weekMoods=wellness.filter(w=>w.mood);
-      const t=wellness.find(w=>w.entry_date===todayKey());
-      if(t){
-        state.todayMood=t.mood;
-        if(t.bed_time){state.sleepData[todayKey()]={bed:t.bed_time,wake:t.wake_time}}
-      }
-    }
-
-    const journal=jourR.status==='fulfilled'?jourR.value.data:null;
-    if(journal)state.journalEntries=journal;
 
     const settings=setR.status==='fulfilled'?setR.value.data:null;
     if(settings){
@@ -1569,16 +1882,12 @@ async function syncFromCloud(){
       });
     }
 
-    const highlights=hiR.status==='fulfilled'?hiR.value.data:null;
-    if(highlights)state.highlights=highlights;
-
     saveLocal();
     // Re-render whatever page we're on with fresh data
     if(typeof renderLanding==='function'&&$('landing'))renderLanding();
     if(typeof renderSkincare==='function'&&$('skincare'))renderSkincare();
     if(typeof renderProducts==='function'&&$('productsList'))renderProducts();
     if(typeof renderScripture==='function'&&$('verseCard'))renderScripture();
-    if(typeof renderWellness==='function'&&$('wellness'))renderWellness();
   }catch(e){
     console.warn('cloud sync failed, staying on local cache',e);
   }
@@ -1605,6 +1914,10 @@ function saveLocal(){
       ceNotes:state.ceNotes,
       studyNotes:state.studyNotes,
       routineSwaps:state.routineSwaps,
+      routineMode:state.routineMode,
+      routineDone:state.routineDone,
+      productView:state.productView,
+      collapsedCategories:state.collapsedCategories,
       weekMoods:state.weekMoods,
       highlights:state.highlights,
       lastSeen:todayKey()
@@ -1626,6 +1939,10 @@ function loadLocal(){
       state.ceNotes=s.ceNotes||{};
       state.studyNotes=s.studyNotes||[];
       state.routineSwaps=s.routineSwaps||{};
+      state.routineMode=s.routineMode||'full';
+      state.routineDone=s.routineDone||{};
+      state.productView=s.productView||'all';
+      state.collapsedCategories=s.collapsedCategories||{};
       state.weekMoods=s.weekMoods||[];
       state.highlights=s.highlights||[];
     } else {
